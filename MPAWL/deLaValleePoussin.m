@@ -580,8 +580,9 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 					Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataW,ck\[Psi]N,origin,mN],origin,
 					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[wavN]];
-				Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf, Show[wavN,FilterRules[{opts}, Options[Show]]],
-						FilterRules[eOpts,Options[Export]~Join~(Options[Rasterize])]];
+				Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf,
+					 Show[wavN,FilterRules[{opts}, Options[Show]]],
+						Sequence@@FilterRules[eOpts,Options[Export]~Join~Options[Rasterize]]];
 			];
 			If[OptionValue[computeScale],
 				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
@@ -590,7 +591,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				If[StringCount[db,"Image"]>0,Print[ScalN]];
 				Export[imagePre<>"Scale-"<>path<>letter<>imageSuf,
 					Show[ScalN,FilterRules[eOpts, Options[Show]]],
-						FilterRules[eOpts,Options[Export]~Join~(Options[Rasterize])]];
+						Sequence@@FilterRules[eOpts,Options[Export]~Join~Options[Rasterize]]];
 			];
 			If[Length[Rest[mJSetVec]]>0, (* Still at least one level to go *)
 				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuf,path<>letter},False,opts]
