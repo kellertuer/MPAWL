@@ -218,7 +218,9 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	times.
 
 and any Option of discretePlotFourierSeries (including Plot and BarLegend), that
-are passed on and any Option of Export (especially Resolution) Show (especially ImageSize).";
+are passed on and any Option of Export (especially Resolution but not ImageSize)
+Show (especially ImageSize). By the last two, Fonts are scaled, but a pixel size
+of the image is not that easy to be computed.";
 
 
 decomposeData2D::wrongGandmJs = "The specification of function(s) g(Vec) and the (set of) matrix-Char-Vectors mJSet(Vec) don't mach any valid combinaton";
@@ -581,8 +583,8 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[wavN]];
 				Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf,
-					 Show[wavN,FilterRules[{opts}, Options[Show]]],
-						Sequence@@FilterRules[eOpts,Options[Export]~Join~Options[Rasterize]]];
+					 Show[wavN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
+						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];
 			];
 			If[OptionValue[computeScale],
 				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
@@ -590,8 +592,8 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[ScalN]];
 				Export[imagePre<>"Scale-"<>path<>letter<>imageSuf,
-					Show[ScalN,FilterRules[eOpts, Options[Show]]],
-						Sequence@@FilterRules[eOpts,Options[Export]~Join~Options[Rasterize]]];
+					Show[ScalN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
+						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];
 			];
 			If[Length[Rest[mJSetVec]]>0, (* Still at least one level to go *)
 				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuf,path<>letter},False,opts]
