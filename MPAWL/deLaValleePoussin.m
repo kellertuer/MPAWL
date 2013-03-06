@@ -296,7 +296,6 @@ localdlVP[g_,mM_,db_,supp_,False,False,None,False] :=
 Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin},
 	d = Dimensions[mM][[1]];
 	adM = Abs[Det[mM]];
-	If[NumberQ[supp], suppV = ConstantArray[supp,d],];
 	InvMt = Inverse[Transpose[mM]];
 	max = Table[Max[Ceiling[((1+2supp[[j]])Transpose[mM].#)[[j]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1,{j,1,d}];
 	origin = max+1;	
