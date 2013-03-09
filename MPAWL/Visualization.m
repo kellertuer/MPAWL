@@ -105,7 +105,7 @@ discretePlotFourierSeries::wrongOrigin = "The origin `1` does not match the Dime
 Options[discretePlotFourierSeries] = {
 MPAWL`Debug -> "None", ReturnVal -> "AbsoluteImage",ColorLegend -> False,
 (* to override Plot *)
-Axes -> False, Frame -> False, AxesOrigin -> {-\[Pi],-\[Pi]},AxesLabel -> {x,y},
+Axes -> False, Frame -> False, AxesOrigin -> {-\[Pi],-\[Pi]},AxesLabel -> {"x","y"},
 TicksStyle -> Directive[8,Plain],
 FrameTicks -> {{Range[-\[Pi],\[Pi],\[Pi]/2],None},{Range[-\[Pi],\[Pi],\[Pi]/2],None}},
 PlotRangePadding -> 0,AspectRatio -> 1};

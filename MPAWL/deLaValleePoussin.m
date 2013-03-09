@@ -55,7 +55,10 @@ pyramidFunction::usage = "pyramidFunction[d,l]
 
 The d-dimensional analog of the de la Vall\[EAcute]e Poussin mean
 shrunken for generality on the symmetric unitcube, i.e. having
-a support from -1/2-l to 1/2+l in each dimension.";
+a support from -1/2-l to 1/2+l in each dimension.
+
+l may be a nonnegative number less than 1/2 or an array of
+d elements containing such numbers.";
 
 
 (* ::Subsection:: *)
@@ -75,6 +78,8 @@ matrix of dimension d*d, the function g has to fullfill the three properties:
 For simplicity g might be given as a nonnegative number t\[LessEqual]\!\(\*FractionBox[\(1\), \(2\)]\) which corresponds to
 the pyramidal (tensor product of 1D de la Vall\[EAcute]e Poussin means) function, where the
 support is -\!\(\*FractionBox[\(1\), \(2\)]\)-t to \!\(\*FractionBox[\(1\), \(2\)]\)+t in each dimension.
+Or an array of such numbers, performing the same idea with different width in each direction,
+hence the array must be the same dimension as each dimension of mM.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
@@ -267,6 +272,9 @@ Product[LinearG[a[[j]],l[[j]],x[[j]]],{j,1,Length[a]}]/; (VectorQ[a] && VectorQ[
 pyramidFunction[d_,l_] := Function[LinearG[ConstantArray[1/2,d],ConstantArray[1/2+l,d],#1]] /; ((l>=0) && (l<=1/2) && (d>0) && IntegerQ[d]);
 
 
+pyramidFunction[d_,l_] := Function[LinearG[ConstantArray[1/2,d],1/2+l,#1]] /; (ArrayQ[l,_,(#>=0) && (#<=1/2) &] && (Length[l]==d) (d>0) && IntegerQ[d]);
+
+
 delaValleePoussinMean[g_,mM_,opts:OptionsPattern[]] :=
 	localdlVP[g,mM,
 	OptionValue[MPAWL`Debug],OptionValue[Support],OptionValue[BracketSums],
@@ -284,6 +292,11 @@ localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,True] :=
 	(* If g is a number take the pyramidFunction and the old support *)
 localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
 	localdlVP[pyramidFunction[Dimensions[mM][[1]],g],mM,db,ConstantArray[g,Dimensions[mM][[1]]],bs,orth,file,False] /; (NumberQ[g]);
+
+
+	(* If g is an array of numbers, take pyramindFunction \[Rule] g also represents support *)
+localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
+	localdlVP[pyramidFunction[Length[g],g],mM,db,g,bs,orth,file,False] /; (ArrayQ[g,_,(#>=0) && (#<=1/2) &] && (Length[g]==Dimensions[mM][[1]]))
 
 
 	(* Expand supp to a Vector *)
