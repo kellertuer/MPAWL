@@ -149,7 +149,7 @@ If[(!isMatrixValid[mM]) || (!isDataValid[mM,data]),
 	Return[localReshapeData[mM, data, direction, False]]
 ];
 
-localReshapeData[mM_, data_,direction_,False] := Module[{d,m,dM,epsilon},
+localReshapeData[mM_, data_,direction_,False] := Module[{d,m,dM,epsilon,r},
 	d = Dimensions[mM][[1]];
 	m = Det[mM];
 	dM = patternDimension[mM, validateMatrix -> False];
@@ -213,7 +213,7 @@ Module[{epsilon, m, d, dM,epsilonranges, internalb, resultb,flattenedinput},
 ];
 
 
-localFTTERec[epsilon_,matrixb_] := Module[{e,copyb,temp},
+localFTTERec[epsilon_,matrixb_] := Module[{e,copyb,temp,r,k},
 If[Dimensions[epsilon] == {1},(*end of recursion *)
 	e = Dimensions[matrixb][[1]];
 	Return[Simplify[1/Sqrt[e]*Table[Sum[Exp[-2\[Pi] I j k / e]*matrixb[[j+1]], {j,0,e-1}], {k,0,e-1}]]]
@@ -252,8 +252,9 @@ Module[{epsilon, m, d, epsilonranges, internalb, resultb,flattenedinput,dM},
 	Return[resultb]
 ];
 
+
 localFTTNRec[epsilon_,matrixb_] := 
-Module[{e,copyb,temp},
+Module[{e,copyb,temp,r,k},
 	If[Dimensions[epsilon] == {1},(*end of recursion *)
 		Return[Fourier[matrixb]];
 	];
@@ -344,7 +345,7 @@ localWTT[mM_,mJ_,data_,sCoeffs_,wCoeffs_,True,db_] := Module[{epsilon,d,dM},
 
 (*FWT only working on Coefficients of the V_M space*)
 localWTT[mM_,mJ_,data_,sCoeffs_,wCoeffs_,False,db_] := 
-Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1},
+Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j},
 	(*Constants*)
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM, validateMatrix -> False];

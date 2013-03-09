@@ -134,7 +134,7 @@ localSample[mM_,f_,db_,file_,method_,True] :=
 	If[!isMatrixValid[mM],Return[$Failed], localSample[mM,f,db,file,method,False]];
 
 
-localSample[mM_,f_,db_,None,"Point",False] := Module[{d,dM,epsilon,pMBasis,t,data},
+localSample[mM_,f_,db_,None,"Point",False] := Module[{d,dM,epsilon,pMBasis,t,data,\[Epsilon]},
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM, validateMatrix -> False];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-dM+1;;d]];
@@ -151,7 +151,7 @@ localSample[mM_,f_,db_,None,"Point",False] := Module[{d,dM,epsilon,pMBasis,t,dat
 ];
 
 
-localSample[mM_,f_,db_,None,"Point set",False] := Module[{d,dM,epsilon,pMBasis,t,pointSet,values},
+localSample[mM_,f_,db_,None,"Point set",False] := Module[{d,dM,epsilon,pMBasis,t,pointSet,values,\[Epsilon]},
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM, validateMatrix -> False];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-dM+1;;d]];

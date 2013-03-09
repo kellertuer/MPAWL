@@ -196,7 +196,7 @@ localBracketSums[ckFun_,originIndex_,mM_,cp_,True,index_] :=
 
 
 localBracketSums[ckFun_,originIndex_,mM_,cp_,False,None] :=
-Module[{m,d,epsilon,sums,sumsE,torigin,tmax,hM,dims},
+Module[{m,d,epsilon,sums,sumsE,torigin,tmax,hM,dims,\[Epsilon],k},
 	m = Det[mM];
 	d = Dimensions[mM][[1]];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
@@ -234,8 +234,8 @@ Module[{m,d,sumrange,tempindex,baseindex,sum,directions,count,indicesleft,newind
 	d = Dimensions[mM][[1]];
 	sum=0;
 	baseindex = modM[index,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]; (*Base value un G(M) *)
-	If[cp == "Bracket",sum = data[[Sequence@@(baseindex+originIndex)]];];
-	If[cp == "absolute Squares",sum = Abs[data[[Sequence@@(baseindex+originIndex)]]]^2;];
+	If[cp == "Bracket",sum = ckFun[[Sequence@@(baseindex+originIndex)]];];
+	If[cp == "absolute Squares",sum = Abs[ckFun[[Sequence@@(baseindex+originIndex)]]]^2;];
 	directions = CreateDirections[d]; count = 1;
 	(* Compute sum, where we assume that the data set is convex, this can be assumed, because its mostly rectangular*)
 	indicesleft = directions;
@@ -243,9 +243,9 @@ Module[{m,d,sumrange,tempindex,baseindex,sum,directions,count,indicesleft,newind
 	While[Dimensions[indicesleft][[1]] > 0,
 		Do[
 			tempindex = baseindex + Transpose[mM].k;
-			If[isIndexInRange[data,tempindex+originIndex], (*still in Range*)
-				If[cp == "Bracket",sum += data[[Sequence@@(tempindex+originIndex)]];];
-				If[cp == "absolute Squares",sum += Abs[data[[Sequence@@(tempindex+originIndex)]]]^2;];
+			If[isIndexInRange[ckFun,tempindex+originIndex], (*still in Range*)
+				If[cp == "Bracket",sum += ckFun[[Sequence@@(tempindex+originIndex)]];];
+				If[cp == "absolute Squares",sum += Abs[ckFun[[Sequence@@(tempindex+originIndex)]]]^2;];
 				newindices = Union[newindices,(k+#)&/@ directions];
 			];
 		,{k,indicesleft}
@@ -279,7 +279,7 @@ localGetCoeffFromFun[ckFun_, ckSpace_, originIndex_, mM_, True] :=
 
 
 localGetCoeffFromFun[ckFun_, ckSpace_, originIndex_, mM_, False] :=
-Module[{hM,m,d, epsilon,tmax, torigin,checks,checksE,dims,actfactor},
+Module[{hM,m,d, epsilon,tmax, torigin,checks,checksE,dims,actfactor,k,\[Epsilon]},
 	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
 	m = Det[mM];
 	d = Dimensions[mM][[1]];
@@ -338,7 +338,7 @@ localGetFunFromCoeff[coefficients_, ckSpace_, originIndex_, mM_, True] :=
 
 
 localGetFunFromCoeff[coefficients_, ckSpace_, originIndex_, mM_, False] :=
-	Module[{tempInd,tmax,torigin,coefficientsOI,d,epsilon,hM,result,dims,index},
+	Module[{tempInd,tmax,torigin,coefficientsOI,d,epsilon,hM,result,dims,index,\[Epsilon],k},
 	d = Dimensions[mM][[1]];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
 	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
@@ -382,7 +382,7 @@ localOrthTInS[coeffs_,mM_,mJ_,db_,True] := Module[{d,dM,epsilon},
 ];
 
 
-localOrthTInS[coeffs_,mM_,mJ_,db_,False] := Module[{mN,NTg,InvNy,hN,d,dN,dM,\[Lambda]g,mu,mP,hataRes,epsilon,linIndep,t1,actBSq},
+localOrthTInS[coeffs_,mM_,mJ_,db_,False] := Module[{mN,NTg,InvNy,hN,d,dN,dM,\[Lambda]g,mu,mP,hataRes,epsilon,linIndep,t1,actBSq,k},
 	d = Dimensions[mM][[1]];
 	mN = Inverse[mJ].mM;
 	dN = patternDimension[mN, validateMatrix -> False];

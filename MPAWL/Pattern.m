@@ -53,7 +53,7 @@ This corresponds to the number of basis vectors of the pattern and hence the
 dimension of the corresponding lattice.";
 
 
-Options[patternDimension] := {MPAWL`validateMatrix \[Rule] True};
+Options[patternDimension] := {MPAWL`validateMatrix -> True};
 
 
 (* ::Subsection:: *)
@@ -71,7 +71,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[patternBasis] := {MPAWL`validateMatrix \[Rule] True};
+Options[patternBasis] := {MPAWL`validateMatrix -> True};
 
 
 pattern::usage = "pattern[mM]
@@ -87,7 +87,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[pattern] := {Target \[Rule] "Unit", MPAWL`validateMatrix \[Rule] True};
+Options[pattern] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
 getPatternNormalform::usage  = "getPatternNormalform[mM]
@@ -101,7 +101,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[getPatternNormalform] := {MPAWL`validateMatrix \[Rule] True};
+Options[getPatternNormalform] := {MPAWL`validateMatrix -> True};
 
 
 (* ::Section:: *)
@@ -119,7 +119,7 @@ localPatternDimension[mM_,True] := If[!isMatrixValid[mM],Return[$Failed],Return[
 
 localPatternDimension[mM_,False] := Module[{mE,d,f},
 	d = Dimensions[mM][[1]];
-	mE = IntegerSmithForm[mM,ExtendedForm\[Rule] False];
+	mE = IntegerSmithForm[mM,ExtendedForm-> False];
 	(* +1 due to indexing starting at 1 *)
 	Return[d+1- Position[Diagonal[mE], Min[Select[Diagonal[mE], # > 1 &]]][[1,1]]];
 ];
@@ -135,10 +135,10 @@ patternBasis[mM_, opts : OptionsPattern[]] := localPatternBasis[mM,OptionValue[v
 localPatternBasis[mM_, True] := If[!isMatrixValid[mM],Return[$Failed],Return[localPatternBasis[mM,False]]];
 
 
-localPatternBasis[mM_,False] := Module[{mE,mP,mS,d,dM},
-	{mE,{mP,mS}} = IntegerSmithForm[mM, ExtendedForm\[Rule] True];
+localPatternBasis[mM_,False] := Module[{mE,mP,mS,d,dM,j},
+	{mE,{mP,mS}} = IntegerSmithForm[mM, ExtendedForm-> True];
 	d = Dimensions[mM][[1]];
-	dM = patternDimension[mM, validateMatrix \[Rule] False];
+	dM = patternDimension[mM, validateMatrix -> False];
 	Return[Table[mS.(1/(Diagonal[mE][[d-dM+j]])*UnitVector[d,d-dM+j]), {j,1,dM}] ]; 
 ]
 
@@ -171,7 +171,7 @@ localPattern[mM_,s_,t_] := $Failed;
 
 
 (* little local helper to recursively construct the pattern *)
-recursivePatternGeneration[mM_,actdim_,pElem_] := Module[{newset,d,min,max,step,tsum,i,y},
+recursivePatternGeneration[mM_,actdim_,pElem_] := Module[{newset,d,min,max,step,tsum,i,y,x},
 (*Add the dimension actdim*)
 newset = {};
 d = Dimensions[mM][[1]];
