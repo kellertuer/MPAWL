@@ -58,22 +58,18 @@ absolute value.
 
 ReturnVal \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]AbsoluteImage\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]ColorImage\[CloseCurlyDoubleQuote]
 	Specify, which kind of Image should be produced
-
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote]
 	or any combination of these Words in one String (i.e. concatenated via \[OpenCurlyDoubleQuote]&\[CloseCurlyDoubleQuote])
 	to produce intermediate results, indicate progress and display computation
 	times.
-
 ColorLegend \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
 	display a range of values and their corresponding colors to the right of
 	the plot.
 
-ScientificNumners \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
-	the Legend displays it's values in Scientific Form, if set to true.
-
 The Image is included in a plot, and hence accepts all its options,
 providing some non-standard Options as new standards. The same holds for the
-BarLegend the ColorLegend option consists of.";
+createBarLegend and hence BarLegend the ColorLegend option consists of.";
+
 
 discretePlotFourierSeriesDiff::usage="discretePlotFourierSeriesDiff(resolution,coefficients,origin,f,(options)]
 
@@ -90,8 +86,6 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 ColorLegend \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
 	display a range of values and their corresponding colors to the right of
 	the plot.
-ScientificNumners \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
-	the Legend displays it's values in Scientific Form, if set to true.
 
 The Image is included in a plot, and hence accepts all its options,
 providing some non-standard Options as new standards. The same holds for the
@@ -155,6 +149,28 @@ PlotStyle ->  Directive[PointSize[0.02],Opacity[.75],RGBColor[0,75/255,90/255]],
 MPAWL`Debug -> "None"};
 
 
+createBarLegend::usage="createBarLegend[min,max]
+
+Create a BarLegend ranging from min to max for all IMageTypes of discretePlotFourierSeries.
+
+\!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
+
+ScientificNumners \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
+	the Legend displays it's values in Scientific Form, if set to true.
+AddToLegendExponent \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | natural Number
+	for some cases, the scientific numbers fail, hence the data has to be rescaled.
+	This option fixes the display.";
+
+
+Options[createBarLegend] = 
+{LegendMargins -> {{2,2},{-22,2}},
+LabelStyle -> Directive[8,Plain,Black],
+ScientificNumbers -> True,
+AddToLegendExponent -> 0,
+MPAWL`Debug -> "None",
+ReturnVal -> "AbsoluteImage"};
+
+
 (* ::Section:: *)
 (*Function Definition*)
 
@@ -187,15 +203,6 @@ Options[localPaddAndFourierTransform] = {MPAWL`Debug -> "None", MPAWL`Validate -
 
 
 Options[createImageFromArray] = {ReturnVal -> "AbsoluteImage", MPAWL`Debug -> "None"};
-
-
-Options[createBarLegend] = 
-{LegendMargins->{{2,2},{-22,2}},
-LabelStyle->Directive[8,Plain,Black],
-ScientificNumbers -> True,
-AddToLegendExponent -> 0,
-MPAWL`Debug -> "None",
-ReturnVal -> "AbsoluteImage"};
 
 
 (* ::Subsection:: *)
@@ -292,7 +299,7 @@ localCreateImage[image_,db_,img_] := $Failed;
 
 
 createBarLegend[min_,max_,opts:OptionsPattern[{createBarLegend, BarLegend}]] :=
-Module[{exp,formatLabel, barlegendOpts},
+Module[{exp,formatLabel, barlegendOpts,x,y},
 exp = Floor[Log[10,Max[Abs[min],Abs[max]]]];
 formatLabel[x_] := x/.{NumberForm[y_,{w_,z_}] :> NumberForm[y/(10^(exp)),{1,2}]};
 barlegendOpts = FilterRules[{opts}, Options[BarLegend]];
@@ -325,7 +332,7 @@ If[(OptionValue[ReturnVal] == "ColorImage"),
 
 
 discretePlotFourierSeriesDiff[resolution_, coefficients_,origin_,f_,opts:OptionsPattern[{discretePlotFourierSeries,createBarLegend, BarLegend}]]:= 
-Module[{image,dim,i,min,max,minmax,j,t1,dataImg,remainingRulles,k},
+Module[{image,dim,i,min,max,minmax,j,t1,dataImg,remainingRulles,k,j},
 dim = Length[resolution];
 t1 = AbsoluteTiming[
 	image = localPaddAndFourierTransform[resolution,coefficients,origin,MPAWL`Debug-> OptionValue[MPAWL`Debug], MPAWL`Validate-> False];
@@ -394,7 +401,7 @@ FunctionQ[_] = False;
 
 
 plotOnTorus[in_,opts:OptionsPattern[{plotOnTorus,ParametricPlot3D,ListPointPlot3D}]] :=
-Module[{bg,valplot,pts,torusf},
+Module[{bg,valplot,pts,torusf,x,y},
 	(*Set Standardvalues for ListPointPlot3D *)
 	SetOptions[ListPointPlot3D,Evaluate[Sequence@@FilterRules[Options[plotOnTorus],Complement[Options[ListPointPlot3D],Options[ListPointPlot3D,ColorFunction]]]]];
 	(*Set Standardvalues for ParametricPlot3D despite Colorfunction*)

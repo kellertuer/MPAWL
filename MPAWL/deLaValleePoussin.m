@@ -294,7 +294,7 @@ localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
 	localdlVP[pyramidFunction[Dimensions[mM][[1]],g],mM,db,ConstantArray[g,Dimensions[mM][[1]]],bs,orth,file,False] /; (NumberQ[g]);
 
 
-	(* If g is an array of numbers, take pyramindFunction \[Rule] g also represents support *)
+	(* If g is an array of numbers, take pyramindFunction -> g also represents support *)
 localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
 	localdlVP[pyramidFunction[Length[g],g],mM,db,g,bs,orth,file,False] /; (ArrayQ[g,_,(#>=0) && (#<=1/2) &] && (Length[g]==Dimensions[mM][[1]]))
 
@@ -427,7 +427,7 @@ localdlVPSub[g_,mM_,mJ_,db_,orth_,file_,False] :=
 
 (* Simple case: No file, no orth *)
 localdlVPSub[g_,mM_,mJ_,db_,False, None,False] :=
-Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,InvNy,\[Epsilon],k},
+Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,InvNy,\[Epsilon],k,e},
 		mN = Inverse[mJ].mM;
 		d = Dimensions[mM][[1]];
 		dM = patternDimension[mM, validateMatrix -> False];
@@ -443,7 +443,7 @@ Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,In
 					,{{0,0}}])[[1]]);
 		(* for these kernels, provided supp g \[SubsetEqual] [-1,1]^d this summation is enough *)
 		BnSum[{x_,y_}] := Sum[g[{x,y}+Transpose[mJ].z]
-			,{z,Flatten[Table[Table[Subscript[x,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[x,j],-2,2},{j,1,d}]]],1]}];
+			,{z,Flatten[Table[Table[Subscript[e,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[e,j],-2,2},{j,1,d}]]],1]}];
 		If[StringCount[db,"Text"]>0,Print["Computing the scaling function coefficients..."]];
 		coeffS = ConstantArray[0,epsilon];
 		t1 = AbsoluteTiming[
@@ -521,28 +521,28 @@ DirichletKernelSubspaces[mM_,mJ_,opts:OptionsPattern[{delaValleePoussinSubspaces
 
 
 (* g is one element (function or t), mJSet is a Vector of Matrix-Char-Vectors *)
-decomposeData2D[g_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+decomposeData2D[g_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 	decomposeData2D[ConstantArray[g, Length[mJSetVec]+1], mJSetVec, mM, data, opts] /; ((Depth[g] == 1) && VectorQ[mJSetVec, 
 	 VectorQ[#, (StringQ[##] && MemberQ[localdlVPMatChars, ##]) &] &]);
 
 
 (* g is a vector, mJSet is a Vector of Matrix-Chars *)
-decomposeData2D[gVec_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
-	decomposeData2D[gVec,ConstantArray[JSet, Length[gVec]-1], mM, data, opts] /; ((Depth[gVec] == 2) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]));
+decomposeData2D[gVec_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
+	decomposeData2D[gVec,ConstantArray[mJSet, Length[gVec]-1], mM, data, opts] /; ((Depth[gVec] == 2) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]));
 
 
 (* level specifies the decomposition depth, g is one element and mJSet is a Vector of Matrix-Chars *)
-decomposeData2D[l_,g_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+decomposeData2D[l_,g_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 	decomposeData2D[ConstantArray[g,l+1], ConstantArray[mJSet,l],mM, data, opts] /; ((Depth[g] == 1) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]));
 
 
 (* all other level specifications are not valid *)
-decomposeData2D[l_,g_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+decomposeData2D[l_,g_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 	Return[$Failed] /;(IntegerQ[l] && l> 0)
 
 
 (* Both are vectors of correct format *)
-decomposeData2D[gVec_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+decomposeData2D[gVec_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 	localDecomp[gVec,mJSetVec, mM, data, None,
 		OptionValue[MPAWL`Debug], {OptionValue[DataPrefix],OptionValue[ImagePrefix], OptionValue[ImageSuffix],""},
 		OptionValue[MPAWL`Validate], opts] /; ((Depth[gVec] == 2) && VectorQ[mJSetVec, 
@@ -551,7 +551,7 @@ decomposeData2D[gVec_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData
 
 (* Validate *)
 localDecomp[gVec_,mJSetVec_, mM_, data_, ck\[CurlyPhi]M_,db_,s_,True,
-	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 Module[{d, epsilon},
 	If[!isMatrixValid[mM], Return[$Failed]];
 	d = Dimensions[mM][[1]];
@@ -565,7 +565,7 @@ Module[{d, epsilon},
 
 
 localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuf_String,path_String},False,
-	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] :=
+	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,hatW,wavN,ck\[CurlyPhi]M,origin,eOpts},
 	eOpts = {opts}~Join~Options[decomposeData2D];
 	thismJSet = First[mJSetVec]; mMg = First[gVec]; mNg = Take[gVec,{2}][[1]];
@@ -618,7 +618,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 
 (* all other cases, i.e. path not a String or such things*)
 localDecomp[gVec_,mJSetVec_, mM_, data_, ck\[CurlyPhi]M_,db_,s_,v_,
-	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,discretePlotFourierSeries}]] := $Failed;
+	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] := $Failed;
 
 
 (* ::Subsection:: *)
