@@ -236,7 +236,7 @@ decomposeData2D::wrongDimensionsData = "A data array of dimension `1` is require
 Options[decomposeData2D] = {MPAWL`Debug -> "None", ImagePrefix -> "Img-", ImageSuffix -> ".png", DataPrefix -> "Data",
 PlotResolution -> 512, MPAWL`Validate -> True, computeWavelet -> True, computeScale -> False,
  (* passed to RasterizeFourierImage*) ReturnVal -> "ColorImage", ColorLegend -> True, Frame-> True,
- (* Standards for Export & Show*) ImageResolution -> 300, ImageSize -> 12*72/2.54};
+ (* Standards for Export & Show*) ImageResolution -> 300, ImageSize -> 12*72/2.54, AllowRasterization -> Automatic};
 
 
 (* ::Section:: *)
