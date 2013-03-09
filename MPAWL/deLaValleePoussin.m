@@ -306,7 +306,7 @@ localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
 
 (* Just create localdlVP, no BS, no orth, no File *)
 localdlVP[g_,mM_,db_,supp_,False,False,None,False] :=
-Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin},
+Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin,x},
 	d = Dimensions[mM][[1]];
 	adM = Abs[Det[mM]];
 	InvMt = Inverse[Transpose[mM]];
@@ -345,9 +345,9 @@ Module[{ck\[CurlyPhi]M, \[CurlyPhi]BS,max,origin,d,t1},
 	ck\[CurlyPhi]M = localdlVP[g,mM,db,supp,False,orth,None,False];
 	max = Table[Max[Ceiling[((1+2supp[[j]])Transpose[mM].#)[[j]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1,{j,1,d}];
 	origin = max+1;	
-	If[StringCount[db,"Text"]>0,Print["Computing Bracket Sums to obtain the Basis transform coefficients..."]];
+	If[StringCount[db,"Text"]>0,Print["Computing Bracket sums to obtain the basis transform coefficients..."]];
 	{t1,\[CurlyPhi]BS} = AbsoluteTiming[computeBracketSums[ck\[CurlyPhi]M,origin,mM,Compute -> "Bracket", MPAWL`Validate -> False]];
-	If[StringCount[db,"Time"]>0,Print["Computing the Bracket Sums took ", t1, " seconds."]];
+	If[StringCount[db,"Time"]>0,Print["Computing the Bracket sums took ", t1, " seconds."]];
 	Return[{ck\[CurlyPhi]M,\[CurlyPhi]BS}];
 ];
 
@@ -363,7 +363,7 @@ Module[{ck\[CurlyPhi]M,t1},
 		ck\[CurlyPhi]M = localdlVP[g,mM,db,supp,False,orth,None,False];
 		saveCoefficients[Join[mM,supp],file,ck\[CurlyPhi]M];
 	, (* Successful: *)
-	If[StringCount[db,"Time"]>0,Print["Loading Coefficients took ",t1," seconds."]];	
+	If[StringCount[db,"Time"]>0,Print["Loading coefficients took ",t1," seconds."]];	
 	];
 	Return[ck\[CurlyPhi]M];
 ];
@@ -380,10 +380,10 @@ localdlVP[g_,mM_,db_,supp_,True,orth_,{ckFile_String,bsFile_String},False] :=
 Module[{ck\[CurlyPhi]M,\[CurlyPhi]MBS,t1,t2,max,origin,d},
 	(* Obtain ck\[CurlyPhi] via previous case *)
 	ck\[CurlyPhi]M = localdlVP[g,mM,db,supp,False,orth,ckFile,False];
-	If[StringCount[db,"Text"]>0,Print["Loading Bracket Sums from file ",bsFile,"..."]];
+	If[StringCount[db,"Text"]>0,Print["Loading Bracket sums from file ",bsFile,"..."]];
 	{t1,\[CurlyPhi]MBS} = AbsoluteTiming[loadCoefficients[Join[mM,supp],bsFile]];
 	If[\[CurlyPhi]MBS == $Failed,
-		If[StringCount[db,"Text"]>0,Print["failed. Computing Bracket Sums to obtain the Basis transform coefficients..."]];
+		If[StringCount[db,"Text"]>0,Print["failed. Computing Bracket sums to obtain the basis transform coefficients..."]];
 		d = Dimensions[mM][[1]];
 		max = Table[Max[Ceiling[((1+2supp[[j]])Transpose[mM].#)[[j]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1,{j,1,d}];
 		origin = max+1;
@@ -427,7 +427,7 @@ localdlVPSub[g_,mM_,mJ_,db_,orth_,file_,False] :=
 
 (* Simple case: No file, no orth *)
 localdlVPSub[g_,mM_,mJ_,db_,False, None,False] :=
-Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,InvNy},
+Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,InvNy,\[Epsilon],k},
 		mN = Inverse[mJ].mM;
 		d = Dimensions[mM][[1]];
 		dM = patternDimension[mM, validateMatrix -> False];

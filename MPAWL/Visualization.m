@@ -249,9 +249,9 @@ createImageFromArray[image_,opts:OptionsPattern[]] :=
 
 
 localCreateImage[image_,db_,"AbsoluteImage"] := Module[{lImage},
-	If[StringCount[db,"Text"]>0,Print["Creating absolute Image..."]];
+	If[StringCount[db,"Text"]>0,Print["Creating the absolute image..."]];
 	lImage = Abs[image];
-	If[StringCount[db,"Text"]>0,Print["The Range of Values is from ",ScientificForm[Min[Chop[N[Re[lImage]]]]]," to ",ScientificForm[Max[Chop[N[Re[lImage]]]]],"."];];
+	If[StringCount[db,"Text"]>0,Print["The range of values is ",ScientificForm[Min[Chop[N[Re[lImage]]]]]," to ",ScientificForm[Max[Chop[N[Re[lImage]]]]],"."];];
 	(* Normalize *)
 	lImage = lImage - Min[lImage];
 	If[Max[lImage]!= 0,lImage = lImage / Max[lImage];];
@@ -260,8 +260,8 @@ localCreateImage[image_,db_,"AbsoluteImage"] := Module[{lImage},
 
 
 localCreateImage[image_,db_,"Image"] := Module[{lImage},
-	If[StringCount[db,"Text"]>0,Print["Creating Image..."]];
-	If[StringCount[db,"Text"]>0,Print["The Range of Values is from ",ScientificForm[Min[Chop[N[Re[image]]]]]," to ",ScientificForm[Max[Chop[N[Re[image]]]]],"."];];
+	If[StringCount[db,"Text"]>0,Print["Creating the image..."]];
+	If[StringCount[db,"Text"]>0,Print["The range of values is ",ScientificForm[Min[Chop[N[Re[image]]]]]," to ",ScientificForm[Max[Chop[N[Re[image]]]]],"."];];
 	(* Normalize *)
 	lImage = image - Min[image];
 	If[Max[lImage]!= 0,lImage = lImage / Max[lImage];];
@@ -273,7 +273,7 @@ localCreateImage[image_,db_,"ColorImage"] :=
 Module[{posImage,negImage,resolution,norm,lImage},
 	If[StringCount[db,"Text"]>0,Print["Creating Color Image..."]];
 	resolution = Dimensions[image];
-	If[StringCount[db,"Text"]>0,Print["The Range of Values is from ",ScientificForm[Min[Chop[N[Re[image]]]]]," to ",ScientificForm[Max[Chop[N[Re[image]]]]],"."];];
+	If[StringCount[db,"Text"]>0,Print["The range of Values is from ",ScientificForm[Min[Chop[N[Re[image]]]]]," to ",ScientificForm[Max[Chop[N[Re[image]]]]],"."];];
 	posImage = Table[Max[image[[x,y]],0],{x,1,resolution[[1]]},{y,1,resolution[[2]]}];
 	negImage = Table[Min[0,image[[x,y]]],{x,1,resolution[[1]]},{y,1,resolution[[2]]}];
 	norm = Max[Max[posImage], Max[negImage]];
@@ -325,7 +325,7 @@ If[(OptionValue[ReturnVal] == "ColorImage"),
 
 
 discretePlotFourierSeriesDiff[resolution_, coefficients_,origin_,f_,opts:OptionsPattern[{discretePlotFourierSeries,createBarLegend, BarLegend}]]:= 
-Module[{image,dim,i,min,max,minmax,j,t1,dataImg,remainingRulles},
+Module[{image,dim,i,min,max,minmax,j,t1,dataImg,remainingRulles,k},
 dim = Length[resolution];
 t1 = AbsoluteTiming[
 	image = localPaddAndFourierTransform[resolution,coefficients,origin,MPAWL`Debug-> OptionValue[MPAWL`Debug], MPAWL`Validate-> False];
