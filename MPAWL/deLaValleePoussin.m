@@ -592,7 +592,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 			If[OptionValue[computeWavelet],
 				wavN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 					Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataW,ck\[Psi]N,origin,mN],origin,
-					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend} )]];
+					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[wavN]];
 				Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf,
 					 Show[wavN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
@@ -601,7 +601,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 			If[OptionValue[computeScale],
 				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 						Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataS,ck\[CurlyPhi]N,origin,mN],origin,
-						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend} )]];
+						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[ScalN]];
 				Export[imagePre<>"Scale-"<>path<>letter<>imageSuf,
 					Show[ScalN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
