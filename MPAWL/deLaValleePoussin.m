@@ -312,7 +312,7 @@ Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin,x},
 	InvMt = Inverse[Transpose[mM]];
 	max = Table[Max[Ceiling[((1+2supp[[j]])Transpose[mM].#)[[j]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1,{j,1,d}];
 	origin = max+1;	
-	If[StringCount[db,"Text"]>0,Print["Computing de La Vall\[EAcute]e Poussin coefficients..."]];
+	If[StringCount[db,"Text"]>0,Print["Computing de la Vall\[EAcute]e Poussin coefficients..."]];
 	t1 = Timing[ck\[CurlyPhi]M = Table[1/adM*g[InvMt.Table[Subscript[x,j],{j,1,d}]]
 	,Evaluate[Sequence@@Table[{Subscript[x, j],-max[[j]],max[[j]]},{j,1,d}]]];][[1]];
 	If[StringCount[db,"Time"]>0,Print["Creating the de La Vall\[EAcute]e Poussin kernel took ",t1," seconds."]];		
@@ -356,7 +356,7 @@ Module[{ck\[CurlyPhi]M, \[CurlyPhi]BS,max,origin,d,t1},
 (* a) One File only occurs without BS *)
 localdlVP[g_,mM_,db_,supp_,False,orth_,file_String,False] :=
 Module[{ck\[CurlyPhi]M,t1},
-	If[StringCount[db,"Text"]>0,Print["Loading de la Vall\[EAcute]e Pmussin mean from file ",file,"..."]];
+	If[StringCount[db,"Text"]>0,Print["Loading de la Vall\[EAcute]e Poussin mean from file ",file,"..."]];
 	{t1,ck\[CurlyPhi]M} = AbsoluteTiming[loadCoefficients[Join[mM,supp],file]];
 	If[ck\[CurlyPhi]M == $Failed,
 		If[StringCount[db,"Text"]>0,Print["failed. "]];
@@ -560,7 +560,7 @@ Module[{d, epsilon},
 	If[Dimensions[data]!=epsilon, Message[decomposeData2D::wrongDimensionsData, MatrixForm[epsilon], MatrixForm[Dimensions[data]]];
 		Return[$Failed];
 	]
-	Return[localDecomp[gVec,mJSetVec,mM,data,ck\[CurlyPhi]M,db,s,False]];
+	Return[localDecomp[gVec,mJSetVec,mM,data,ck\[CurlyPhi]M,db,s,False,opts]];
 ];
 
 
