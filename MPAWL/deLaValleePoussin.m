@@ -356,7 +356,7 @@ Module[{ck\[CurlyPhi]M, \[CurlyPhi]BS,max,origin,d,t1},
 (* a) One File only occurs without BS *)
 localdlVP[g_,mM_,db_,supp_,False,orth_,file_String,False] :=
 Module[{ck\[CurlyPhi]M,t1},
-	If[StringCount[db,"Text"]>0,Print["Loading de la Vall\[EAcute]e Poussin mean from file ",file,"..."]];
+	If[StringCount[db,"Text"]>0,Print["Loading de la Vall\[EAcute]e Poussin mean from file \[OpenCurlyDoubleQuote]",file,"\[CloseCurlyDoubleQuote]..."]];
 	{t1,ck\[CurlyPhi]M} = AbsoluteTiming[loadCoefficients[Join[mM,supp],file]];
 	If[ck\[CurlyPhi]M == $Failed,
 		If[StringCount[db,"Text"]>0,Print["failed. "]];
@@ -380,7 +380,7 @@ localdlVP[g_,mM_,db_,supp_,True,orth_,{ckFile_String,bsFile_String},False] :=
 Module[{ck\[CurlyPhi]M,\[CurlyPhi]MBS,t1,t2,max,origin,d},
 	(* Obtain ck\[CurlyPhi] via previous case *)
 	ck\[CurlyPhi]M = localdlVP[g,mM,db,supp,False,orth,ckFile,False];
-	If[StringCount[db,"Text"]>0,Print["Loading Bracket sums from file ",bsFile,"..."]];
+	If[StringCount[db,"Text"]>0,Print["Loading Bracket sums from file \[OpenCurlyDoubleQuote]",bsFile,"\[CloseCurlyDoubleQuote]..."]];
 	{t1,\[CurlyPhi]MBS} = AbsoluteTiming[loadCoefficients[Join[mM,supp],bsFile]];
 	If[\[CurlyPhi]MBS == $Failed,
 		If[StringCount[db,"Text"]>0,Print["failed. Computing Bracket sums to obtain the basis transform coefficients..."]];
@@ -564,7 +564,15 @@ Module[{d, epsilon},
 ];
 
 
-localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuf_String,path_String},False,
+(*If we have one file suffix string, make a list of one element of that*)
+
+
+localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuffix_String,path_String},False,
+	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
+localDecomp[gVec,mJSetVec, mM, data, pck\[CurlyPhi]M,db,{dataPre,imagePre,{imageSuffix},path},False, opts];
+
+
+localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuffixes_,path_String},False,
 	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,hatW,wavN,ck\[CurlyPhi]M,origin,eOpts},
 	eOpts = {opts}~Join~Options[decomposeData2D];
@@ -594,18 +602,24 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 					Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataW,ck\[Psi]N,origin,mN],origin,
 					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[wavN]];
+				Do[
+				If[StringCount[db,"Text"]>0,Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
 				Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf,
 					 Show[wavN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
 						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];
+				,{imageSuf,imageSuffixes}];
 			];
 			If[OptionValue[computeScale],
 				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 						Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataS,ck\[CurlyPhi]N,origin,mN],origin,
 						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
 				If[StringCount[db,"Image"]>0,Print[ScalN]];
+				Do[
+				If[StringCount[db,"Text"]>0,Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
 				Export[imagePre<>"Scale-"<>path<>letter<>imageSuf,
 					Show[ScalN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
 						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];
+				,{imageSuf,imageSuffixes}];
 			];
 			If[Length[Rest[mJSetVec]]>0, (* Still at least one level to go *)
 				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuf,path<>letter},False,opts]
@@ -613,7 +627,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 		];
 		,{letter, thismJSet}
 	]
-];
+]/; (VectorQ[imageSuffixes,StringQ]);
 
 
 (* all other cases, i.e. path not a String or such things*)
