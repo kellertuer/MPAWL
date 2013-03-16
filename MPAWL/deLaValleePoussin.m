@@ -622,7 +622,7 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				,{imageSuf,imageSuffixes}];
 			];
 			If[Length[Rest[mJSetVec]]>0, (* Still at least one level to go *)
-				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuf,path<>letter},False,opts]
+				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuffixes,path<>letter},False,opts]
 			];
 		];
 		,{letter, thismJSet}
