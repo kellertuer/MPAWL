@@ -258,21 +258,16 @@ dilationMatrix2D["T-"] := {{1,-1},{0,2}};
 localdlVPMatChars = {"X","Y","D","S+","S-","T+","T-"};
 
 
-LinearG[a_,l_,x_] := Which[
-Abs[x]< 2*a-l,1,
-Abs[x]<= l,(Abs[x]-l)/(2(a-l)),
-True,0
-]/;((l>a)&&(l<2a));
+pyramidFunction[\[Alpha]_,x_] := Which[ Abs[x] <= 1/2-\[Alpha],1, (1/2-\[Alpha]<Abs[x]) && (Abs[x]<1/2+\[Alpha]),(1/2+\[Alpha]-Abs[x])/(2\[Alpha]),True,0]/;((\[Alpha]>0)&&(\[Alpha]<= 1/2) && (NumberQ[x]))
 
 
-LinearG[a_,l_,x_] := 
-Product[LinearG[a[[j]],l[[j]],x[[j]]],{j,1,Length[a]}]/; (VectorQ[a] && VectorQ[l] && VectorQ[x] && (Length[a]==Length[l]) && (Length[l]==Length[x]))
+pyramidFunction[0,x_] := Which[ Abs[x] < 1/2,1, Abs[x]== 1/2,1/2,True,0]/; (NumberQ[x])
 
 
-pyramidFunction[d_,l_] := Function[LinearG[ConstantArray[1/2,d],ConstantArray[1/2+l,d],#1]] /; ((l>=0) && (l<=1/2) && (d>0) && IntegerQ[d]);
+pyramidFunction[\[Alpha]V_,xV_] := Product[pyramidFunction[\[Alpha]V[[j]],xV[[j]]],{j,1,Length[xV]}]/; (VectorQ[\[Alpha]V, (#>= 0) &&(#<= 1/2) &] && VectorQ[xV, NumberQ] && Length[\[Alpha]V]==Length[xV]) 
 
 
-pyramidFunction[d_,l_] := Function[LinearG[ConstantArray[1/2,d],1/2+l,#1]] /; (ArrayQ[l,_,(#>=0) && (#<=1/2) &] && (Length[l]==d) (d>0) && IntegerQ[d]);
+pyramidFunction[\[Alpha]_,xV_] := pyramidFunction[ConstantArray[\[Alpha],Length[xV]],xV] /;((\[Alpha]>= 0) &&(\[Alpha]<= 1/2) && VectorQ[xV, NumberQ]) 
 
 
 delaValleePoussinMean[g_,mM_,opts:OptionsPattern[]] :=
