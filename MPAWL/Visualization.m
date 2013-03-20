@@ -406,7 +406,7 @@ Module[{bg,valplot,pts,torusf,x,y},
 	SetOptions[ListPointPlot3D,Evaluate[Sequence@@FilterRules[Options[plotOnTorus],Complement[Options[ListPointPlot3D],Options[ListPointPlot3D,ColorFunction]]]]];
 	(*Set Standardvalues for ParametricPlot3D despite Colorfunction*)
 	SetOptions[ParametricPlot3D,Evaluate[Sequence@@FilterRules[Options[plotOnTorus],Options[ParametricPlot3D]]]];
-	If[Quiet[MatrixCheck[in]],
+	If[Quiet[isMatrixValid[in]],
 		pts = pattern[getPatternNormalform[in], Target -> "Symmetric"];
 		If[StringCount[OptionValue[MPAWL`Debug],"Text"]>0,Print["Interpreting the input as a Matrix"]];
 		valplot = ListPointPlot3D[
