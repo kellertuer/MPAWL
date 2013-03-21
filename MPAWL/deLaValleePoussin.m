@@ -51,14 +51,14 @@ Poussin case. These are named by letters and an additional sign for some
 matrices, in total these are: \[OpenCurlyDoubleQuote]X\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]Y\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]D\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]T+\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]T-\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]S-\[CloseCurlyDoubleQuote] and \[OpenCurlyDoubleQuote]S+\[CloseCurlyDoubleQuote]";
 
 
-pyramidFunction::usage = "pyramidFunction[d,l]
+pyramidFunction::usage = "pyramidFunction[\[Alpha],x]
 
 The d-dimensional analog of the de la Vall\[EAcute]e Poussin mean
 shrunken for generality on the symmetric unitcube, i.e. having
-a support from -1/2-l to 1/2+l in each dimension.
+a support from -1/2-\[Alpha] to 1/2+\[Alpha] in each dimension.
 
-l may be a nonnegative number less than 1/2 or an array of
-d elements containing such numbers.";
+\[Alpha] may be a nonnegative number less than 1/2 or an array of
+d elements containing such numbers, where d is the length of x.";
 
 
 (* ::Subsection:: *)
@@ -286,12 +286,12 @@ localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,True] :=
 
 	(* If g is a number take the pyramidFunction and the old support *)
 localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
-	localdlVP[pyramidFunction[Dimensions[mM][[1]],g],mM,db,ConstantArray[g,Dimensions[mM][[1]]],bs,orth,file,False] /; (NumberQ[g]);
+	localdlVP[pyramidFunction[ConstantArray[g,Dimensions[mM][[1]]],#] &,mM,db,ConstantArray[g,Dimensions[mM][[1]]],bs,orth,file,False] /; (NumberQ[g]);
 
 
 	(* If g is an array of numbers, take pyramindFunction -> g also represents support *)
 localdlVP[g_,mM_,db_,supp_,bs_,orth_,file_,False] :=
-	localdlVP[pyramidFunction[Length[g],g],mM,db,g,bs,orth,file,False] /; (ArrayQ[g,_,(#>=0) && (#<=1/2) &] && (Length[g]==Dimensions[mM][[1]]))
+	localdlVP[pyramidFunction[g,#]&,mM,db,g,bs,orth,file,False] /; (ArrayQ[g,_,(#>=0) && (#<=1/2) &] && (Length[g]==Dimensions[mM][[1]]))
 
 
 	(* Expand supp to a Vector *)
@@ -417,7 +417,7 @@ localdlVPSub[g_,mM_,mJ_,db_,orth_,file_,True] :=
 
 (* If g is a number take the pyramidFunction and the old support *)
 localdlVPSub[g_,mM_,mJ_,db_,orth_,file_,False] :=
-	localdlVPSub[pyramidFunction[Dimensions[mM][[1]],g],mM,mJ,db,orth,file,False] /; (NumberQ[g]);
+	localdlVPSub[pyramidFunction[ConstantArray[g,Dimensions[mM][[1]]],#]&,mM,mJ,db,orth,file,False] /; (NumberQ[g]);
 
 
 (* Simple case: No file, no orth *)
