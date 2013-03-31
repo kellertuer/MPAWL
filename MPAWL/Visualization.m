@@ -163,7 +163,7 @@ AddToLegendExponent \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\
 
 
 Options[createBarLegend] = 
-{LegendMargins -> {{2,2},{-22,2}},
+{(*LegendMargins -> {{2,2},{-44,2}},*)
 LabelStyle -> Directive[8,Plain,Black],
 ScientificNumbers -> True,
 AddToLegendExponent -> 0,
@@ -322,7 +322,7 @@ If[(OptionValue[ReturnVal] == "ColorImage"),
 			]
 	,
 	(* Graysclae *)
-	BarLegend[{RGBColor[(#-min)/(min-max){1,1,1}]&,{min,max}},Sequence@@barlegendOpts]
+	BarLegend[{RGBColor[(#-min)/(max-min){1,1,1}]&,{min,max}},Sequence@@barlegendOpts]
 ]];
 ];
 
@@ -353,7 +353,7 @@ If[OptionValue[ReturnVal] == "Matrix",Return[image]];
 dataImg = ArrayPlot[
 If[OptionValue[ReturnVal]=="ColorImage", Map[RGBColor,ImageData[ImageRotate[image]],{2}],ImageData[ImageRotate[image]]],
 DataRange-> {{-\[Pi],\[Pi]},{-\[Pi],\[Pi]}},PlotLegends-> If[OptionValue[ColorLegend],
-	Placed[createBarLegend[min,max,	FilterRules[{opts},Options[createBarLegend]~Join~Options[BarLegend]]],{1.03,.5}],None]];
+	Placed[createBarLegend[min,max,	FilterRules[{opts},Options[createBarLegend]~Join~Options[BarLegend]]],{1.01,.48}],None]];
 	remainingRules = FilterRules[Options[discretePlotFourierSeries],Except[{opts}]];
 	Return[Show[Plot[0,{x,-\[Pi],\[Pi]},PlotRange->{-\[Pi],\[Pi]},PlotStyle-> Directive[Opacity[0]],
 					Evaluate[Sequence@@FilterRules[remainingRules~Join~{opts},Options[Plot]]]

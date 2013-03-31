@@ -349,11 +349,11 @@ Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j}
 	(*Constants*)
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM, validateMatrix -> False];
-	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-dM+1;;d]];
+	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm -> False]][[d-dM+1;;d]];
 	adM = Abs[Det[mM]];
 	mN = Inverse[mJ].mM;
 	dN = patternDimension[mN, validateMatrix -> False];
-	mu = Diagonal[IntegerSmithForm[mN, ExtendedForm-> False]][[d-dN+1;;d]];
+	mu = Diagonal[IntegerSmithForm[mN, ExtendedForm -> False]][[d-dN+1;;d]];
 	hN = generatingSetBasis[Transpose[mN], Target -> "Symmetric", validateMatrix -> False];
 	adN = Abs[Det[mN]];
 	(* dyadic, hence NTg is unique *)

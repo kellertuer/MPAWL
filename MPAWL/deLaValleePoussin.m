@@ -96,9 +96,9 @@ File \[Rule] \!\(\*StyleBox[\"None\",\nFontSlant\[Rule]\"Italic\"]\) | String | 
 	are computed too, there have to be two string, the first representing the
 	kernel, the second the Bracket sums to be saved.
 Support \[Rule] \!\(\*StyleBox[\"\!\(\*FractionBox[\(1\), \(2\)]\)\",\nFontSlant\[Rule]\"Italic\"]\) | p
-	specifies the support of g to extend the shifted unit cube by p in each dimension.
-	can also be given as a d-dimensional vector, where each entry is nonnegative and
-	smaller than \!\(\*FractionBox[\(1\), \(2\)]\).
+	specifies the support of g, if it is given as a function, to extend the shifted unit cube
+	by p in each dimension. This can also be given as a d-dimensional vector, where each entry
+	is nonnegative and smaller than \!\(\*FractionBox[\(1\), \(2\)]\).
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote]
 	or any combination of these Words in one String (i.e. concatenated via \[OpenCurlyDoubleQuote]&\[CloseCurlyDoubleQuote])
 	to produce intermediate results, indicate progress and display computation
@@ -106,7 +106,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 
 
 Options[delaValleePoussinMean] = {BracketSums -> False, File -> None,
- 	MPAWL`Debug -> "None", Orthonormalize -> True, MPAWL`validateMatrix -> True, Support -> 1/2 };
+ 	MPAWL`Debug -> "None", Orthonormalize -> True, MPAWL`validateMatrix -> True, Support -> 0 };
 
 
 delaValleePoussinMean::WrongFiles = "The specified File option `1` does not consist of two strings";
