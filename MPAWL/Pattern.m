@@ -142,6 +142,7 @@ localPatternBasis[mM_,False] := Module[{mE,mP,mS,d,dM,j},
 	Return[Table[mS.(1/(Diagonal[mE][[d-dM+j]])*UnitVector[d,d-dM+j]), {j,1,dM}] ]; 
 ]
 
+
 pattern[mM_,opts:OptionsPattern[]] := localPattern[mM, OptionValue[Target], OptionValue[validateMatrix]];
 
 

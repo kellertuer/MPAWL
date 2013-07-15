@@ -201,7 +201,9 @@ Module[{m,d,epsilon,sums,sumsE,torigin,tmax,hM,dims,\[Epsilon],k},
 	d = Dimensions[mM][[1]];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
 	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
-	tmax ={ Max[Ceiling[(Transpose[mM].#)[[1]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1, Max[Ceiling[(Transpose[mM].#)[[2]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1};
+	tmax = Table[Max[Ceiling[(Transpose[mM].#)[[k]] &/@
+    Flatten[Table[ Table[Subscript[\[Omega],j],{j,1,d}], Evaluate[Sequence@@Table[{Subscript[\[Omega],j],{-1/2,1/2}},{j,1,d}]]],d-1]
+	]]+1,{k,1,d}];
 	torigin = tmax+1;
 	sums = ConstantArray[0,2tmax+1];
 	dims = Dimensions[ckFun];
@@ -326,6 +328,15 @@ Module[{hM,m,d, epsilon,tmax, torigin,checks,checksE,dims,actfactor,k,\[Epsilon]
 localGetCoeffFromFun[ckFun_, ckSpace_, originIndex_, mM_, v_] := $Failed;
 
 
+getAllDirs[1] := {{1},{-1}};
+
+
+getAllDirs[2] := {{1,1},{1,-1},{-1,1},{-1,-1}}
+
+
+getAllDirs[d_] := Union[Table[Prepend[v,1],{v,#}],Table[Prepend[v,-1],{v,#}]] & /@{getAllDirs[d-1]};
+
+
 getFourierFromSpace[coefficients_, ckSpace_, originIndex_, mM_, opts:OptionsPattern[]] :=
 	localGetFunFromCoeff[coefficients, ckSpace, originIndex, mM, OptionValue[MPAWL`Validate]];
 
@@ -342,7 +353,7 @@ localGetFunFromCoeff[coefficients_, ckSpace_, originIndex_, mM_, False] :=
 	d = Dimensions[mM][[1]];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
 	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
-	tmax ={ Max[Ceiling[(Transpose[mM].#)[[1]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1, Max[Ceiling[(Transpose[mM].#)[[2]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1};
+	tmax = Table[Max[Ceiling[(1/2Transpose[mM].#)[[j]] &/@getAllDirs[d]]+1],{j,1,d}];
 	torigin = tmax+1;
 	coefficientsOI = ConstantArray[Infinity,2tmax+1];
 	(*Pre rearrange*)
