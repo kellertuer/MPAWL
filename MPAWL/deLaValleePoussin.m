@@ -249,13 +249,19 @@ Begin["`Private`"];
 dilationMatrix2D["X"] := {{2,0},{0,1}};
 dilationMatrix2D["Y"] := {{1,0},{0,2}};
 dilationMatrix2D["D"] := {{1,-1},{1,1}};
+dilationMatrix2D["X+"] := {{2,0},{1,1}};
+dilationMatrix2D["Y+"] := {{1,1},{0,2}};
+dilationMatrix2D["X-"] := {{2,0},{-1,1}};
+dilationMatrix2D["Y-"] := {{1,-1},{0,2}};
+
+
 dilationMatrix2D["S+"] := {{2,0},{1,1}};
 dilationMatrix2D["T+"] := {{1,1},{0,2}};
 dilationMatrix2D["S-"] := {{2,0},{-1,1}};
 dilationMatrix2D["T-"] := {{1,-1},{0,2}};
 
 
-localdlVPMatChars = {"X","Y","D","S+","S-","T+","T-"};
+localdlVPMatChars = {"X","Y","D","S+","S-","T+","T-","X+","X-","Y+","Y-"};
 
 
 pyramidFunction[\[Alpha]_,x_] := Which[ Abs[x] <= 1/2-\[Alpha],1, (1/2-\[Alpha]<Abs[x]) && (Abs[x]<1/2+\[Alpha]),(1/2+\[Alpha]-Abs[x])/(2\[Alpha]),True,0]/;((\[Alpha]>0)&&(\[Alpha]<= 1/2) && (NumberQ[x]))
@@ -275,6 +281,15 @@ delaValleePoussinMean[g_,mM_,opts:OptionsPattern[]] :=
 	OptionValue[MPAWL`Debug],OptionValue[Support],OptionValue[BracketSums],
 	OptionValue[Orthonormalize],OptionValue[File],
 	OptionValue[validateMatrix]];
+
+
+getAllDirs[1] := {{1},{-1}};
+
+
+getAllDirs[2] := {{1,1},{1,-1},{-1,1},{-1,-1}}
+
+
+getAllDirs[d_] := Union[Table[Prepend[v,1],{v,#}],Table[Prepend[v,-1],{v,#}]] & /@{getAllDirs[d-1]};
 
 
 (* Check pre *)
@@ -305,7 +320,7 @@ Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin,x},
 	d = Dimensions[mM][[1]];
 	adM = Abs[Det[mM]];
 	InvMt = Inverse[Transpose[mM]];
-	max = Table[Max[Ceiling[((1+2supp[[j]])Transpose[mM].#)[[j]] &/@{{-1/2,1/2},{1/2,1/2},{1/2,-1/2},{-1/2,-1/2}}]]+1,{j,1,d}];
+	max = Table[Max[Ceiling[((1/2+supp[[j]])Transpose[mM].#)[[j]] &/@getAllDirs[d]]]+1,{j,1,d}];
 	origin = max+1;	
 	If[StringCount[db,"Text"]>0,Print["Computing de la Vall\[EAcute]e Poussin coefficients..."]];
 	t1 = Timing[ck\[CurlyPhi]M = Table[1/adM*g[InvMt.Table[Subscript[x,j],{j,1,d}]]
@@ -437,7 +452,9 @@ Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,In
 					,Target -> "Symmetric", validateMatrix -> False]
 					,{{0,0}}])[[1]]);
 		(* for these kernels, provided supp g \[SubsetEqual] [-1,1]^d this summation is enough *)
-		BnSum[{x_,y_}] := Sum[g[{x,y}+Transpose[mJ].z]
+		(* BnSum[{x_,y_}] := Sum[g[{x,y}+Transpose[mJ].z]
+			,{z,Flatten[Table[Table[Subscript[e,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[e,j],-2,2},{j,1,d}]]],1]}];*)
+		BnSum[x_] := Sum[g[x+Transpose[mJ].If[NumberQ[z],{z},z]]
 			,{z,Flatten[Table[Table[Subscript[e,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[e,j],-2,2},{j,1,d}]]],1]}];
 		If[StringCount[db,"Text"]>0,Print["Computing the scaling function coefficients..."]];
 		coeffS = ConstantArray[0,epsilon];
@@ -453,7 +470,7 @@ Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,In
 		t1 = AbsoluteTiming[
 			Do[
 				coeffW[[Sequence\[NonBreakingSpace]@@\[NonBreakingSpace](Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1)]] =
-					Sqrt[Abs[Det[mJ]]]*
+					(*Abs[Det[mJ]]*)
 					Exp[-2 Pi I (InvNy.(Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}].hM))]*
 					coeffS[[Sequence @@(modM[Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]];
 				,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
