@@ -322,7 +322,7 @@ If[(OptionValue[ReturnVal] == "ColorImage"),
 			]
 	,
 	(* Graysclae *)
-	BarLegend[{RGBColor[(#-min)/(max-min){1,1,1}]&,{min,max}},Sequence@@barlegendOpts]
+	BarLegend[{RGBColor[(1-(#-min)/(max-min)){1,1,1}]&,{min,max}},Sequence@@barlegendOpts]
 ]];
 ];
 
