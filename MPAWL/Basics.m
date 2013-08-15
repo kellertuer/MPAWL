@@ -28,7 +28,32 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	02.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubsection:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`Basics`",{
@@ -46,8 +71,8 @@ http://library.wolfram.com/infocenter/MathSource/7081/
 
 isMatrixValid::usage="isMatrixValid[mM]
 
-Check the validity of the matrix, i.e. whether mM is quadratic, regular and
-integral.";
+Check the validity of the matrix, i.e. whether mM is quadratic, regular
+and integral.";
 
 
 isMatrixValid::noMatrix = "The argument `1` is not a quadratic matrix";
@@ -61,7 +86,9 @@ Check, whether the given data array is a set of points adressed in the cycles
 of the (valid) matrix mM, i.e. it must be either of length m=Det[mM] or an 
 array of Dimensions of the elementary divisors of mM that are greater than 1.
 
+
 isDataValid[data,d, m, \[Epsilon]]
+
 To avoid computation of the SNF, this method checks the same as above, where
 d=Dimensions[mM][[1]], m=|Det[mM]| and \[Epsilon] denotes the elementary divisors of mM.";
 
@@ -101,7 +128,8 @@ loadCoefficients::usage = "loadCoefficients[waveletType, file]
 
 Load coefficients of data from file. The first argument should
 characterize the corresponding (scaling or wavelet) function completely, i.e.
-contain the matrix mM and for the non Dirichlet case the dilation matrix mJ
+contain the matrix mM and for the non Dirichlet case the dilation matrix \!\(\*
+StyleBox[\"mJ\",\nFontWeight->\"Bold\"]\)
 and a characterization of g, to check, whether it's the same shift invariant
 space. If file does not contain that type of coefficients, \!\(\*StyleBox[\"Null\",FontWeight\[Rule]\"Bold\"]\) is returned.";
 
