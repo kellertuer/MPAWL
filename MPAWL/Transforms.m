@@ -53,8 +53,7 @@ BeginPackage["MPAWL`Transforms`",{
 "MPAWL`Basics`",
 "MPAWL`Pattern`",
 "MPAWL`genSet`"
-}
-];
+}];
 
 
 (* ::Section:: *)
@@ -162,6 +161,7 @@ If[(!isMatrixValid[mM]) || (!isDataValid[mM,data]),
 	Return[localReshapeData[mM, data, direction, False]]
 ];
 
+
 localReshapeData[mM_, data_,direction_,False] := Module[{d,m,dM,epsilon,r},
 	d = Dimensions[mM][[1]];
 	m = Det[mM];
@@ -173,10 +173,10 @@ localReshapeData[mM_, data_,direction_,False] := Module[{d,m,dM,epsilon,r},
 			data[[ 1+Sum[
 			(*Sum over all adresses, where each cycleadress is spread over the
 				following epsilons in product*)
-			Product[epsilon[[k]],{k,j+1,Length[epsilon]}]*Evaluate[Subscript[r,j]],
+			Product[epsilon[[k]],{k,j+1,Length[epsilon]}]*r[j],
 			{j,1,Length[epsilon]}]
 				]]
-			,Evaluate[Sequence@@Table[{Subscript[r,i],0,epsilon[[i]]-1},{i,1,Length[epsilon]}]] (*run through all cycles*)
+			,Evaluate[Sequence@@Table[{r[i],0,epsilon[[i]]-1},{i,1,Length[epsilon]}]] (*run through all cycles*)
 			]
 		];
 	, (* because of the validity of the data we are in the matrix case and only have to flatten if requested *)
@@ -194,6 +194,7 @@ localReshapeData[mM_, data_, direction_, v_] := $Failed;
 
 FourierTransformTorus[mM_, b_,opts:OptionsPattern[]] :=
 	localFTT[mM, b, OptionValue[MPAWL`Validate], OptionValue[Compute]];
+
 
 localFTT[mM_, b_, True, cmp_] := Module[{},
 	If[localReshapeData[mM, b, True, True] == $Failed, (*data or matrix not valid *)
@@ -228,27 +229,26 @@ Module[{epsilon, m, d, dM,epsilonranges, internalb, resultb,flattenedinput},
 
 
 localFTTERec[epsilon_,matrixb_] := Module[{e,copyb,temp,r,k},
-If[Dimensions[epsilon] == {1},(*end of recursion *)
-	e = Dimensions[matrixb][[1]];
-	Return[Simplify[1/Sqrt[e]*Table[Sum[Exp[-2\[Pi] I j k / e]*matrixb[[j+1]], {j,0,e-1}], {k,0,e-1}]]]
-];
-(* All Epsilon-ranges on which we will perform an FFT, so excluding the last in epsilon *)
-copyb = matrixb;
-Do [
-e = epsilon[[Length[epsilon]]];
-copyb[[Sequence@@ Append[Table[Subscript[r,k]+1,{k,1,Length[epsilon]-1}],All]]] = 
-Prepend[#[[ Length[#];;2;;-1]],First[#]] & [
-	1/Sqrt[e]*Table[Sum[Exp[-2\[Pi] I j k / e]*copyb[[Sequence@@Append[Table[Subscript[r,k]+1,{k,1,Length[epsilon]-1}],j+1]]], {j,0,e-1}], {k,0,e-1}]
+	If[Dimensions[epsilon] == {1},(*end of recursion *)
+		e = Dimensions[matrixb][[1]];
+		Return[Simplify[1/Sqrt[e]*Table[Sum[Exp[-2\[Pi] I j k / e]*matrixb[[j+1]], {j,0,e-1}], {k,0,e-1}]]]
 	];
-,
-Evaluate[Sequence@@ Table[{Subscript[r,i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
-];
-Do [
-	copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]] 
-		= localFTTERec[epsilon[[1;;Length[epsilon]-1]], copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]]];,
-{e,1,epsilon[[Length[epsilon]]]}
-];
-Return[copyb];
+	(* All Epsilon-ranges on which we will perform an FFT, so excluding the last in epsilon *)
+	copyb = matrixb;
+	Do[
+		e = epsilon[[Length[epsilon]]];
+		copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]] = 
+		Prepend[#[[ Length[#];;2;;-1]],First[#]] & [
+			1/Sqrt[e]*Table[Sum[Exp[-2\[Pi] I j k / e]*copyb[[Sequence@@Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],j+1]]], {j,0,e-1}], {k,0,e-1}]
+		];
+	, Evaluate[Sequence@@ Table[{r[i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
+	];
+	Do[
+		copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]] 
+		= localFTTERec[epsilon[[1;;Length[epsilon]-1]], copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]]];
+	,{e,1,epsilon[[Length[epsilon]]]}
+	];
+	Return[copyb];
 ];
 
 
@@ -275,9 +275,9 @@ Module[{e,copyb,temp,r,k},
 	(* All Epsilon-ranges on which we will perform an FFT, so excluding the last in epsilon *)
 	copyb = matrixb;
 	Do [
-		copyb[[Sequence@@ Append[Table[Subscript[r,k]+1,{k,1,Length[epsilon]-1}],All]]] = Fourier[copyb[[Sequence@@ Append[Table[Subscript[r,k]+1,{k,1,Length[epsilon]-1}],All]]]];
+		copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]] = Fourier[copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]]];
 	,
-	Evaluate[Sequence@@ Table[{Subscript[r,i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
+	Evaluate[Sequence@@ Table[{r[i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
 	];
 	Do [
 		copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]] 
@@ -382,13 +382,13 @@ Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j}
 	If[StringCount[db,"Text"]>0,Print["Performing the Wavelet transform..."]];
 	t1 = AbsoluteTiming[
 		Do[
-			dataS[[Sequence@@( Table[Subscript[k, j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
+			dataS[[Sequence@@( Table[k[j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
 				Conjugate[sCoeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]
-					+ Conjugate[sCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[Subscript[k, j],{j,1,dN}]]]);
-			dataW[[Sequence@@ (Table[Subscript[k, j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
+					+ Conjugate[sCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[k[j],{j,1,dN}]]]);
+			dataW[[Sequence@@ (Table[k[j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
 				Conjugate[wCoeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]
-					+ Conjugate[wCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[Subscript[k, j],{j,1,dN}]]]);
-		,Evaluate[Sequence@@Table[{Subscript[k, j],0,mu[[j]]-1},{j,1,dN}]]];
+					+ Conjugate[wCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[k[j],{j,1,dN}]]]);
+		,Evaluate[Sequence@@Table[{k[j],0,mu[[j]]-1},{j,1,dN}]]];
 	][[1]];
 	If[StringCount[db,"Time"]>0,Print["Performing the Wavelet transform took ", t1, " seconds."]];
 	Return[{dataS,dataW}];

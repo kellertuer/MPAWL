@@ -12,27 +12,45 @@
 (*Functions providing functionality of translation invariant spaces*)
 
 
-(* ::Text:: *)
-(*This part of the Library should not be included by itself. Instead the whole Library should be loaded  by*)
-(*using Needs["MPAWL`"].*)
-
-
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	02.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubsection::Closed:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`TISpace`",
+{
 (*External dependencies*)
-"SmithFormV6`", (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*)
+"SmithFormV6`", (* provided in this package, written by Adriano Pascoletti, see http://library.wolfram.com/infocenter/MathSource/7081/ *)
 "MPAWL`Basics`",
 "MPAWL`genSet`",
 "MPAWL`Pattern`"
-];
+}];
 
 
 (* ::Section:: *)
@@ -59,7 +77,7 @@ Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
 	and the check, whether the Origin is in Range.
 
-compute \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Bracket\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]abslute Squares\[CloseCurlyDoubleQuote]
+compute \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Bracket\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]absolute Squares\[CloseCurlyDoubleQuote]
 	despite just summing up the entries, the second option sums up the
 	absolute squares of the data entries.
 
@@ -158,24 +176,24 @@ Options[orthonormalizeTranslatesInSpace] = {MPAWL`Debug -> "None", MPAWL`Validat
 Begin["`Private`"];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*Helpers*)
 
 
 CreateDirections::usage = "Generate all directions a sum can extend, i.e. all combinations of unit vectors and their negative values.";
 CreateDirections[d_] := Module[{prevset},
-If[d==1,
-Return[{{1},{-1}}]
-];
-prevset = CreateDirections[d-1];
-Return[Union[
-Append[#,-1] & /@prevset,
-Append[#,0] & /@prevset,
-Append[#,1] & /@prevset,
-{Append[ConstantArray[0,d-1],1]},
-{Append[ConstantArray[0,d-1],-1]}
-]
-];
+  If[d==1,
+    Return[{{1},{-1}}]
+  ];
+  prevset = CreateDirections[d-1];
+  Return[Union[
+    Append[#,-1] & /@prevset,
+    Append[#,0] & /@prevset,
+    Append[#,1] & /@prevset,
+    {Append[ConstantArray[0,d-1],1]},
+    {Append[ConstantArray[0,d-1],-1]}
+    ]
+  ];
 ]/;( IntegerQ[d] && d> 0);
 
 
@@ -202,29 +220,29 @@ Module[{m,d,epsilon,sums,sumsE,torigin,tmax,hM,dims,\[Epsilon],k},
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
 	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
 	tmax = Table[Max[Ceiling[(Transpose[mM].#)[[k]] &/@
-    Flatten[Table[ Table[Subscript[\[Omega],j],{j,1,d}], Evaluate[Sequence@@Table[{Subscript[\[Omega],j],{-1/2,1/2}},{j,1,d}]]],d-1]
+    Flatten[Table[ Table[\[Omega][j],{j,1,d}], Evaluate[Sequence@@Table[{\[Omega][j],{-1/2,1/2}},{j,1,d}]]],d-1]
 	]]+1,{k,1,d}];
 	torigin = tmax+1;
 	sums = ConstantArray[0,2tmax+1];
 	dims = Dimensions[ckFun];
 	Do[ 
 		If[cp == "Bracket",
-			sums[[Sequence @@ (modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] 
-				+= ckFun[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]];
+			sums[[Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] 
+			+= ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]];
 		];
 		If[cp == "absolute Squares",
-			sums[[Sequence @@ (modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]]
-				+= Abs[ckFun[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]]]^2;
+			sums[[Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]]
+			+= Abs[ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]]]^2;
 		];
 	,
-	Evaluate[Sequence@@Table[{Subscript[d, k],1,dims[[k]]},{k,1,Length[dims]}]]
+	Evaluate[Sequence@@Table[{\[Epsilon][k],1,dims[[k]]},{k,1,Length[dims]}]]
 	]; (*end do*)
 	(*collect result in right cyrcles*)
 	sumsE = ConstantArray[0,epsilon];
 	Do[
-		sumsE[[Sequence @@ (Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1)]]
-		= sums[[ Sequence @@ (modM[Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]];
-	,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]
+		sumsE[[Sequence @@ (Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1)]]
+		= sums[[ Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]];
+	,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]
 	];
 	Return[sumsE];
 ];
@@ -292,34 +310,34 @@ Module[{hM,m,d, epsilon,tmax, torigin,checks,checksE,dims,actfactor,k,\[Epsilon]
 		(*Run through all elements of dataspace *)
 	dims = Dimensions[ckSpace];
 	Do[ 
-		If[ckSpace[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]] == 0,
+		If[ckSpace[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]] == 0,
 			(*then the check-data must be zero and the value may than stay as it is *)
-			If[ckFun[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]] != 0,
-				checks[[Sequence@@(modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = Indeterminate;
+			If[ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]] != 0,
+				checks[[Sequence@@(modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = Indeterminate;
 			];
 		(* If Zero everything is okay and stays as it is (Infinity == arbitrary or the already given value *)
 		, (*else isDataValid nonzero \[Rule] compute factor that would be needed for this entry *)
-			If[!isIndexInRange[ckFun,Table[Subscript[d, k],{k,1,Length[dims]}]],
+			If[!isIndexInRange[ckFun,Table[\[Epsilon][k],{k,1,Length[dims]}]],
 				actfactor=0
 			,
-				actfactor = ckFun[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]]/ckSpace[[Sequence@@(Table[Subscript[d, k],{k,1,Length[dims]}])]];
+				actfactor = ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]]/ckSpace[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]];
 			];
 			(* No factor was set here before \[Rule] set*)
-			If[checks[[Sequence@@(modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] == Infinity,
-				checks[[Sequence@@(modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = actfactor;
+			If[checks[[Sequence@@(modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] == Infinity,
+				checks[[Sequence@@(modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = actfactor;
 			];
 			(* Different Factor was set \[Rule] Immediate *)
-			If[checks[[Sequence@@(modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] != actfactor,
-				checks[[Sequence@@(modM[Table[Subscript[d, k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = Indeterminate;
+			If[checks[[Sequence@@(modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] != actfactor,
+				checks[[Sequence@@(modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex, Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = Indeterminate;
 			];
 		]; (*end dataspace nonzero*)
-	,Evaluate[Sequence@@Table[{Subscript[d, k],1,dims[[k]]},{k,1,Length[dims]}]]
+	,Evaluate[Sequence@@Table[{\[Epsilon][k],1,dims[[k]]},{k,1,Length[dims]}]]
 	]; (*end do*)
 	(*collect result in right cyrcles*)
 	checksE = ConstantArray[0,epsilon];
 	Do[
-		checksE[[Sequence@@(Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1)]]=checks[[ Sequence @@ (modM[Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]];
-		,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]
+		checksE[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1)]]=checks[[ Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]];
+		,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]
 	];
 	Return[checksE];
 ];
@@ -358,15 +376,15 @@ localGetFunFromCoeff[coefficients_, ckSpace_, originIndex_, mM_, False] :=
 	coefficientsOI = ConstantArray[Infinity,2tmax+1];
 	(*Pre rearrange*)
 	Do[
-		coefficientsOI[[Sequence @@ (modM[Table[Subscript[\[Epsilon],k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = coefficients[[Sequence\[NonBreakingSpace]@@\[NonBreakingSpace](Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1)]];
-	,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
+		coefficientsOI[[Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] = coefficients[[Sequence\[NonBreakingSpace]@@\[NonBreakingSpace](Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1)]];
+	,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
 	dims = Dimensions[ckSpace];
-	index = Table[Subscript[d, k],{k,1,Length[dims]}];
-	result = 
+	index = Table[\[Epsilon][k],{k,1,Length[dims]}];
+    result = 
 		Table[
 			coefficientsOI[[ Sequence @@ (modM[index-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]]
 				* ckSpace[[Sequence @@  (index)]]
-		,Evaluate[Sequence@@Table[{Subscript[d, k],1,dims[[k]]},{k,1,Length[dims]}]]];
+		,Evaluate[Sequence@@Table[{\[Epsilon][k],1,dims[[k]]},{k,1,Length[dims]}]]];
 	Return[result];
 ];
 
@@ -417,13 +435,13 @@ localOrthTInS[coeffs_,mM_,mJ_,db_,False] := Module[{mN,NTg,InvNy,hN,d,dN,dM,\[La
 		Do[
 			actBSq = Abs[coeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]^2
 					+ Abs[coeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]] ]^2
-					&[mP.Evaluate[Table[Subscript[k, j],{j,1,dN}]]];
+					&[mP.Evaluate[Table[k[j],{j,1,dN}]]];
 			If[actBSq == 0, Message[orthonormalizeTranslatesInSpace::NotLinearIndependent,MatrixForm[mN]];
 			 				linIndep=False;Break[]
 			];
-			(hataRes[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]]= coeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]*Sqrt[Abs[Det[mJ]]/actBSq])&[mP.Evaluate[Table[Subscript[k, j],{j,1,dN}]]];
-			(hataRes[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]] = coeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]]*Sqrt[Abs[Det[mJ]]/actBSq])&[mP.Evaluate[Table[Subscript[k, j],{j,1,dN}]]];
-		,Evaluate[Sequence@@Table[{Subscript[k, j],0,mu[[j]]-1},{j,1,dN}]]];][[1]];
+			(hataRes[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]]= coeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]*Sqrt[Abs[Det[mJ]]/actBSq])&[mP.Evaluate[Table[k[j],{j,1,dN}]]];
+			(hataRes[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]] = coeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1) ]]*Sqrt[Abs[Det[mJ]]/actBSq])&[mP.Evaluate[Table[k[j],{j,1,dN}]]];
+		,Evaluate[Sequence@@Table[{k[j],0,mu[[j]]-1},{j,1,dN}]]];][[1]];
 	If[!linIndep,Return[$Failed]];
 	If[StringCount[db,"Time"]>0,Print["Orthonormalization took ",t1," seconds."]];
 	Return[hataRes];

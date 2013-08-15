@@ -171,38 +171,39 @@ isDataValid[d_,m_,epsilon_,data_] := Module[{},
 ];
 
 
-isIndexInRange[data_, index_, opts:OptionsPattern[Options[isIndexInRange]]] := Module[{indexnum,posInRange, positive, negInRange, negative},
-If [Dimensions[Dimensions[data]][[1]] < Dimensions[index][[1]],
-Message[isIndexInRange::tooManyIndices,MatrixForm[index, TableDirections-> Row],Dimensions[Dimensions[data]][[1]]];
-Return[$Failed];
-];
-If[Dimensions[Dimensions[index]][[1]]!= 1,
-Message[isIndexInRange::NoIndexVector,MatrixForm[index]];
-Return[$Failed];
-];
-indexnum = Dimensions[index][[1]];
-(* Check whether the first indexnum indices of data are big enough to handle
-an adressing with the index *)
-If [OptionValue[Check]=="Positivity",
-Return[(( Abs[Dimensions[data][[1;;indexnum]]-index ]) == (Dimensions[data][[1;;indexnum]]-index ) 
-(*all indices of index are <= dimensions[data] and all indices are positive*)
-&&  (Abs[index-ConstantArray[1,indexnum]] == index-ConstantArray[1,indexnum] ))
-];
-];
-If[OptionValue[Check]== "Negativity",
-Return[(( Abs[Dimensions[data][[1;;indexnum]]+index ]) == (Dimensions[data][[1;;indexnum]]+index ) 
-(*all indices of index are >=  dimensions[data] and all indices are negative *)
-&&  (-Abs[index+ConstantArray[1,indexnum]] == index+ConstantArray[1,indexnum] ))
-];
-];
-If[OptionValue[Check]== "Nonzero",
-Return[(( Abs[Dimensions[data][[1;;indexnum]]-Abs[index]]) == (Dimensions[data][[1;;indexnum]]-Abs[index] ) 
-(*all indices of index are in modulus <= dimensions[data] and nonzero *)
-&&  (Abs[Abs[index]-ConstantArray[1,indexnum]] == Abs[index]-ConstantArray[1,indexnum] ))
-];
-];
-Message[isIndexInRange::NoValidCheck];
-Return[$Failed];
+isIndexInRange[data_, index_, opts:OptionsPattern[Options[isIndexInRange]]] :=
+Module[{indexnum,posInRange, positive, negInRange, negative},
+  If [Dimensions[Dimensions[data]][[1]] < Dimensions[index][[1]],
+    Message[isIndexInRange::tooManyIndices,MatrixForm[index, TableDirections-> Row],Dimensions[Dimensions[data]][[1]]];
+    Return[$Failed];
+  ];
+  If[Dimensions[Dimensions[index]][[1]]!= 1,
+    Message[isIndexInRange::NoIndexVector,MatrixForm[index]];
+    Return[$Failed];
+  ];
+  indexnum = Dimensions[index][[1]];
+  (* Check whether the first indexnum indices of data are big enough to handle
+  an adressing with the index *)
+  If [OptionValue[Check]=="Positivity",
+    Return[(( Abs[Dimensions[data][[1;;indexnum]]-index ]) == (Dimensions[data][[1;;indexnum]]-index ) 
+      (*all indices of index are <= dimensions[data] and all indices are positive*)
+      &&  (Abs[index-ConstantArray[1,indexnum]] == index-ConstantArray[1,indexnum] ))
+    ];
+  ];
+  If[OptionValue[Check]== "Negativity",
+    Return[(( Abs[Dimensions[data][[1;;indexnum]]+index ]) == (Dimensions[data][[1;;indexnum]]+index ) 
+    (*all indices of index are >=  dimensions[data] and all indices are negative *)
+    &&  (-Abs[index+ConstantArray[1,indexnum]] == index+ConstantArray[1,indexnum] ))
+    ];
+  ];
+  If[OptionValue[Check]== "Nonzero",
+    Return[(( Abs[Dimensions[data][[1;;indexnum]]-Abs[index]]) == (Dimensions[data][[1;;indexnum]]-Abs[index] ) 
+    (*all indices of index are in modulus <= dimensions[data] and nonzero *)
+    &&  (Abs[Abs[index]-ConstantArray[1,indexnum]] == Abs[index]-ConstantArray[1,indexnum] ))
+    ];
+  ];
+  Message[isIndexInRange::NoValidCheck];
+  Return[$Failed];
 ];
 
 

@@ -190,21 +190,21 @@ localPattern[mM_,s_,t_] := $Failed;
 
 (* little local helper to recursively construct the pattern *)
 recursivePatternGeneration[mM_,actdim_,pElem_] := Module[{newset,d,min,max,step,tsum,i,y,x},
-(*Add the dimension actdim*)
-newset = {};
-d = Dimensions[mM][[1]];
-step = 1/Abs[mM[[actdim,actdim]]];
-Do[
-(*calc min and max including removal of shear*)
-tsum = Sum[mM[[actdim,i]]x[[i]],{i,actdim+1,d}];
-min = Ceiling[-1/(2 step)+tsum];
-max = Ceiling[1/(2 step)+tsum];
-For[i=min, i< max, i++,
-y=x+(i-tsum)*step *  UnitVector[d,actdim];
-newset = Union[newset,{y}];
-];
-,{x,pElem}];
-recursivePatternGeneration[mM,actdim-1,newset]
+	(*Add the dimension actdim*)
+	newset = {};
+	d = Dimensions[mM][[1]];
+	step = 1/Abs[mM[[actdim,actdim]]];
+	Do[
+		(*calc min and max including removal of shear*)
+		tsum = Sum[mM[[actdim,i]]x[[i]],{i,actdim+1,d}];
+		min = Ceiling[-1/(2 step)+tsum];
+		max = Ceiling[1/(2 step)+tsum];
+		For[i=min, i< max, i++,
+			y=x+(i-tsum)*step *  UnitVector[d,actdim];
+			newset = Union[newset,{y}];
+		];
+	,{x,pElem}];
+	recursivePatternGeneration[mM,actdim-1,newset]
 ];
 (*End of recursion - don't add any further elements, just return the elements, that were created up to now*)
 recursivePatternGeneration[mM_,0,pElem_] := pElem
