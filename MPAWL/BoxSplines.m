@@ -12,26 +12,64 @@
 (*Box Splines*)
 
 
-(* ::Subsubtitle:: *)
-(*Adaption of an algorithm proposed by L. Kobbelt (1997) from MatLab to Mathematica*)
-(*  *)
-
-
-(* ::Text:: *)
-(*This part of the Library should not be included by itself. Instead the whole Library should be loaded  by*)
-(*using Needs["MPAWL`"].*)
-
-
-(* ::Text:: *)
-(*This file contains an implementation of the algorithm proposed by L. Kobbelt for a stable evaluation of Box Splines,*)
-(*   though still working with the normal [0, 1)^d characteristic function instead of the formalism used*)
-(*to propose properties of the wavelets.*)
-
-
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	02.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubtitle:: *)
+(*Adaption of an algorithm proposed by L. Kobbelt (1997, see netlib.org/numeralgo/na11) from MatLab to Mathematica. The License from there states*)
+
+
+(* ::Subsubsection::Closed:: *)
+(*Original License*)
+
+
+(* ::Program:: *)
+(*****************************************************************************)
+(** All the software  contained in this library  is protected by copyright. **)
+(** Permission  to use, copy, modify, and  distribute this software for any **)
+(** purpose without fee is hereby granted, provided that this entire notice **)
+(** is included  in all copies  of any software which is or includes a copy **)
+(** or modification  of this software  and in all copies  of the supporting **)
+(** documentation for such software.                                        **)
+(*****************************************************************************)
+(** THIS SOFTWARE IS BEING PROVIDED "AS IS", WITHOUT ANY EXPRESS OR IMPLIED **)
+(** WARRANTY. IN NO EVENT, NEITHER  THE AUTHORS, NOR THE PUBLISHER, NOR ANY **)
+(** MEMBER  OF THE EDITORIAL BOARD OF  THE JOURNAL  "NUMERICAL ALGORITHMS", **)
+(** NOR ITS EDITOR-IN-CHIEF, BE  LIABLE FOR ANY ERROR  IN THE SOFTWARE, ANY **)
+(** MISUSE  OF IT  OR ANY DAMAGE ARISING OUT OF ITS USE. THE ENTIRE RISK OF **)
+(** USING THE SOFTWARE LIES WITH THE PARTY DOING SO.                        **)
+(*****************************************************************************)
+(** ANY USE  OF THE SOFTWARE  CONSTITUTES  ACCEPTANCE  OF THE TERMS  OF THE **)
+(** ABOVE STATEMENT.                                                        **)
+(*****************************************************************************)
+
+
+(* ::Subsubsection::Closed:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`BoxSplines`"];

@@ -16,25 +16,41 @@
 (*Functions that provide methods for sampling fo functions and hence approximating by tranlsates (via change of basis from interpolatory to (orthonormal) bases)*)
 
 
-(* ::Text:: *)
-(*This part of the Library should not be included by itself. Instead the whole Library should be loaded  by*)
-(*using Needs["MPAWL`"].*)
-
-
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		14.11.2012*)
-(*Last Changed: 	03.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubsection::Closed:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`Sampling`",
 {
 (*External dependencies*)
-"SmithFormV6`" (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*)
-,
+"SmithFormV6`" (* provided in this package, written by Adriano Pascoletti, see http://library.wolfram.com/infocenter/MathSource/7081/*),
 "MPAWL`Basics`",
 "MPAWL`Pattern`",
 "MPAWL`genSet`",
@@ -142,8 +158,8 @@ localSample[mM_,f_,db_,None,"Point",False] := Module[{d,dM,epsilon,pMBasis,t,dat
 	If[StringCount[db,"Text"]>0,Print["Sampling the function..."]];
 	t = AbsoluteTiming[
 		data = Table[
-			f[2\[Pi]*modM[Sum[Subscript[\[Epsilon], j]*pMBasis[[j]],{j,1,dM}],IdentityMatrix[d],Target -> "Symmetric", validateMatrix -> False]]
-			,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], j],0,epsilon[[j]]-1},{j,1,dM}]]
+			f[2\[Pi]*modM[Sum[\[Epsilon][j]*pMBasis[[j]],{j,1,dM}],IdentityMatrix[d],Target -> "Symmetric", validateMatrix -> False]]
+			,Evaluate[Sequence@@Table[{\[Epsilon][j],0,epsilon[[j]]-1},{j,1,dM}]]
 			];
 		][[1]];
 	If[StringCount[db,"Time"]>0,Print["Sampling took ",t," seconds."]];
@@ -158,10 +174,10 @@ localSample[mM_,f_,db_,None,"Point set",False] := Module[{d,dM,epsilon,pMBasis,t
 	pMBasis = patternBasis[mM, validateMatrix -> False];
 	If[StringCount[db,"Text"]>0,Print["Sampling the function..."]];
 	pointSet = Table[modM[
-		Sum[Subscript[\[Epsilon], j]*pMBasis[[j]], {j, 1, dM}], IdentityMatrix[d], 
+		Sum[\[Epsilon][j]*pMBasis[[j]], {j, 1, dM}], IdentityMatrix[d], 
 	    Target -> "Symmetric", validateMatrix -> False]
 					,Evaluate[Sequence@@
-						Table[{Subscript[\[Epsilon], j], 0, epsilon[[j]] - 1},{j,1,dM}]]
+						Table[{\[Epsilon][j], 0, epsilon[[j]] - 1},{j,1,dM}]]
 					];
 	t = AbsoluteTiming[values = f[2 \[Pi] Flatten[pointSet, Range[dM]]];][[1]];
 	If[StringCount[db,"Time"]>0,Print["Sampling took ",t," seconds."]];

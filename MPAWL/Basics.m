@@ -31,7 +31,7 @@
 (*Last Changed: 	15.08.2013*)
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*License*)
 
 
