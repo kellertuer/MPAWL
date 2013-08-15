@@ -196,6 +196,7 @@ localFTT[mM_, b_, True, cmp_] := Module[{},
 	Return[localFTT[mM,b,False,cmp]] (*Call corresp. local Function w/out tests *)
 ];
 
+
 localFTT[mM_, b_,False,"Exact"] :=
 Module[{epsilon, m, d, dM,epsilonranges, internalb, resultb,flattenedinput},
 	(*Abort if M is no fitting Matrix *)
@@ -203,7 +204,7 @@ Module[{epsilon, m, d, dM,epsilonranges, internalb, resultb,flattenedinput},
 	m = Abs[Det[mM]];
 	dM = patternDimension[mM, validateMatrix -> False];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-dM+1;;d]];
-	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] == m));
+	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] != m));
 	(*Flatten if neccessary and check dimensions else *)
 	internalb = reshapeData[mM, b, True,MPAWL`Validate -> False];
 	If[internalb == $Failed,Return[$Failed]];
@@ -244,7 +245,7 @@ Module[{epsilon, m, d, epsilonranges, internalb, resultb,flattenedinput,dM},
 	m = Abs[Det[mM]];
 	dM = patternDimension[mM, validateMatrix -> False];
 	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-dM+1;;d]];
-	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] == m));
+	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] != m));
 	(*Flatten if neccessary and check dimensions else *)
 	internalb = reshapeData[mM, b, True, MPAWL`Validate -> False];
 	resultb = localFTTNRec[epsilon, internalb];
