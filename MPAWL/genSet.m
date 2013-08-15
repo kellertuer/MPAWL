@@ -28,20 +28,40 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	02.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubsection:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`genSet`",{
-(*External dependencies*)
-"SmithFormV6`" (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*),
-"MPAWL`Basics`"
-,
-"MPAWL`Pattern`"
-}
-];
+  (*External dependencies*)
+  "SmithFormV6`" (* provided in this package, written by Adriano Pascoletti, see http://library.wolfram.com/infocenter/MathSource/7081/ *),
+  "MPAWL`Basics`",
+  "MPAWL`Pattern`"
+}];
 
 
 (* ::Section:: *)
@@ -63,7 +83,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[modM] := {Target \[Rule] "Unit", MPAWL`validateMatrix \[Rule] True};
+Options[modM] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
 (* ::Subsection:: *)
@@ -86,7 +106,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[generatingSetBasisDecomp] := {Target \[Rule] "Unit", MPAWL`validateMatrix \[Rule] True};
+Options[generatingSetBasisDecomp] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
 generatingSetBasis::usage = "generatingSetBasis[mM]
@@ -106,7 +126,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[generatingSetBasis] := {Target \[Rule] "Unit", MPAWL`validateMatrix \[Rule] True};
+Options[generatingSetBasis] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
 
@@ -125,7 +145,7 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
 
 
-Options[generatingSet] := {Target \[Rule] "Unit", MPAWL`validateMatrix \[Rule] True};
+Options[generatingSet] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
 
@@ -173,11 +193,11 @@ localgenSetBDecomp[k_,mM_,t_,True] :=
 
 
 localgenSetBDecomp[k_,mM_,t_,False] := Module[{mE,mS,mP,d,dM,aBV},
-	{mE,{mP,mS}} = IntegerSmithForm[Transpose[mM], ExtendedForm\[Rule] True];
+	{mE,{mP,mS}} = IntegerSmithForm[Transpose[mM], ExtendedForm-> True];
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM];
 	aBV = Transpose[Inverse[mS]];
-	Return[(modM[Inverse[aBV].k,mE, Target \[Rule] t])[[d-dM+1;;d]]];
+	Return[(modM[Inverse[aBV].k,mE, Target -> t])[[d-dM+1;;d]]];
 ];
 
 
@@ -192,12 +212,12 @@ localGeneratingSetBasis[mM_,t_,True] :=
 	If[!isMatrixValid[mM],Return[$Failed],localGeneratingSetBasis[mM,t,False]];
 
 localGeneratingSetBasis[mM_,t_,False] := Module[{mE,mP,mS,dM,d},
-	{mE,{mP,mS}} = IntegerSmithForm[Transpose[mM], ExtendedForm \[Rule] True];
+	{mE,{mP,mS}} = IntegerSmithForm[Transpose[mM], ExtendedForm -> True];
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM];
 	Return[Table[
 		modM[Transpose[Inverse[mS]].UnitVector[d,d-dM+j],mM,
-			Target \[Rule] t, validateMatrix \[Rule] False]
+			Target -> t, validateMatrix -> False]
 		, {j,1,dM}] ];
 ];
 
@@ -215,7 +235,7 @@ localGeneratingSet[mM_,t_,True] := If[!isMatrixValid[mM],
 
 
 localGeneratingSet[mM_,t_,False] :=
-(modM[mM.#,mM, Target \[Rule] t] & /@pattern[getPatternNormalform[mM], validateMatrix \[Rule] False]);
+(modM[mM.#,mM, Target -> t] & /@pattern[getPatternNormalform[mM], validateMatrix -> False]);
 
 
 localGeneratingSet[mM_,t_,vM_] := $Failed;

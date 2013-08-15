@@ -16,27 +16,40 @@
 (*Functions that provide access to patterns, their creation and adressing*)
 
 
-(* ::Text:: *)
-(*This part of the Library should not be included by itself. Instead the whole Library should be loaded  by*)
-(*using Needs["MPAWL`"].*)
-
-
-(* ::Text:: *)
-(*This sub package provides basic checks and commands to verfiy arguments of functions*)
-
-
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	02.03.2013*)
+(*Last Changed: 	15.08.2013*)
+
+
+(* ::Subsubsection:: *)
+(*License*)
+
+
+(* ::Program:: *)
+(*    This file is part of MPAWL.*)
+(*  *)
+(*      MPAWL is free software : you can redistribute it and/or modify*)
+(*    it under the terms of the GNU General Public License as published by*)
+(*    the Free Software Foundation, either version 3 of the License, or*)
+(*    (at your option) any later version.*)
+(*  *)
+(*      MPAWL is distributed in the hope that it will be useful,*)
+(*    but WITHOUT ANY WARRANTY; without even the implied warranty of*)
+(*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*)
+(*    GNU General Public License for more details.*)
+(*  *)
+(*      You should have received a copy of the GNU General Public License*)
+(*    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.*)
+
+
+(* ::Subsection:: *)
+(*Package Header*)
 
 
 BeginPackage["MPAWL`Pattern`",{
 (*External dependencies*)
-"SmithFormV6`" (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*),
+"SmithFormV6`" (* provided in this package, written byAdriano Pascoletti, seehttp://library.wolfram.com/infocenter/MathSource/7081/*),
 "MPAWL`Basics`"
 }
 ];
@@ -77,7 +90,11 @@ Options[patternBasis] := {MPAWL`validateMatrix -> True};
 pattern::usage = "pattern[mM]
 
 generates the set of points inside the unit cube, whose multiplication with mM
-results in an integral vector.
+results in an integral vector. The matrix mM must be in pattern normal form for
+this fast algorithm to work, see \!\(\*
+StyleBox[\"getPatternNromalform\", \"Code\"]\)\!\(\*
+StyleBox[\"[\", \"Code\"]\)\!\(\*
+StyleBox[\"]\", \"Code\"]\).
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]

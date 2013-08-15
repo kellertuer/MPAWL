@@ -58,10 +58,7 @@
 
 BeginPackage["MPAWL`Basics`",{
 (*External dependencies*)
-"SmithFormV6`" (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*)
+"SmithFormV6`" (* provided in this package, written by Adriano Pascoletti, see http://library.wolfram.com/infocenter/MathSource/7081/*)
 }];
 
 
