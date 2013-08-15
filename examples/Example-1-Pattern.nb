@@ -1,0 +1,444 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     14333,        435]
+NotebookOptionsPosition[     12230,        367]
+NotebookOutlinePosition[     12759,        388]
+CellTagsIndexPosition[     12716,        385]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Example 1", "Subsubtitle",
+ CellChangeTimes->{{3.561784903322611*^9, 3.561784914734438*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Creating and plotting a pattern and its generating set\
+\>", "Title",
+ CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
+  3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
+  3.585537653026313*^9}, {3.585542528085225*^9, 3.58554253224314*^9}}],
+
+Cell[TextData[{
+ "This example demonstrates, how to compute all points belonging to a pattern \
+\[ScriptCapitalP](",
+ StyleBox["M",
+  FontWeight->"Bold"],
+ ") and how to plot them in different ways."
+}], "Subsubtitle",
+ CellChangeTimes->{{3.561788081362376*^9, 3.56178816956818*^9}}],
+
+Cell["\<\
+Author: \t\tRonny Bergmann
+Created: \t\t15.08.2013
+Last Changed: \t15.08.2013\
+\>", "Program",
+ CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
+   3.5855435520430107`*^9}],
+
+Cell[CellGroupData[{
+
+Cell["License", "Subsubsection",
+ CellChangeTimes->{{3.585537355831193*^9, 3.585537363963532*^9}}],
+
+Cell["\<\
+    This file is part of MPAWL.
+  
+      MPAWL is free software : you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+  
+      MPAWL is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+  
+      You should have received a copy of the GNU General Public License
+    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.\
+\>", "Program",
+ CellChangeTimes->{{3.585537405416844*^9, 3.585537461767535*^9}, {
+  3.585537502312166*^9, 3.585537513376918*^9}, {3.585537694042321*^9, 
+  3.5855377067755623`*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Loading the Library", "Subsection",
+ CellChangeTimes->{{3.561785031749501*^9, 3.561785066774623*^9}, {
+  3.585537743617692*^9, 3.585537746062161*^9}}],
+
+Cell[TextData[{
+ "The MPAWL is located in the parent directory (see ",
+ StyleBox["MPAWL.m", "Program"],
+ ") in order to load the library, we add its path to ",
+ StyleBox["$Path", "Code"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585537766270393*^9, 3.585537868296885*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$Path", " ", "=", " ", 
+   RowBox[{"Join", "[", 
+    RowBox[{"$Path", ",", 
+     RowBox[{"{", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetDirectory", "[", 
+    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
+  RowBox[{"(*", 
+   RowBox[{"Set", " ", "to", " ", "actual", " ", "directory"}], 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<MPAWL`\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.561784454440884*^9, 3.561784464446355*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Looking at a pattern", "Subsection",
+ CellChangeTimes->{{3.585542592071444*^9, 3.585542604374295*^9}}],
+
+Cell["For a given matrix, e.g.", "Text",
+ CellChangeTimes->{{3.563610535615493*^9, 3.5636105758779697`*^9}, {
+  3.585540397379531*^9, 3.5855404028683043`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mM", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"32", ",", "4"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "8"}], "}"}]}], "}"}]}], ";", " ", 
+  RowBox[{"MatrixForm", "[", "mM", "]"}]}]], "Input",
+ CellChangeTimes->{{3.585540404379806*^9, 3.585540446704125*^9}}],
+
+Cell["we obtain the pattern by using the function", "Text",
+ CellChangeTimes->{{3.585540413683049*^9, 3.585540424675901*^9}, 
+   3.585540456001678*^9}],
+
+Cell[BoxData[
+ RowBox[{"?", "pattern"}]], "Input",
+ CellChangeTimes->{{3.585540429039384*^9, 3.585540430593623*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "getPatternNormalform"}]], "Input",
+ CellChangeTimes->{{3.585542413961419*^9, 3.585542417696496*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"patPts", " ", "=", " ", 
+   RowBox[{"pattern", "[", 
+    RowBox[{
+     RowBox[{"getPatternNormalform", "[", "mM", "]"}], ",", " ", 
+     RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.58554147535797*^9, 3.585541503408086*^9}, {
+  3.585541533960786*^9, 3.5855415413103743`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"patPts", ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1"}], "/", "2"}], ",", 
+        RowBox[{"1", "/", "2"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1"}], "/", "2"}], ",", 
+        RowBox[{"1", "/", "2"}]}], "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"PlotRangePadding", "\[Rule]", "0.05"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585541505618182*^9, 3.5855415292559853`*^9}}],
+
+Cell["The rank of this lattice is given by", "Text",
+ CellChangeTimes->{{3.585541577469157*^9, 3.585541642215324*^9}}],
+
+Cell[BoxData[
+ RowBox[{"patternDimension", "[", "mM", "]"}]], "Input",
+ CellChangeTimes->{{3.5855416303313923`*^9, 3.585541635055047*^9}}],
+
+Cell["\<\
+, i.e. we only need one vector, that spans these points by its integral \
+scales, this vector is e.g.\
+\>", "Text",
+ CellChangeTimes->{{3.585541646289555*^9, 3.58554170159826*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", "v", "}"}], " ", "=", " ", 
+  RowBox[{"patternBasis", "[", "mM", "]"}]}]], "Input",
+ CellChangeTimes->{{3.585541702968485*^9, 3.585541705756105*^9}, {
+  3.585541751853737*^9, 3.585541766020987*^9}}],
+
+Cell["\<\
+The Smith form also provides the set of scalars, a*v, a=0,...,\[Epsilon], \
+such that these are the pattern (when using modulo 1 or the shifted modulo \
+operation for the symmetric case)\
+\>", "Text",
+ CellChangeTimes->{{3.585541727897784*^9, 3.5855418264172297`*^9}}],
+
+Cell[BoxData[
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"IntegerSmithForm", "[", 
+    RowBox[{"mM", ",", " ", 
+     RowBox[{"ExtendedForm", "\[Rule]", " ", "False"}]}], "]"}], " ", "//", 
+   "MatrixForm"}]}]], "Input",
+ CellChangeTimes->{{3.585542214137414*^9, 3.585542219164565*^9}}],
+
+Cell[BoxData[
+ RowBox[{"\[Epsilon]", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"IntegerSmithForm", "[", 
+    RowBox[{"mM", ",", " ", 
+     RowBox[{"ExtendedForm", "\[Rule]", " ", "False"}]}], "]"}], "[", 
+   RowBox[{"[", 
+    RowBox[{"2", ",", "2"}], "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.585541828015502*^9, 3.5855418519423*^9}, {
+  3.5855421984034157`*^9, 3.5855422048278418`*^9}}],
+
+Cell[TextData[{
+ "So the pattern can also be given by using ",
+ StyleBox["modM[]", "Code"],
+ " and this one vector, i.e."
+}], "Text",
+ CellChangeTimes->{{3.585542042459178*^9, 3.585542051024486*^9}, {
+  3.5855421065032387`*^9, 3.585542116621516*^9}, {3.585542254923315*^9, 
+  3.585542260752419*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "modM"}]], "Input",
+ CellChangeTimes->{{3.585542128817317*^9, 3.5855421301643248`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"modM", "[", 
+      RowBox[{
+       RowBox[{"k", "*", "v"}], ",", 
+       RowBox[{"IdentityMatrix", "[", "2", "]"}], ",", 
+       RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}], ",", 
+     
+     RowBox[{"{", 
+      RowBox[{"k", ",", "0", ",", 
+       RowBox[{"\[Epsilon]", "-", "1"}]}], "}"}]}], " ", "]"}], ",", " ", 
+   RowBox[{"PlotRange", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1"}], "/", "2"}], ",", 
+        RowBox[{"1", "/", "2"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1"}], "/", "2"}], ",", 
+        RowBox[{"1", "/", "2"}]}], "}"}]}], "}"}]}], ",", " ", 
+   RowBox[{"PlotRangePadding", "\[Rule]", "0.05"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585542137045076*^9, 3.58554218844414*^9}, {
+  3.5855422246754932`*^9, 3.585542236690414*^9}}],
+
+Cell["\<\
+Finally, another possibility to look at a pattern is, to plot it on a torus. \
+This emphasizes the fact, that all additions in the application are seen \
+modulo 1, which is the same as \"running around\" on the torus. \
+\>", "Text",
+ CellChangeTimes->{{3.585542449517426*^9, 3.585542519654935*^9}}],
+
+Cell[BoxData[
+ RowBox[{"plotOnTorus", "[", "mM", "]"}]], "Input",
+ CellChangeTimes->{{3.5618678968247557`*^9, 3.561867928896717*^9}, {
+  3.56188233126396*^9, 3.561882357508607*^9}, {3.561888591673156*^9, 
+  3.56188862158532*^9}, {3.5855424307283897`*^9, 3.585542441657197*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The corresponding generating set", "Subsection",
+ CellChangeTimes->{{3.585542611369248*^9, 3.585542622864993*^9}}],
+
+Cell[TextData[{
+ "The generating set the MPAW Library work with, is the one of ",
+ StyleBox["Transpose[mM]", "Code"],
+ StyleBox[". We can also plot this, but now we really need the usual matrix \
+(not its pattern normal form) to obtain the generating set",
+  FontWeight->"Plain"]
+}], "Text",
+ CellChangeTimes->{{3.585542692541155*^9, 3.585542823999528*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "generatingSet"}]], "Input",
+ CellChangeTimes->{{3.585542873530336*^9, 3.585542875581992*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"generatingSet", "[", 
+   RowBox[{
+    RowBox[{"Transpose", "[", "mM", "]"}], ",", " ", 
+    RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.585542825255548*^9, 3.585542882510532*^9}}],
+
+Cell["\<\
+Here, this set is also given as the scalar multiplicities of the same number \
+of vectors as for the pattern above, i.e. the one vector\
+\>", "Text",
+ CellChangeTimes->{{3.585542910797789*^9, 3.585542954906144*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", "g", "}"}], " ", "=", " ", 
+  RowBox[{"generatingSetBasis", "[", 
+   RowBox[{"Transpose", "[", "mM", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5855429564931602`*^9, 3.585542966147882*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"Table", "[", 
+   RowBox[{
+    RowBox[{"modM", "[", 
+     RowBox[{
+      RowBox[{"k", "*", "g"}], ",", 
+      RowBox[{"Transpose", "[", "mM", "]"}], ",", 
+      RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"k", ",", "0", ",", 
+      RowBox[{"\[Epsilon]", "-", "1"}]}], "}"}]}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.585542981579735*^9, 3.585543037808551*^9}}],
+
+Cell[TextData[{
+ "And we further can decompose an element of the generating set into its \
+basis vector fractions, which is here obtaining the corresponding ",
+ StyleBox["k", "Code"],
+ ":"
+}], "Text",
+ CellChangeTimes->{{3.585543063610915*^9, 3.585543122524982*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "generatingSetBasisDecomp"}]], "Input",
+ CellChangeTimes->{{3.5855431313776617`*^9, 3.5855431402671127`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generatingSetBasisDecomp", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"3", ",", "3"}], "}"}], ",", 
+   RowBox[{"Transpose", "[", "mM", "]"}], ",", 
+   RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.5855431545070457`*^9, 3.585543190369608*^9}}],
+
+Cell[BoxData[
+ RowBox[{"modM", "[", 
+  RowBox[{
+   RowBox[{"27", "*", "g"}], ",", 
+   RowBox[{"Transpose", "[", "mM", "]"}], ",", " ", 
+   RowBox[{"Target", "\[Rule]", " ", "\"\<Symmetric\>\""}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.5855431751485786`*^9, 3.585543201680825*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+Evaluator->"Local",
+WindowSize->{1264, 714},
+WindowMargins->{{-2, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 98, 1, 29, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[680, 25, 290, 5, 92, "Title"],
+Cell[973, 32, 283, 7, 29, "Subsubtitle"],
+Cell[1259, 41, 198, 6, 74, "Program"],
+Cell[CellGroupData[{
+Cell[1482, 51, 98, 1, 35, "Subsubsection"],
+Cell[1583, 54, 872, 18, 228, "Program"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[2492, 77, 156, 2, 36, "Subsection"],
+Cell[2651, 81, 270, 7, 31, "Text"],
+Cell[2924, 90, 635, 18, 63, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3596, 113, 108, 1, 44, "Subsection"],
+Cell[3707, 116, 159, 2, 30, "Text"],
+Cell[3869, 120, 371, 11, 28, "Input"],
+Cell[4243, 133, 151, 2, 30, "Text"],
+Cell[4397, 137, 116, 2, 28, "Input"],
+Cell[4516, 141, 129, 2, 28, "Input"],
+Cell[4648, 145, 375, 9, 28, "Input"],
+Cell[5026, 156, 595, 17, 28, "Input"],
+Cell[5624, 175, 118, 1, 30, "Text"],
+Cell[5745, 178, 138, 2, 28, "Input"],
+Cell[5886, 182, 190, 4, 30, "Text"],
+Cell[6079, 188, 237, 5, 28, "Input"],
+Cell[6319, 195, 278, 5, 30, "Text"],
+Cell[6600, 202, 279, 7, 28, "Input"],
+Cell[6882, 211, 389, 9, 28, "Input"],
+Cell[7274, 222, 299, 7, 30, "Text"],
+Cell[7576, 231, 115, 2, 28, "Input"],
+Cell[7694, 235, 1012, 29, 46, "Input"],
+Cell[8709, 266, 308, 5, 49, "Text"],
+Cell[9020, 273, 277, 4, 28, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9334, 282, 120, 1, 44, "Subsection"],
+Cell[9457, 285, 357, 7, 49, "Text"],
+Cell[9817, 294, 122, 2, 28, "Input"],
+Cell[9942, 298, 295, 7, 28, "Input"],
+Cell[10240, 307, 225, 4, 30, "Text"],
+Cell[10468, 313, 233, 5, 28, "Input"],
+Cell[10704, 320, 476, 12, 28, "Input"],
+Cell[11183, 334, 266, 6, 30, "Text"],
+Cell[11452, 342, 137, 2, 28, "Input"],
+Cell[11592, 346, 323, 8, 28, "Input"],
+Cell[11918, 356, 284, 7, 28, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
