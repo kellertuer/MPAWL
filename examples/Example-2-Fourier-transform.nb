@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     15259,        451]
-NotebookOptionsPosition[     13190,        385]
-NotebookOutlinePosition[     13719,        406]
-CellTagsIndexPosition[     13676,        403]
+NotebookDataLength[     15915,        469]
+NotebookOptionsPosition[     13769,        401]
+NotebookOutlinePosition[     14298,        422]
+CellTagsIndexPosition[     14255,        419]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -305,6 +305,17 @@ Cell[BoxData[
 
  CellChangeTimes->{{3.5855461334750557`*^9, 3.585546137385312*^9}}],
 
+Cell["\<\
+Of course now, the values correspond to the same order used above with \
+respect to the basis of the generating set\
+\>", "Text",
+ CellChangeTimes->{{3.585548248447962*^9, 3.585548301514982*^9}}],
+
+Cell[BoxData[
+ RowBox[{"generatingSetBasis", "[", 
+  RowBox[{"Transpose", "[", "mM", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.585548281368471*^9, 3.585548291406822*^9}}],
+
 Cell["Due to ", "Text",
  CellChangeTimes->{{3.5855462882349052`*^9, 3.585546288922772*^9}, 
    3.585547335023238*^9}],
@@ -357,9 +368,14 @@ Cell[BoxData[
   3.585546793382532*^9, 3.585546801462391*^9}, {3.5855468349491587`*^9, 
   3.585546837094754*^9}}],
 
-Cell["And of course the inverse transform yields again ", "Text",
+Cell[TextData[{
+ "again using the above ordering of the indices but now with respect to the \
+generating set of ",
+ StyleBox["Transpose[mM]", "Code"],
+ ". Of course the inverse transform yields again "
+}], "Text",
  CellChangeTimes->{{3.5855468774691553`*^9, 3.5855468879943237`*^9}, 
-   3.585546935657735*^9}],
+   3.585546935657735*^9, {3.585548329606914*^9, 3.585548361813231*^9}}],
 
 Cell[BoxData[
  RowBox[{"FourierTransformTorus", "[", 
@@ -440,17 +456,19 @@ Cell[9452, 285, 129, 2, 28, "Input"],
 Cell[9584, 289, 203, 4, 28, "Input"],
 Cell[9790, 295, 158, 2, 30, "Text"],
 Cell[9951, 299, 274, 6, 28, "Input"],
-Cell[10228, 307, 117, 2, 30, "Text"],
-Cell[10348, 311, 153, 3, 28, "Input"],
-Cell[10504, 316, 189, 4, 30, "Text"],
-Cell[10696, 322, 292, 5, 28, "Input"],
-Cell[10991, 329, 334, 8, 30, "Text"],
-Cell[11328, 339, 120, 2, 28, "Input"],
-Cell[11451, 343, 301, 6, 28, "Input"],
-Cell[11755, 351, 303, 6, 28, "Input"],
-Cell[12061, 359, 161, 2, 30, "Text"],
-Cell[12225, 363, 268, 5, 28, "Input"],
-Cell[12496, 370, 666, 11, 68, "Text"]
+Cell[10228, 307, 205, 4, 30, "Text"],
+Cell[10436, 313, 174, 3, 28, "Input"],
+Cell[10613, 318, 117, 2, 30, "Text"],
+Cell[10733, 322, 153, 3, 28, "Input"],
+Cell[10889, 327, 189, 4, 30, "Text"],
+Cell[11081, 333, 292, 5, 28, "Input"],
+Cell[11376, 340, 334, 8, 30, "Text"],
+Cell[11713, 350, 120, 2, 28, "Input"],
+Cell[11836, 354, 301, 6, 28, "Input"],
+Cell[12140, 362, 303, 6, 28, "Input"],
+Cell[12446, 370, 355, 7, 30, "Text"],
+Cell[12804, 379, 268, 5, 28, "Input"],
+Cell[13075, 386, 666, 11, 68, "Text"]
 }, Open  ]]
 }, Open  ]]
 }
