@@ -9,21 +9,16 @@
 
 
 (* ::Subtitle:: *)
-(*de La Vall\[EAcute]e Poussin kernel as scaling functions and corresponding wavelets*)
-
-
-(* ::Text:: *)
-(*This part of the Library should not be included by itself. Instead the whole Library should be loaded  by*)
-(*using Needs["MPAWL`"].*)
+(*de La Vall\[EAcute]e Poussin means as scaling functions and corresponding wavelets*)
 
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		15.11.2012*)
-(*Last Changed: 	04.03.2013*)
+(*Last Changed: 	16.08.2013*)
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*License*)
 
 
@@ -51,18 +46,14 @@
 BeginPackage["MPAWL`deLaValleePoussin`",
 {
 (*External dependencies*)
-"SmithFormV6`" (* provided in this package, written by
-Adriano Pascoletti, see
-http://library.wolfram.com/infocenter/MathSource/7081/
-*),
+"SmithFormV6`" (* provided in this package, written by Adriano Pascoletti, see http://library.wolfram.com/infocenter/MathSource/7081/ *),
 "MPAWL`Basics`",
 "MPAWL`Pattern`",
 "MPAWL`genSet`",
 "MPAWL`TISpace`",
 "MPAWL`Visualization`",
 "MPAWL`Transforms`"
-}
-];
+}];
 
 
 (* ::Section:: *)
@@ -73,21 +64,22 @@ dilationMatrix2D::usage = "dilationMatrix2D[letter]
 
 represents the 2-dimensional dilation matrices available in the de la Vall\[EAcute]e
 Poussin case. These are named by letters and an additional sign for some
-matrices, in total these are: \[OpenCurlyDoubleQuote]X\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]Y\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]D\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]T+\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]T-\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]S-\[CloseCurlyDoubleQuote] and \[OpenCurlyDoubleQuote]S+\[CloseCurlyDoubleQuote]";
+matrices, in total these are: \[OpenCurlyDoubleQuote]X\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]Y\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]D\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]Y+\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]Y-\[CloseCurlyDoubleQuote], \[OpenCurlyDoubleQuote]X-\[CloseCurlyDoubleQuote] and \[OpenCurlyDoubleQuote]X+\[CloseCurlyDoubleQuote]";
 
 
 pyramidFunction::usage = "pyramidFunction[\[Alpha],x]
 
-The d-dimensional analog of the de la Vall\[EAcute]e Poussin mean
-shrunken for generality on the symmetric unitcube, i.e. having
-a support from -1/2-\[Alpha] to 1/2+\[Alpha] in each dimension.
+The d-dimensional analog of the pyramid function, the de la Vall\[EAcute]e
+Poussin mean are build on. These are here shrunken for generality
+onto  the symmetric unitcube, i.e. having a support from -1/2-\[Alpha] to
+1/2+\[Alpha] in each dimension.
 
 \[Alpha] may be a nonnegative number less than 1/2 or an array of
 d elements containing such numbers, where d is the length of x.";
 
 
 (* ::Subsection:: *)
-(*de La Vallee Poussin Kernels and subspaces*)
+(*de La Vallee Poussin means and subspaces*)
 
 
 delaValleePoussinMean::usage = "delaValleePoussinMean[g,mM]
@@ -280,13 +272,7 @@ dilationMatrix2D["X-"] := {{2,0},{-1,1}};
 dilationMatrix2D["Y-"] := {{1,-1},{0,2}};
 
 
-dilationMatrix2D["S+"] := {{2,0},{1,1}};
-dilationMatrix2D["T+"] := {{1,1},{0,2}};
-dilationMatrix2D["S-"] := {{2,0},{-1,1}};
-dilationMatrix2D["T-"] := {{1,-1},{0,2}};
-
-
-localdlVPMatChars = {"X","Y","D","S+","S-","T+","T-","X+","X-","Y+","Y-"};
+localdlVPMatChars = {"X","Y","D","X+","X-","Y+","Y-"};
 
 
 pyramidFunction[\[Alpha]_,x_] := Which[ Abs[x] <= 1/2-\[Alpha],1, (1/2-\[Alpha]<Abs[x]) && (Abs[x]<1/2+\[Alpha]),(1/2+\[Alpha]-Abs[x])/(2\[Alpha]),True,0]/;((\[Alpha]>0)&&(\[Alpha]<= 1/2) && (NumberQ[x]))
@@ -348,8 +334,9 @@ Module[{d,adM,suppV, InvMt,t1,ck\[CurlyPhi]M,max,origin,x},
 	max = Table[Max[Ceiling[((1/2+supp[[j]])Transpose[mM].#)[[j]] &/@getAllDirs[d]]]+1,{j,1,d}];
 	origin = max+1;	
 	If[StringCount[db,"Text"]>0,Print["Computing de la Vall\[EAcute]e Poussin coefficients..."]];
-	t1 = Timing[ck\[CurlyPhi]M = Table[1/adM*g[InvMt.Table[Subscript[x,j],{j,1,d}]]
-	,Evaluate[Sequence@@Table[{Subscript[x, j],-max[[j]],max[[j]]},{j,1,d}]]];][[1]];
+	t1 = Timing[ck\[CurlyPhi]M = Table[
+			1/adM*g[InvMt.Table[x[j],{j,1,d}]]
+		,Evaluate[Sequence@@Table[{x[j],-max[[j]],max[[j]]},{j,1,d}]]];][[1]];
 	If[StringCount[db,"Time"]>0,Print["Creating the de La Vall\[EAcute]e Poussin kernel took ",t1," seconds."]];		
 	Return[ck\[CurlyPhi]M];
 ]/; (VectorQ[supp,NumberQ] && Length[supp] == Dimensions[mM][[1]]);
@@ -476,17 +463,15 @@ Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,In
 					getPatternNormalform[mJ, validateMatrix -> False]
 					,Target -> "Symmetric", validateMatrix -> False]
 					,{{0,0}}])[[1]]);
-		(* for these kernels, provided supp g \[SubsetEqual] [-1,1]^d this summation is enough *)
-		(* BnSum[{x_,y_}] := Sum[g[{x,y}+Transpose[mJ].z]
-			,{z,Flatten[Table[Table[Subscript[e,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[e,j],-2,2},{j,1,d}]]],1]}];*)
-		BnSum[x_] := Sum[g[x+Transpose[mJ].If[NumberQ[z],{z},z]]
-			,{z,Flatten[Table[Table[Subscript[e,j],{j,1,d}],Evaluate[Sequence@@Table[{Subscript[e,j],-2,2},{j,1,d}]]],1]}];
+		BnSum[x_] := Sum[
+				g[x+Transpose[mJ].If[NumberQ[z],{z},z]]
+			,{z,Flatten[Table[Table[e[j],{j,1,d}],Evaluate[Sequence@@Table[{e[j],-2,2},{j,1,d}]]],1]}];
 		If[StringCount[db,"Text"]>0,Print["Computing the scaling function coefficients..."]];
 		coeffS = ConstantArray[0,epsilon];
 		t1 = AbsoluteTiming[
 			Do[
-				coeffS[[Sequence@@(Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1) ]] = Abs[Det[mJ]]*BnSum[InvNt.(modM[Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False])];
-				,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
+				coeffS[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1) ]] = Abs[Det[mJ]]*BnSum[InvNt.(modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False])];
+				,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
 			][[1]];
 		If[StringCount[db,"Time"]>0,Print["Scaling function coefficients computed in ",t1," seconds."]];
 		(**)
@@ -494,11 +479,10 @@ Module[{d,dN,epsilon,mN,InvNt,adN,hM,NTg,\[Lambda]g,coeffS,coeffW,t1,BnSum,dM,In
 		coeffW = ConstantArray[0,epsilon];
 		t1 = AbsoluteTiming[
 			Do[
-				coeffW[[Sequence\[NonBreakingSpace]@@\[NonBreakingSpace](Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+1)]] =
-					(*Abs[Det[mJ]]*)
-					Exp[-2 Pi I (InvNy.(Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}].hM))]*
-					coeffS[[Sequence @@(modM[Table[Subscript[\[Epsilon], k],{k,1,Length[epsilon]}]+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]];
-				,Evaluate[Sequence@@Table[{Subscript[\[Epsilon], k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
+				coeffW[[Sequence\[NonBreakingSpace]@@\[NonBreakingSpace](Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1)]] =
+					Exp[-2 Pi I (InvNy.(Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM))]*
+					coeffS[[Sequence @@(modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}]+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]];
+				,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]];
 			][[1]];
 		If[StringCount[db,"Time"]>0,Print["Wavelet function coefficients computed in ",t1," seconds."]];
 		Return[{coeffS,coeffW}];
