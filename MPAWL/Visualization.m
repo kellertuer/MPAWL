@@ -337,9 +337,10 @@ dim = Length[resolution];
 t1 = AbsoluteTiming[
 	image = localPaddAndFourierTransform[resolution,coefficients,origin,MPAWL`Debug-> OptionValue[MPAWL`Debug], MPAWL`Validate-> False];
 	Do[
-		image[[Sequence@@Table[Subscript[k, j],{j,1,dim}]\[NonBreakingSpace]]] = 
-		f[2\[Pi] (Table[(Subscript[k, j] - resolution[[j]]/2)/resolution[[j]],{j,1,dim}]) ] - 
-		image[[Sequence@@Table[Subscript[k, j],{j,1,dim}]\[NonBreakingSpace]]];,Evaluate[Sequence@@ Table[{Subscript[k, l],1,resolution[[l]]},{l,1,dim}]]
+		image[[Sequence@@Table[k[j],{j,1,dim}]\[NonBreakingSpace]]] = 
+		f[2\[Pi] (Table[(k[j] - resolution[[j]]/2)/resolution[[j]],{j,1,dim}]) ] - 
+		image[[Sequence@@Table[k[j],{j,1,dim}]\[NonBreakingSpace]]];
+		,Evaluate[Sequence@@ Table[{k[l],1,resolution[[l]]},{l,1,dim}]]
 	];
 	image = Chop[N[Re[image]]];
 	min = Min[image];max=Max[image];
