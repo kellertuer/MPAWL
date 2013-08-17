@@ -1,0 +1,959 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     33635,        950]
+NotebookOptionsPosition[     30668,        860]
+NotebookOutlinePosition[     31180,        880]
+CellTagsIndexPosition[     31137,        877]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Example 5", "Subsubtitle",
+ CellChangeTimes->{{3.561784903322611*^9, 3.561784914734438*^9}, {
+  3.5855442449811163`*^9, 3.585544245709262*^9}, {3.585544364225713*^9, 
+  3.585544364400597*^9}, {3.585544546786407*^9, 3.585544547049386*^9}, {
+  3.585575431155713*^9, 3.585575431493561*^9}, {3.585654008462853*^9, 
+  3.585654008934771*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+De la Vallee Poussin means and nested spaces\
+\>", "Title",
+ CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
+  3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
+  3.585537653026313*^9}, {3.585542528085225*^9, 3.58554253224314*^9}, {
+  3.585544162354004*^9, 3.5855441725463533`*^9}, {3.5855445490096292`*^9, 
+  3.585544552121216*^9}, {3.585575420661229*^9, 3.58557542659937*^9}, {
+  3.585654011903544*^9, 3.58565402499827*^9}}],
+
+Cell["\<\
+For a set of dilation matrices this demo illustrates nested spaces build by \
+scaling functions of de la Vall\[EAcute]e Poussin type.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.561788081362376*^9, 3.56178816956818*^9}, {
+  3.5855441822319193`*^9, 3.5855442385494347`*^9}, {3.5855445841757603`*^9, 
+  3.5855446199258966`*^9}, {3.5855754351385202`*^9, 3.5855754749521427`*^9}, {
+  3.5856540372836018`*^9, 3.585654075004908*^9}}],
+
+Cell["\<\
+Author: \t\tRonny Bergmann
+Created: \t\t16.08.2013
+Last Changed: \t16.08.2013\
+\>", "Program",
+ CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
+   3.5855435520430107`*^9, 3.585575663357239*^9, {3.5856540790885687`*^9, 
+   3.585654081001156*^9}, 3.585663258699765*^9}],
+
+Cell[CellGroupData[{
+
+Cell["License", "Subsubsection",
+ CellChangeTimes->{{3.585537355831193*^9, 3.585537363963532*^9}}],
+
+Cell["\<\
+    This file is part of MPAWL.
+  
+      MPAWL is free software : you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+  
+      MPAWL is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+  
+      You should have received a copy of the GNU General Public License
+    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.\
+\>", "Program",
+ CellChangeTimes->{{3.585537405416844*^9, 3.585537461767535*^9}, {
+  3.585537502312166*^9, 3.585537513376918*^9}, {3.585537694042321*^9, 
+  3.5855377067755623`*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Loading the Library", "Subsection",
+ CellChangeTimes->{{3.561785031749501*^9, 3.561785066774623*^9}, {
+  3.585537743617692*^9, 3.585537746062161*^9}}],
+
+Cell[TextData[{
+ "The MPAWL is located in the parent directory (see ",
+ StyleBox["MPAWL.m", "Program"],
+ ") in order to load the library, we add its path to ",
+ StyleBox["$Path", "Code"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585537766270393*^9, 3.585537868296885*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$Path", " ", "=", " ", 
+   RowBox[{"Join", "[", 
+    RowBox[{"$Path", ",", 
+     RowBox[{"{", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetDirectory", "[", 
+    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
+  RowBox[{"(*", 
+   RowBox[{"Set", " ", "to", " ", "actual", " ", "directory"}], 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<MPAWL`\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.561784454440884*^9, 3.561784464446355*^9}}],
+
+Cell["\<\
+Both constructions, the generalized de la Vall\[EAcute]e Poussin menas and \
+their subspaces are inverstigated in Chapter 4 in [1] (in german), up to \
+their ability to form an MRA.\
+\>", "Text",
+ CellChangeTimes->{{3.5856594705091887`*^9, 3.585659539393813*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["De la Vall\[EAcute]e Poussin mean", "Subsection",
+ CellChangeTimes->{{3.5856582300057993`*^9, 3.585658250230215*^9}}],
+
+Cell["\<\
+The de la Vall\[EAcute]e Poussin means from the onedimensional case are given \
+in theis Fourier coefficients as samplings of a linear function, more \
+precisely a pyramid function, for example using\
+\>", "Text",
+ CellChangeTimes->{{3.585654809598308*^9, 3.585654881268702*^9}, {
+  3.585654916542615*^9, 3.585654917206237*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "pyramidFunction"}]], "Input",
+ CellChangeTimes->{{3.58565488439067*^9, 3.5856548852236958`*^9}, {
+  3.585654919400625*^9, 3.5856549218723183`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"pyramidFunction", "[", 
+    RowBox[{
+     RowBox[{"1", "/", "8"}], ",", "x"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585654991933886*^9, 3.585655043638132*^9}, {
+  3.5856551037669973`*^9, 3.58565510527453*^9}}],
+
+Cell["\<\
+and similar for higher dimensions, where they may have different decays, e.g.\
+\
+\>", "Text",
+ CellChangeTimes->{{3.585655050226223*^9, 3.5856550680479116`*^9}, {
+  3.5856551156131773`*^9, 3.5856551329075603`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"pyramidFunction", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"1", "/", "8"}], ",", 
+       RowBox[{"1", "/", "4"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}]}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", 
+     RowBox[{"-", "1"}], ",", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585655069958819*^9, 3.58565510962855*^9}}],
+
+Cell[TextData[{
+ "These are then sampled at the points ",
+ StyleBox["Transpose[Inverse[mM]].k", "Code"],
+ ", where k is an integer vector. For generality, the de la Vall\[EAcute]e \
+Poussin means can be obtained by any function g, as can be seen in the ",
+ StyleBox["::usage", "Code"],
+ ". Though for the pyramidal cases, there is a shorthand: When g is a value \
+or a vector representing \[Alpha], where even more for the higher dimensions \
+\[Alpha] may be a value indicating, that each dimension has the same decay. \
+For these, the support is known and we don\[CloseCurlyQuote]t have to specify \
+that option.\n\nFurthermore the function can also directly compute the \
+corresponding Bracket sums:"
+}], "Text",
+ CellChangeTimes->{{3.585655226837751*^9, 3.5856554597742357`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "delaValleePoussinMean"}]], "Input",
+ CellChangeTimes->{{3.585654307630838*^9, 3.585654329054044*^9}}],
+
+Cell["\<\
+For simplicity lets first look at a diagonal matrix. The coefficients are \
+computed and the array does at least cover the complete support. Let\
+\[CloseCurlyQuote]s look at the image of the Fourier coefficients. As in the \
+previous example, the origin is in the middle of the array\
+\>", "Text",
+ CellChangeTimes->{{3.585655477471862*^9, 3.5856554910049543`*^9}, {
+  3.5856555850328083`*^9, 3.5856556307976294`*^9}, {3.585655661285288*^9, 
+  3.58565567848654*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mM", " ", "=", " ", 
+   RowBox[{"32", 
+    RowBox[{"IdentityMatrix", "[", "2", "]"}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585655474768112*^9, 3.5856555034811983`*^9}, {
+  3.585656745847501*^9, 3.585656762295142*^9}, {3.585658904048334*^9, 
+  3.585658904498023*^9}, {3.5856593182421017`*^9, 3.5856593479290733`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ck\[CurlyPhi]M", " ", "=", " ", 
+   RowBox[{"delaValleePoussinMean", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"pyramidFunction", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"1", "/", "14"}], ",", 
+          RowBox[{"1", "/", "14"}]}], "}"}], ",", "#"}], "]"}], "&"}], ",", 
+     "mM", ",", " ", 
+     RowBox[{"Support", "\[Rule]", 
+      RowBox[{"{", " ", 
+       RowBox[{
+        RowBox[{"1", "/", "14"}], ",", 
+        RowBox[{"1", "/", "14"}]}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"max", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Dimensions", "[", "ck\[CurlyPhi]M", "]"}], "-", "1"}], ")"}], 
+    "/", "2"}]}], ";", " ", 
+  RowBox[{"origin", " ", "=", " ", 
+   RowBox[{"max", "+", "1"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.585655467986004*^9, 3.585655472094185*^9}, {
+  3.5856555070021887`*^9, 3.5856555211180353`*^9}, {3.585655634150539*^9, 
+  3.58565568798214*^9}, {3.585656013694062*^9, 3.585656083354747*^9}, {
+  3.585656888522263*^9, 3.5856568900966167`*^9}}],
+
+Cell["Where we specify the datarange ", "Text",
+ CellChangeTimes->{{3.58565598175244*^9, 3.585655986299761*^9}, 
+   3.585656739372046*^9}],
+
+Cell[BoxData[
+ RowBox[{"ListPointPlot3D", "[", 
+  RowBox[{"ck\[CurlyPhi]M", ",", 
+   RowBox[{"DataRange", "\[Rule]", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "max"}], ",", "max"}], "}"}], "]"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585655689985586*^9, 3.5856557691373377`*^9}, {
+  3.585655920363336*^9, 3.585655964565102*^9}}],
+
+Cell["This is the same as using", "Text",
+ CellChangeTimes->{{3.5856560011341667`*^9, 3.585656005773531*^9}, 
+   3.585656149305052*^9}],
+
+Cell[BoxData[
+ RowBox[{"ListPointPlot3D", "[", 
+  RowBox[{
+   RowBox[{"delaValleePoussinMean", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"1", "/", "14"}], ",", 
+       RowBox[{"1", "/", "14"}]}], "}"}], ",", "mM"}], "]"}], ",", 
+   RowBox[{"DataRange", "\[Rule]", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "max"}], ",", "max"}], "}"}], "]"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585656116114686*^9, 3.585656140147264*^9}}],
+
+Cell["\<\
+Or even shorter for this case due to the same decay in both dimensions\
+\>", "Text",
+ CellChangeTimes->{{3.5856561592362556`*^9, 3.585656192220723*^9}, 
+   3.5856567785447483`*^9}],
+
+Cell[BoxData[
+ RowBox[{"ListPointPlot3D", "[", 
+  RowBox[{
+   RowBox[{"delaValleePoussinMean", "[", 
+    RowBox[{
+     RowBox[{"1", "/", "14"}], ",", "mM"}], "]"}], ",", 
+   RowBox[{"DataRange", "\[Rule]", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "max"}], ",", "max"}], "}"}], "]"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585656199073107*^9, 3.585656203145158*^9}}],
+
+Cell["\<\
+The same works for arbitrary matrices, where we ommit the axis \
+\>", "Text",
+ CellChangeTimes->{{3.5856566271304893`*^9, 3.58565665109953*^9}, 
+   3.5856568314105*^9}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"M2", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"16", ",", "12"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "16"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ck\[CurlyPhi]M2", " ", "=", " ", 
+   RowBox[{"delaValleePoussinMean", "[", 
+    RowBox[{
+     RowBox[{"1", "/", "14"}], ",", "M2"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"max2", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Dimensions", "[", "ck\[CurlyPhi]M2", "]"}], "-", "1"}], ")"}],
+      "/", "2"}]}], ";", " ", 
+   RowBox[{"origin2", " ", "=", " ", 
+    RowBox[{"max2", "+", "1"}]}], ";"}]}]}], "Input",
+ CellChangeTimes->{{3.585656860066674*^9, 3.585656906409617*^9}, {
+  3.585658910663417*^9, 3.585658920203433*^9}, {3.585659401942973*^9, 
+  3.585659402358354*^9}}],
+
+Cell[BoxData[
+ RowBox[{"ListPointPlot3D", "[", 
+  RowBox[{"ck\[CurlyPhi]M2", ",", 
+   RowBox[{"DataRange", "\[Rule]", " ", 
+    RowBox[{"Transpose", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "max2"}], ",", "max2"}], "}"}], "]"}]}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.585656664566383*^9, 3.58565670362648*^9}, {
+  3.585656785707329*^9, 3.5856568084770117`*^9}, {3.585656848743627*^9, 
+  3.585656858179387*^9}, {3.585656916544836*^9, 3.585656935467927*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[CurlyPhi]2", "[", "x_", "]"}], " ", ":=", " ", 
+   RowBox[{"Sum", "[", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ck\[CurlyPhi]M2", "[", 
+       RowBox[{"[", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             SubscriptBox["k", "1"], ",", 
+             SubscriptBox["k", "2"]}], "}"}], "+", "origin2"}], ")"}]}], 
+        "]"}], "]"}], 
+      RowBox[{"Exp", "[", 
+       RowBox[{"I", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           SubscriptBox["k", "1"], ",", 
+           SubscriptBox["k", "2"]}], "}"}], ".", "x"}]}], "]"}]}], " ", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "1"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "2"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.58565696237741*^9, 3.585657033389122*^9}, {
+  3.585657063685183*^9, 3.5856571053674593`*^9}, {3.585657876210153*^9, 
+  3.585657877075995*^9}, {3.585658142712613*^9, 3.585658148618883*^9}, {
+  3.585658385173849*^9, 3.585658447758012*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[CurlyPhi]2Term", " ", "=", " ", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"\[CurlyPhi]2", "[", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5856571108522882`*^9, 3.5856571412873697`*^9}, 
+   3.5856575537712917`*^9}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"Chop", "[", "\[CurlyPhi]2Term", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", " ", "All"}], ",", 
+   RowBox[{"MaxRecursion", "\[Rule]", " ", "6"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585657787615193*^9, 3.585657810440836*^9}, {
+  3.585658069338235*^9, 3.5856580812973213`*^9}, {3.58565833959938*^9, 
+  3.585658353645269*^9}, {3.585658818323456*^9, 3.5856588484957333`*^9}, {
+  3.585658938743003*^9, 3.585658938877963*^9}, {3.5856590084708843`*^9, 
+  3.585659012149824*^9}}],
+
+Cell["\<\
+Where the corresponding Dirichlet Kernel looks like the following (and is the \
+limit case for \[Alpha] -> 0)\
+\>", "Text",
+ CellChangeTimes->{{3.5856590176735497`*^9, 3.5856590629955263`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ckDM2", " ", "=", " ", 
+   RowBox[{"DirichletKernel", "[", "M2", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{" ", 
+  RowBox[{
+   RowBox[{"maxD", " ", "=", " ", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Dimensions", "[", "ckDM2", "]"}], "-", "1"}], ")"}], "/", 
+     "2"}]}], ";", " ", 
+   RowBox[{"originD", " ", "=", " ", 
+    RowBox[{"maxD", "+", "1"}]}], ";"}]}]}], "Input",
+ CellChangeTimes->{{3.585656860066674*^9, 3.585656906409617*^9}, {
+  3.585658910663417*^9, 3.585658920203433*^9}, {3.5856589653044558`*^9, 
+  3.585659001654233*^9}, {3.585659067027669*^9, 3.585659101036311*^9}, {
+  3.585659389780778*^9, 3.585659393144313*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"d", "[", "x_", "]"}], " ", ":=", " ", 
+   RowBox[{"Sum", "[", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ckDM2", "[", 
+       RowBox[{"[", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             SubscriptBox["k", "1"], ",", 
+             SubscriptBox["k", "2"]}], "}"}], "+", "originD"}], ")"}]}], 
+        "]"}], "]"}], 
+      RowBox[{"Exp", "[", 
+       RowBox[{"I", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           SubscriptBox["k", "1"], ",", 
+           SubscriptBox["k", "2"]}], "}"}], ".", "x"}]}], "]"}]}], " ", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "1"], ",", 
+       RowBox[{"-", 
+        RowBox[{"maxD", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{"maxD", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "2"], ",", 
+       RowBox[{"-", 
+        RowBox[{"maxD", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+       RowBox[{"maxD", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.58565696237741*^9, 3.585657033389122*^9}, {
+  3.585657063685183*^9, 3.5856571053674593`*^9}, {3.585657876210153*^9, 
+  3.585657877075995*^9}, {3.585658142712613*^9, 3.585658148618883*^9}, {
+  3.585658385173849*^9, 3.585658447758012*^9}, {3.5856591052449408`*^9, 
+  3.585659152832336*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dTerm", " ", "=", " ", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"d", "[", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5856571108522882`*^9, 3.5856571412873697`*^9}, 
+   3.5856575537712917`*^9, {3.585659157129313*^9, 3.5856591604817142`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"Chop", "[", "dTerm", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", " ", "All"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585657787615193*^9, 3.585657810440836*^9}, {
+  3.585658069338235*^9, 3.5856580812973213`*^9}, {3.58565833959938*^9, 
+  3.585658353645269*^9}, {3.585658818323456*^9, 3.5856588484957333`*^9}, {
+  3.585658938743003*^9, 3.585658938877963*^9}, {3.585659164385479*^9, 
+  3.58565916471189*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Subspaces", "Subsection",
+ CellChangeTimes->{{3.585659444350801*^9, 3.585659455228753*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"For", " ", "any", " ", "function", " ", 
+    SubscriptBox["\[CurlyPhi]", "M"], "M", " ", "and", " ", "a", " ", 
+    "factorization", " ", "of", " ", "the", " ", "regular", " ", "matrix", 
+    " ", "M"}], " ", "=", " ", 
+   RowBox[{
+   "JN", " ", "into", " ", "interger", " ", "matrices", " ", "J", " ", "and", 
+    " ", "N"}]}], ",", " ", 
+  RowBox[{
+  "we", " ", "would", " ", "like", " ", "to", " ", "obtain", " ", "a", " ", 
+   "function", " ", 
+   SubscriptBox["\[CurlyPhi]", "N"], " ", "which", " ", "is", " ", "in", " ", 
+   "the", " ", "space", " ", "of", " ", "translates"}], ",", " ", 
+  RowBox[{
+   RowBox[{"i", ".", "e", ".", " ", "span"}], 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       SubscriptBox["\[CurlyPhi]", "M"], 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"\[SmallCircle]", 
+          RowBox[{"-", "2"}]}], "\[Pi]y"}], ")"}]}], ",", " ", 
+      RowBox[{"y", "\[Element]", " ", 
+       RowBox[{"\[ScriptCapitalP]", 
+        RowBox[{"(", "M", ")"}]}]}]}], "}"}], ".", " ", "These"}], " ", "are",
+    " ", "characterized", " ", "by", " ", "either", " ", "a", " ", "set", " ",
+    "of", " ", "coefficients", " ", "with", " ", "respect", " ", "to", " ", 
+   "these", " ", "shifts", " ", "and", " ", "hence", " ", "a", " ", "value", 
+   " ", "for", " ", "each", " ", "point", " ", "of", " ", "the", " ", 
+   StyleBox[
+    RowBox[{"pattern", "[", "M", "]"}], "Code"], " ", "or", " ", "similarly", 
+   " ", 
+   RowBox[{"(", 
+    RowBox[{
+    "in", " ", "their", " ", "discrete", " ", "Fourer", " ", "transform"}], 
+    ")"}], " ", "on", " ", "the", " ", "generating", " ", 
+   RowBox[{"set", ".", " ", "First"}]}], ",", " ", 
+  RowBox[{
+  "the", " ", "main", " ", "matrices", " ", "for", " ", "factorization", " ", 
+   "are", " ", "in", " ", "the", " ", "dyadic", " ", "case", " ", "given", 
+   " ", "by"}]}]], "Text",
+ CellChangeTimes->{{3.585659681486109*^9, 3.585659953802567*^9}, {
+  3.5856600305178223`*^9, 3.5856600441517076`*^9}},
+ FontFamily->"Arial"],
+
+Cell[BoxData[
+ RowBox[{"?", "dilationMatrix2D"}]], "Input",
+ CellChangeTimes->{{3.5856542522307167`*^9, 3.585654261137269*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{
+   RowBox[{"MatrixForm", "[", 
+    RowBox[{"dilationMatrix2D", "[", "L", "]"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"L", ",", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<X\>\"", ",", "\"\<Y\>\"", ",", "\"\<D\>\"", ",", "\"\<Y+\>\"", 
+       ",", "\"\<Y-\>\"", ",", "\"\<X+\>\"", ",", "\"\<X-\>\""}], "}"}]}], 
+    "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585659962635997*^9, 3.585660011718041*^9}}],
+
+Cell["We use", "Text",
+ CellChangeTimes->{{3.585660116472467*^9, 3.585660125629612*^9}}],
+
+Cell[BoxData[
+ RowBox[{"mN", " ", "=", " ", 
+  RowBox[{
+   RowBox[{"Inverse", "[", 
+    RowBox[{"dilationMatrix2D", "[", "\"\<X\>\"", "]"}], "]"}], ".", 
+   "M2"}]}]], "Input",
+ CellChangeTimes->{{3.585660067619206*^9, 3.585660098871832*^9}}],
+
+Cell[TextData[{
+ "and define the smaller de la Vall\[EAcute]e Poussin mean by its (discrete \
+Fourier transform of the) space coefficients. again a function g models the \
+decay of the coefficients of \[CurlyPhi]N. Furthermore, in this dyadic case, \
+we obtain one wavelet, whose translates (with respect to ",
+ StyleBox["pattern[mN]", "Code"],
+ ") form the orthogonal complement of the translates of ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[CurlyPhi]", "N"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "in the bigger space ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[CurlyPhi]", "M"], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585660129207563*^9, 3.5856601327459784`*^9}, {
+  3.585660190649877*^9, 3.585660270366961*^9}, {3.58566032703446*^9, 
+  3.585660406324297*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "delaValleePoussinSubspaces"}]], "Input",
+ CellChangeTimes->{3.585660283001575*^9}],
+
+Cell[BoxData[
+ RowBox[{"Again", " ", "these", " ", "coefficients", " ", "characterizing", 
+  " ", 
+  SubscriptBox["\[CurlyPhi]", "N"], " ", "in", " ", 
+  SubscriptBox["\[CurlyPhi]", "M"], " ", "are", " ", "given", " ", "in", " ", 
+  "the", " ", "frequency", " ", 
+  RowBox[{"domain", "."}]}]], "Text",
+ CellChangeTimes->{{3.5856608217608423`*^9, 3.5856608869946127`*^9}},
+ FontFamily->"Arial"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"coeffS", ",", "coeffW"}], "}"}], " ", "=", " ", 
+   RowBox[{"delaValleePoussinSubspaces", "[", 
+    RowBox[{
+     RowBox[{"1", "/", "14"}], ",", "M2", ",", 
+     RowBox[{"dilationMatrix2D", "[", "\"\<X\>\"", "]"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585660415823843*^9, 3.585660449513805*^9}}],
+
+Cell["\<\
+we can reconstruct the Fourier coefficients using the function from the \
+translation invariant spaces Example 4\
+\>", "Text",
+ CellChangeTimes->{{3.585660620611924*^9, 3.585660657483346*^9}, 
+   3.585660849524849*^9}],
+
+Cell[BoxData[
+ RowBox[{"?", "getFourierFromSpace"}]], "Input",
+ CellChangeTimes->{{3.585660782022233*^9, 3.585660786857851*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ck\[CurlyPhi]N", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"coeffS", ",", "ck\[CurlyPhi]M2", ",", "origin2", ",", "M2"}], 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585660791615837*^9, 3.585660811459037*^9}, {
+  3.585660893924841*^9, 3.585660915638331*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[CurlyPhi]N", "[", "x_", "]"}], " ", ":=", " ", 
+   RowBox[{"Sum", "[", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ck\[CurlyPhi]N", "[", 
+       RowBox[{"[", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             SubscriptBox["k", "1"], ",", 
+             SubscriptBox["k", "2"]}], "}"}], "+", "origin2"}], ")"}]}], 
+        "]"}], "]"}], 
+      RowBox[{"Exp", "[", 
+       RowBox[{"I", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           SubscriptBox["k", "1"], ",", 
+           SubscriptBox["k", "2"]}], "}"}], ".", "x"}]}], "]"}]}], " ", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "1"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "2"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.58565696237741*^9, 3.585657033389122*^9}, {
+  3.585657063685183*^9, 3.5856571053674593`*^9}, {3.585657876210153*^9, 
+  3.585657877075995*^9}, {3.585658142712613*^9, 3.585658148618883*^9}, {
+  3.585658385173849*^9, 3.585658447758012*^9}, {3.5856609444733686`*^9, 
+  3.5856609516612387`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[CurlyPhi]NTerm", " ", "=", " ", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"\[CurlyPhi]N", "[", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5856571108522882`*^9, 3.5856571412873697`*^9}, 
+   3.5856575537712917`*^9, {3.585660958572043*^9, 3.585660964327867*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"Chop", "[", "\[CurlyPhi]NTerm", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", " ", "All"}], ",", 
+   RowBox[{"MaxRecursion", "\[Rule]", " ", "6"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585657787615193*^9, 3.585657810440836*^9}, {
+  3.585658069338235*^9, 3.5856580812973213`*^9}, {3.58565833959938*^9, 
+  3.585658353645269*^9}, {3.585658818323456*^9, 3.5856588484957333`*^9}, {
+  3.585658938743003*^9, 3.585658938877963*^9}, {3.5856590084708843`*^9, 
+  3.585659012149824*^9}, {3.585660969903315*^9, 3.585660971717037*^9}}],
+
+Cell["And the same for the corresponding wavelet", "Text",
+ CellChangeTimes->{{3.5856609947164507`*^9, 3.585661007871683*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ck\[Psi]N", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"coeffW", ",", "ck\[CurlyPhi]M2", ",", "origin2", ",", "M2"}], 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585660791615837*^9, 3.585660811459037*^9}, {
+  3.585660893924841*^9, 3.585660915638331*^9}, {3.585661013299531*^9, 
+  3.585661025550652*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"\[Psi]N", "[", "x_", "]"}], " ", ":=", " ", 
+   RowBox[{"Sum", "[", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"ck\[Psi]N", "[", 
+       RowBox[{"[", 
+        RowBox[{"Sequence", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             SubscriptBox["k", "1"], ",", 
+             SubscriptBox["k", "2"]}], "}"}], "+", "origin2"}], ")"}]}], 
+        "]"}], "]"}], 
+      RowBox[{"Exp", "[", 
+       RowBox[{"I", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           SubscriptBox["k", "1"], ",", 
+           SubscriptBox["k", "2"]}], "}"}], ".", "x"}]}], "]"}]}], " ", ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "1"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       SubscriptBox["k", "2"], ",", 
+       RowBox[{"-", 
+        RowBox[{"max2", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+       RowBox[{"max2", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.58565696237741*^9, 3.585657033389122*^9}, {
+  3.585657063685183*^9, 3.5856571053674593`*^9}, {3.585657876210153*^9, 
+  3.585657877075995*^9}, {3.585658142712613*^9, 3.585658148618883*^9}, {
+  3.585658385173849*^9, 3.585658447758012*^9}, {3.5856609444733686`*^9, 
+  3.5856609516612387`*^9}, {3.585661028364484*^9, 3.585661032864376*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Psi]NTerm", " ", "=", " ", 
+   RowBox[{"Simplify", "[", 
+    RowBox[{"\[Psi]N", "[", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "y"}], "}"}], "]"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5856571108522882`*^9, 3.5856571412873697`*^9}, 
+   3.5856575537712917`*^9, {3.585660958572043*^9, 3.585660964327867*^9}, {
+   3.58566103852221*^9, 3.585661042943522*^9}}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"Chop", "[", "\[Psi]NTerm", "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"x", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"y", ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", " ", "All"}], ",", 
+   RowBox[{"MaxRecursion", "\[Rule]", " ", "6"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585657787615193*^9, 3.585657810440836*^9}, {
+  3.585658069338235*^9, 3.5856580812973213`*^9}, {3.58565833959938*^9, 
+  3.585658353645269*^9}, {3.585658818323456*^9, 3.5856588484957333`*^9}, {
+  3.585658938743003*^9, 3.585658938877963*^9}, {3.5856590084708843`*^9, 
+  3.585659012149824*^9}, {3.585660969903315*^9, 3.585660971717037*^9}, {
+  3.585661047871409*^9, 3.585661048456243*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Literature", "Subsection",
+ CellChangeTimes->{{3.5856595425894117`*^9, 3.585659550310967*^9}}],
+
+Cell[TextData[{
+ "[1] Bergmann, R., ",
+ StyleBox["Translationsinvariante R\[ADoubleDot]ume multivariater anisotroper \
+Funktionen auf dem Torus",
+  FontSlant->"Italic"],
+ ", Dissertation, University of L\[UDoubleDot]beck, 2013."
+}], "Text",
+ CellChangeTimes->{{3.585659551977853*^9, 3.5856596267172947`*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1282, 1022},
+WindowMargins->{{437, Automatic}, {Automatic, 31}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 342, 5, 29, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[924, 29, 475, 8, 92, "Title"],
+Cell[1402, 39, 436, 7, 29, "Subsubtitle"],
+Cell[1841, 48, 294, 7, 74, "Program"],
+Cell[CellGroupData[{
+Cell[2160, 59, 98, 1, 35, "Subsubsection"],
+Cell[2261, 62, 872, 18, 228, "Program"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3170, 85, 156, 2, 36, "Subsection"],
+Cell[3329, 89, 270, 7, 31, "Text"],
+Cell[3602, 98, 635, 18, 63, "Input"],
+Cell[4240, 118, 273, 5, 30, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4550, 128, 123, 1, 44, "Subsection"],
+Cell[4676, 131, 338, 6, 30, "Text"],
+Cell[5017, 139, 176, 3, 28, "Input"],
+Cell[5196, 144, 370, 10, 28, "Input"],
+Cell[5569, 156, 224, 5, 30, "Text"],
+Cell[5796, 163, 547, 17, 28, "Input"],
+Cell[6346, 182, 782, 13, 106, "Text"],
+Cell[7131, 197, 130, 2, 28, "Input"],
+Cell[7264, 201, 476, 8, 49, "Text"],
+Cell[7743, 211, 357, 7, 28, "Input"],
+Cell[8103, 220, 1124, 31, 63, "Input"],
+Cell[9230, 253, 138, 2, 30, "Text"],
+Cell[9371, 257, 377, 9, 28, "Input"],
+Cell[9751, 268, 135, 2, 30, "Text"],
+Cell[9889, 272, 499, 14, 28, "Input"],
+Cell[10391, 288, 190, 4, 30, "Text"],
+Cell[10584, 294, 415, 11, 28, "Input"],
+Cell[11002, 307, 178, 4, 30, "Text"],
+Cell[11183, 313, 925, 28, 63, "Input"],
+Cell[12111, 343, 481, 11, 28, "Input"],
+Cell[12595, 356, 1493, 43, 28, "Input"],
+Cell[14091, 401, 320, 8, 28, "Input"],
+Cell[14414, 411, 739, 16, 28, "Input"],
+Cell[15156, 429, 203, 4, 30, "Text"],
+Cell[15362, 435, 704, 18, 46, "Input"],
+Cell[16069, 455, 1523, 44, 28, "Input"],
+Cell[17595, 501, 346, 8, 28, "Input"],
+Cell[17944, 511, 669, 15, 28, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18650, 531, 97, 1, 44, "Subsection"],
+Cell[18750, 534, 2051, 47, 72, "Text"],
+Cell[20804, 583, 127, 2, 28, "Input"],
+Cell[20934, 587, 462, 12, 28, "Input"],
+Cell[21399, 601, 88, 1, 30, "Text"],
+Cell[21490, 604, 242, 6, 28, "Input"],
+Cell[21735, 612, 842, 20, 51, "Text"],
+Cell[22580, 634, 111, 2, 28, "Input"],
+Cell[22694, 638, 393, 8, 32, "Text"],
+Cell[23090, 648, 376, 10, 28, "Input"],
+Cell[23469, 660, 228, 5, 30, "Text"],
+Cell[23700, 667, 128, 2, 28, "Input"],
+Cell[23831, 671, 328, 7, 28, "Input"],
+Cell[24162, 680, 1545, 44, 28, "Input"],
+Cell[25710, 726, 366, 8, 28, "Input"],
+Cell[26079, 736, 785, 16, 28, "Input"],
+Cell[26867, 754, 126, 1, 30, "Text"],
+Cell[26996, 757, 372, 8, 28, "Input"],
+Cell[27371, 767, 1581, 44, 28, "Input"],
+Cell[28955, 813, 405, 9, 28, "Input"],
+Cell[29363, 824, 829, 17, 28, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[30229, 846, 100, 1, 44, "Subsection"],
+Cell[30332, 849, 308, 7, 30, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

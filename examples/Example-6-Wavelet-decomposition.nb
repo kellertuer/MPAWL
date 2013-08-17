@@ -1,0 +1,837 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     31569,        828]
+NotebookOptionsPosition[     28442,        732]
+NotebookOutlinePosition[     28953,        752]
+CellTagsIndexPosition[     28910,        749]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["Example 6", "Subsubtitle",
+ CellChangeTimes->{{3.561784903322611*^9, 3.561784914734438*^9}, {
+  3.5855442449811163`*^9, 3.585544245709262*^9}, {3.585544364225713*^9, 
+  3.585544364400597*^9}, {3.585544546786407*^9, 3.585544547049386*^9}, {
+  3.585575431155713*^9, 3.585575431493561*^9}, {3.585654008462853*^9, 
+  3.585654008934771*^9}, {3.5856633570945797`*^9, 3.5856633575216084`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Wavelet Decomposition", "Title",
+ CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
+  3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
+  3.585537653026313*^9}, {3.585542528085225*^9, 3.58554253224314*^9}, {
+  3.585544162354004*^9, 3.5855441725463533`*^9}, {3.5855445490096292`*^9, 
+  3.585544552121216*^9}, {3.585575420661229*^9, 3.58557542659937*^9}, {
+  3.585654011903544*^9, 3.58565402499827*^9}, {3.585663294577898*^9, 
+  3.585663300336165*^9}}],
+
+Cell["\<\
+For a set of dilation matrices this demo illustrates nested spaces build by \
+scaling functions of de la Vall\[EAcute]e Poussin type.\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.561788081362376*^9, 3.56178816956818*^9}, {
+  3.5855441822319193`*^9, 3.5855442385494347`*^9}, {3.5855445841757603`*^9, 
+  3.5855446199258966`*^9}, {3.5855754351385202`*^9, 3.5855754749521427`*^9}, {
+  3.5856540372836018`*^9, 3.585654075004908*^9}}],
+
+Cell["\<\
+Author: \t\tRonny Bergmann
+Created: \t\t16.08.2013
+Last Changed: \t16.08.2013\
+\>", "Program",
+ CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
+   3.5855435520430107`*^9, 3.585575663357239*^9, {3.5856540790885687`*^9, 
+   3.585654081001156*^9}, 3.585663258699765*^9}],
+
+Cell[CellGroupData[{
+
+Cell["License", "Subsubsection",
+ CellChangeTimes->{{3.585537355831193*^9, 3.585537363963532*^9}}],
+
+Cell["\<\
+    This file is part of MPAWL.
+  
+      MPAWL is free software : you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+  
+      MPAWL is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+  
+      You should have received a copy of the GNU General Public License
+    along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.\
+\>", "Program",
+ CellChangeTimes->{{3.585537405416844*^9, 3.585537461767535*^9}, {
+  3.585537502312166*^9, 3.585537513376918*^9}, {3.585537694042321*^9, 
+  3.5855377067755623`*^9}}]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Loading the Library", "Subsection",
+ CellChangeTimes->{{3.561785031749501*^9, 3.561785066774623*^9}, {
+  3.585537743617692*^9, 3.585537746062161*^9}}],
+
+Cell[TextData[{
+ "The MPAWL is located in the parent directory (see ",
+ StyleBox["MPAWL.m", "Program"],
+ ") in order to load the library, we add its path to ",
+ StyleBox["$Path", "Code"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585537766270393*^9, 3.585537868296885*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"$Path", " ", "=", " ", 
+   RowBox[{"Join", "[", 
+    RowBox[{"$Path", ",", 
+     RowBox[{"{", 
+      RowBox[{"ParentDirectory", "[", 
+       RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SetDirectory", "[", 
+    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], 
+  RowBox[{"(*", 
+   RowBox[{"Set", " ", "to", " ", "actual", " ", "directory"}], 
+   "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<MPAWL`\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.561784454440884*^9, 3.561784464446355*^9}}],
+
+Cell["\<\
+We first use the already known Dirichlet kernels to decompose a sampled image \
+of a certain Box spline. Then we also decompose the Box spline with the de la \
+Vall\[EAcute]e Poussin means in order to derive a more localised picture of \
+the edged we want to detect. The examples are taken from chapter 4 in [1] and \
+more details to the wavelet transform and its complexity can be found in [2].\
+\
+\>", "Text",
+ CellChangeTimes->{{3.58566411304694*^9, 3.585664203079937*^9}, {
+  3.5856663187634983`*^9, 3.585666350904036*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Sample the Box spline", "Subsection",
+ CellChangeTimes->{{3.585664206707323*^9, 3.585664232961286*^9}}],
+
+Cell["\<\
+We take the Box spline from Example 4 but introduce a new vizualization of \
+the Fourier series\
+\>", "Text",
+ CellChangeTimes->{{3.5856642356985693`*^9, 3.585664238334215*^9}, {
+  3.585664357484456*^9, 3.585664410024898*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"m\[CapitalXi]", " ", "=", " ", 
+   RowBox[{"\[Pi]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"1", "/", "8"}], ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"1", "/", "8"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"1", "/", "8"}], ",", 
+        RowBox[{
+         RowBox[{"-", "1"}], "/", "8"}]}], "}"}]}], "}"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ct", " ", "=", " ", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{"x", "/", "2"}], ",", "\[NonBreakingSpace]", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "m\[CapitalXi]"}], "}"}]}], "]"}]}], ";"}]}], "Input",\
+
+ CellChangeTimes->{
+  3.5039186842923098`*^9, {3.5039187219488373`*^9, 3.503918833562999*^9}, {
+   3.5039189173584013`*^9, 3.503918935647999*^9}, {3.503919017060658*^9, 
+   3.503919030284737*^9}, {3.5039191028630123`*^9, 3.5039191325023813`*^9}, {
+   3.5039191712192087`*^9, 3.5039192004170103`*^9}, {3.503919251342844*^9, 
+   3.503919281797329*^9}, {3.5039193785155687`*^9, 3.503919379091158*^9}, {
+   3.503919456394064*^9, 3.5039194573123827`*^9}, {3.503919537226652*^9, 
+   3.503919542612624*^9}, {3.503919773308127*^9, 3.503919776442552*^9}, {
+   3.503919850548209*^9, 3.503919877861145*^9}, {3.50392003670537*^9, 
+   3.5039200460915194`*^9}, {3.50392027305923*^9, 3.503920278826462*^9}, {
+   3.5044996167151814`*^9, 3.504499619939143*^9}, {3.504502393573703*^9, 
+   3.504502399628572*^9}, {3.5085845896176157`*^9, 3.508584589791716*^9}, {
+   3.516687984502013*^9, 3.5166879854347363`*^9}, {3.518348753320738*^9, 
+   3.5183487664700127`*^9}, {3.5604144238617373`*^9, 3.560414433533194*^9}, 
+   3.560414567245927*^9, {3.565068965938684*^9, 3.5650689671198072`*^9}, 
+   3.5650809101293497`*^9, 3.565243658529274*^9, {3.56978458719232*^9, 
+   3.56978459391978*^9}, {3.5855765185881567`*^9, 3.585576587090193*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"f", "[", "X_", "]"}], " ", ":=", 
+  RowBox[{"evaluateBoxSpline", "[", 
+   RowBox[{
+    RowBox[{"N", "[", "m\[CapitalXi]", "]"}], ",", 
+    RowBox[{"N", "[", 
+     RowBox[{"X", "+", " ", "ct"}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.516601421145957*^9, 3.516601438277596*^9}, {
+   3.516602124807948*^9, 3.5166021351090918`*^9}, 3.516602200594761*^9, {
+   3.560414414088305*^9, 3.5604144405787497`*^9}, {3.5604147606044483`*^9, 
+   3.5604147623731937`*^9}, {3.5604254386524553`*^9, 3.560425462465803*^9}, {
+   3.560426946426818*^9, 3.5604269471452217`*^9}, 3.5604325087796507`*^9, {
+   3.560435015969927*^9, 3.560435017871881*^9}, {3.560441529033148*^9, 
+   3.5604415332167473`*^9}, {3.560486498876748*^9, 3.5604865034438763`*^9}, {
+   3.571815990700861*^9, 3.571815999211589*^9}, {3.585576528420443*^9, 
+   3.5855765296689672`*^9}, {3.585576574219466*^9, 3.585576605539569*^9}, 
+   3.585576702515284*^9, {3.585577879122882*^9, 3.585577892060296*^9}, 
+   3.585664432409234*^9}],
+
+Cell[BoxData[
+ RowBox[{"Plot3D", "[", 
+  RowBox[{
+   RowBox[{"f", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      SubscriptBox["x", "1"], ",", 
+      SubscriptBox["x", "2"]}], "}"}], "]"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["x", "1"], ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["x", "2"], ",", 
+     RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+   RowBox[{"Ticks", " ", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], ",", 
+        RowBox[{
+         RowBox[{"-", "\[Pi]"}], "/", "2"}], ",", "0", ",", 
+        RowBox[{"\[Pi]", "/", "2"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"\[Pi]", ",", "\"\<\>\""}], "}"}]}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], ",", 
+        RowBox[{
+         RowBox[{"-", "\[Pi]"}], "/", "2"}], ",", "0", ",", 
+        RowBox[{"\[Pi]", "/", "2"}], ",", "\[Pi]"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"1", "/", "2"}], ",", "1"}], "}"}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.564900460723063*^9, 3.564900460988924*^9}, {
+   3.564908519137034*^9, 3.564908522040477*^9}, 3.564909564769824*^9, {
+   3.56509652158829*^9, 3.565096522060741*^9}, {3.5651548039901743`*^9, 
+   3.565154805188757*^9}, {3.5651756675203657`*^9, 3.56517566839789*^9}, {
+   3.565236808041092*^9, 3.565236809007689*^9}, {3.5652395279322033`*^9, 
+   3.565239533363698*^9}, {3.5652398734752817`*^9, 3.5652398865700893`*^9}, {
+   3.5652436635929813`*^9, 3.565243666135091*^9}, {3.56524949060079*^9, 
+   3.565249492760524*^9}, 3.5652495671570883`*^9, 3.565252093669478*^9, {
+   3.5652549615165987`*^9, 3.565254961966716*^9}, {3.571802444344022*^9, 
+   3.57180245157767*^9}, 3.575049003207944*^9, 3.583728027997389*^9, {
+   3.583802686179942*^9, 3.5838026880689077`*^9}, {3.583806142232151*^9, 
+   3.583806147001336*^9}, {3.5839000010261297`*^9, 3.5839001409880533`*^9}, {
+   3.5839002610273523`*^9, 3.583900261420002*^9}, 3.583901611416958*^9, 
+   3.5839016527819147`*^9, {3.5839023001667757`*^9, 3.583902326694503*^9}, {
+   3.5855765500346518`*^9, 3.5855765553878317`*^9}, 3.585576615585816*^9, {
+   3.5855766526885233`*^9, 3.5855766673133497`*^9}, {3.585576712809093*^9, 
+   3.585576754884853*^9}, 3.585664434806226*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mM", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"128", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "128"}], "}"}]}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5856645738545027`*^9, 3.585664582619351*^9}}],
+
+Cell["\<\
+By this size (16384 points) the sampling takes a while, hence loading the \
+samples is recommended.\
+\>", "Text",
+ CellChangeTimes->{{3.58566458480637*^9, 3.585664676989773*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "sampleFunction"}]], "Input",
+ CellChangeTimes->{{3.5856653086987267`*^9, 3.585665310813389*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"data", " ", "=", " ", 
+   RowBox[{"sampleFunction", "[", 
+    RowBox[{"mM", ",", "f", ",", " ", 
+     RowBox[{"Debug", "\[Rule]", " ", "\"\<Text&Time\>\""}], ",", " ", 
+     RowBox[{"File", "\[Rule]", " ", "\"\<example6/sampling-f.dat\>\""}]}], 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585664439193159*^9, 3.585664450803462*^9}}],
+
+Cell["\<\
+We will also use the save option (File -> ) for the coefficients of the \
+Dirichlet kernel and its bracket sums\
+\>", "Text",
+ CellChangeTimes->{{3.585665324341482*^9, 3.585665354118228*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The Dirichlet kernel", "Subsection",
+ CellChangeTimes->{{3.5856670427548943`*^9, 3.585667052576186*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "DirichletKernel"}]], "Input",
+ CellChangeTimes->{{3.58566531449791*^9, 3.58566531661831*^9}, {
+  3.5856657643955793`*^9, 3.5856657653948183`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"ckD", ",", "DBS"}], "}"}], " ", "=", " ", 
+   RowBox[{"DirichletKernel", "[", 
+    RowBox[{"mM", ",", " ", 
+     RowBox[{"File", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<example6/DirichletKernelM.dat\>\"", ",", 
+        "\"\<example6/DirichletKernelBS.dat\>\""}], "}"}]}], ",", 
+     RowBox[{"BracketSums", "\[Rule]", " ", "True"}], ",", 
+     RowBox[{"Debug", "\[Rule]", " ", "\"\<Text\>\""}], ",", 
+     RowBox[{"Orthonormalize", "\[Rule]", " ", "True"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585665244305749*^9, 3.585665302589869*^9}, {
+  3.58566663097589*^9, 3.585666641153327*^9}, {3.585666739370015*^9, 
+  3.585666746108755*^9}, {3.585667945456842*^9, 3.585667950414322*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"originD", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"Dimensions", "[", "ckD", "]"}], "+", "1"}], ")"}], "/", 
+    "2"}]}], ";", " ", 
+  RowBox[{"maxD", " ", "=", " ", 
+   RowBox[{"originD", "-", "1"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585665489324957*^9, 3.585665513888588*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "changeBasis"}]], "Input",
+ CellChangeTimes->{{3.585665775607155*^9, 3.5856657774997787`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"cdata", " ", "=", " ", 
+   RowBox[{"changeBasis", "[", 
+    RowBox[{"mM", ",", "data", ",", " ", "DBS", ",", 
+     RowBox[{"Debug", "\[Rule]", " ", "\"\<Text&Time\>\""}], ",", 
+     RowBox[{"Input", "\[Rule]", " ", "\"\<Time\>\""}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.5856656619629383`*^9, 3.585665671693479*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "getFourierFromSpace"}]], "Input",
+ CellChangeTimes->{{3.585665781974017*^9, 3.585665785014962*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ckdata", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"cdata", ",", "ckD", ",", "originD", ",", "mM"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585579603870535*^9, 3.585579607589077*^9}, {
+   3.585579660071509*^9, 3.5855797042249804`*^9}, {3.585579814747507*^9, 
+   3.585579816536366*^9}, 3.58558034985634*^9, {3.5855803800957527`*^9, 
+   3.585580384213269*^9}, {3.585665692686653*^9, 3.5856657042847433`*^9}}],
+
+Cell["\<\
+Which can (despite using functions and Plot3D also be visualized as an image \
+(where red indicates positive, blue the negative values)\
+\>", "Text",
+ CellChangeTimes->{{3.585666108349069*^9, 3.585666155516638*^9}, {
+  3.585667072349329*^9, 3.585667082428884*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "discretePlotFourierSeries"}]], "Input",
+ CellChangeTimes->{{3.585665937678774*^9, 3.5856659706861687`*^9}}],
+
+Cell["\<\
+In order to get the scaling - we have to compensate the (smaller) FOurier \
+transform with respect to mM by multiplying with its Determinant\
+\>", "Text",
+ CellChangeTimes->{{3.5856680764211693`*^9, 3.585668084417419*^9}, {
+  3.585668263496663*^9, 3.585668322827161*^9}}],
+
+Cell[BoxData[
+ RowBox[{"discretePlotFourierSeries", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"512", ",", "512"}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"Sqrt", "[", 
+     RowBox[{"Abs", "[", 
+      RowBox[{"Det", "[", "mM", "]"}], "]"}], "]"}], "*", "ckdata"}], ",", 
+   "originD", ",", 
+   RowBox[{"Frame", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Axes", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}], ",", " ", 
+   RowBox[{"ReturnVal", "\[Rule]", " ", "\"\<ColorImage\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.585666674205895*^9, 3.585666731044911*^9}, {
+  3.5856670027461042`*^9, 3.585667014681858*^9}, {3.5856680236103687`*^9, 
+  3.585668025140197*^9}, {3.5856680591719027`*^9, 3.585668060477046*^9}, {
+  3.585668145159183*^9, 3.5856681561696653`*^9}, {3.585668690864295*^9, 
+  3.5856686910541897`*^9}, {3.585668862573818*^9, 3.585668873305686*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The Wavelet tranfsorm", "Subsection",
+ CellChangeTimes->{{3.585667111220367*^9, 3.585667121618346*^9}}],
+
+Cell["If we now introduce two (dyadic) subspaces ", "Text",
+ CellChangeTimes->{{3.5856672393146677`*^9, 3.585667262666603*^9}, 
+   3.58566734821707*^9}],
+
+Cell[BoxData[
+ RowBox[{"?", "delaValleePoussinSubspaces"}]], "Input",
+ CellChangeTimes->{{3.585667998659459*^9, 3.585668004405612*^9}, {
+  3.585668035726056*^9, 3.58566803591717*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"coeffsDXS", ",", "coeffsDXW"}], "}"}], " ", "=", " ", 
+   RowBox[{"DirichletKernelSubspaces", "[", 
+    RowBox[{"mM", ",", 
+     RowBox[{"dilationMatrix2D", "[", "\"\<X\>\"", "]"}], ",", 
+     RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}], ",", 
+     RowBox[{"Orthonormalize", "\[Rule]", " ", "True"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667163261516*^9, 3.5856672334837637`*^9}, {
+  3.585667369666111*^9, 3.585667378486249*^9}, {3.585668340355566*^9, 
+  3.585668344673464*^9}, {3.585670515287037*^9, 3.5856705171315737`*^9}}],
+
+Cell["We can now decompose with a Wavelet transform", "Text",
+ CellChangeTimes->{{3.5856671258095627`*^9, 3.585667143033146*^9}, 
+   3.585667348217407*^9}],
+
+Cell[BoxData[
+ RowBox[{"?", "WaveletTransformTorus"}]], "Input",
+ CellChangeTimes->{{3.585667103244234*^9, 3.585667109721571*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"dataXS", ",", "dataXW"}], "}"}], " ", "=", " ", 
+   RowBox[{"WaveletTransformTorus", "[", 
+    RowBox[{"mM", ",", 
+     RowBox[{"dilationMatrix2D", "[", "\"\<X\>\"", "]"}], ",", "cdata", ",", 
+     "coeffsDXS", ",", "coeffsDXW", ",", 
+     RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667285445698*^9, 3.585667359259643*^9}, {
+   3.585667447044969*^9, 3.585667461331931*^9}, 3.585670171214878*^9, {
+   3.585670524151688*^9, 3.5856705310592117`*^9}}],
+
+Cell["\<\
+But we only look at the Wavelet part now, again by reconstructing and \
+creating the image, so we first need their Fourier coefficients\
+\>", "Text",
+ CellChangeTimes->{{3.58566751056*^9, 3.585667541427582*^9}, {
+  3.585667617875765*^9, 3.585667625750613*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ckDXW", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"coeffsDXW", ",", "ckD", ",", "originD", ",", "mM"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667595388102*^9, 3.5856676140603313`*^9}, 
+   3.585667784861706*^9, 3.585670536841661*^9}],
+
+Cell[TextData[{
+ "and can then recreate the Fourier coefficients of the data, which is in the \
+space of this function. The origin is the same, ",
+ StyleBox["but",
+  FontSlant->"Italic"],
+ " the matrix of course, is now N "
+}], "Text",
+ CellChangeTimes->{{3.5856676314900093`*^9, 3.585667683648587*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ckDataXW", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"dataXW", ",", "ckDXW", ",", "originD", ",", 
+     RowBox[{
+      RowBox[{"Inverse", "[", 
+       RowBox[{"dilationMatrix2D", "[", "\"\<X\>\"", "]"}], "]"}], ".", 
+      "mM"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585667544569622*^9, 3.58566755460588*^9}, {
+   3.585667693589085*^9, 3.5856677272166853`*^9}, {3.585668525745838*^9, 
+   3.5856685355474253`*^9}, 3.5856692871400414`*^9, 3.5856705472032747`*^9}],
+
+Cell[BoxData[
+ RowBox[{"discretePlotFourierSeries", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"512", ",", "512"}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"Sqrt", "[", 
+     RowBox[{"128", "*", "64"}], "]"}], "*", "ckDataXW"}], ",", "originD", 
+   ",", 
+   RowBox[{"Frame", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Axes", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}], ",", " ", 
+   RowBox[{"ReturnVal", "\[Rule]", " ", "\"\<ColorImage\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.585667746060761*^9, 3.585667748388481*^9}, 
+   3.585668539226591*^9, {3.585670215562483*^9, 3.585670219410098*^9}}],
+
+Cell["And we can also perform that e.g. for the Quincux matrix", "Text",
+ CellChangeTimes->{{3.58567047196227*^9, 3.585670493252884*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"coeffsDDS", ",", "coeffsDDW"}], "}"}], " ", "=", " ", 
+   RowBox[{"DirichletKernelSubspaces", "[", 
+    RowBox[{"mM", ",", 
+     RowBox[{"dilationMatrix2D", "[", "\"\<D\>\"", "]"}], ",", 
+     RowBox[{"Orthonormalize", "\[Rule]", " ", "True"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667163261516*^9, 3.5856672334837637`*^9}, {
+  3.585667369666111*^9, 3.585667378486249*^9}, {3.585668340355566*^9, 
+  3.585668344673464*^9}, {3.5856704616699257`*^9, 3.585670469589044*^9}, {
+  3.585670570209217*^9, 3.585670572054249*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"dataDS", ",", "dataDW"}], "}"}], " ", "=", " ", 
+   RowBox[{"WaveletTransformTorus", "[", 
+    RowBox[{"mM", ",", 
+     RowBox[{"dilationMatrix2D", "[", "\"\<D\>\"", "]"}], ",", "cdata", ",", 
+     "coeffsDDS", ",", "coeffsDDW", ",", 
+     RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667285445698*^9, 3.585667359259643*^9}, {
+   3.585667447044969*^9, 3.585667461331931*^9}, 3.585670171214878*^9, {
+   3.585670497511475*^9, 3.5856704978151608`*^9}, {3.585670579513598*^9, 
+   3.5856705925746813`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ckDDW", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"coeffsDDW", ",", "ckD", ",", "originD", ",", "mM"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585667595388102*^9, 3.5856676140603313`*^9}, 
+   3.585667784861706*^9, {3.5856705961970367`*^9, 3.585670600944522*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ckDataDW", " ", "=", " ", 
+   RowBox[{"getFourierFromSpace", "[", 
+    RowBox[{"dataDW", ",", "ckDDW", ",", "originD", ",", 
+     RowBox[{
+      RowBox[{"Inverse", "[", 
+       RowBox[{"dilationMatrix2D", "[", "\"\<D\>\"", "]"}], "]"}], ".", 
+      "mM"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.585667544569622*^9, 3.58566755460588*^9}, {
+   3.585667693589085*^9, 3.5856677272166853`*^9}, {3.585668525745838*^9, 
+   3.5856685355474253`*^9}, 3.5856692871400414`*^9, {3.58567060970479*^9, 
+   3.585670622387055*^9}}],
+
+Cell[BoxData[
+ RowBox[{"discretePlotFourierSeries", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"512", ",", "512"}], "}"}], ",", 
+   RowBox[{
+    RowBox[{"Sqrt", "[", 
+     RowBox[{"128", "*", "64"}], "]"}], "*", "ckDataDW"}], ",", "originD", 
+   ",", 
+   RowBox[{"Frame", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Axes", "\[Rule]", " ", "False"}], ",", 
+   RowBox[{"Debug", "\[Rule]", "\"\<Text&Time\>\""}], ",", " ", 
+   RowBox[{"ReturnVal", "\[Rule]", " ", "\"\<ColorImage\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.585667746060761*^9, 3.585667748388481*^9}, 
+   3.585668539226591*^9, {3.585670215562483*^9, 3.585670219410098*^9}, {
+   3.5856706295098677`*^9, 3.585670629801037*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["The de la Vall\[EAcute]e Poussin case", "Subsection",
+ CellChangeTimes->{{3.5856707558987703`*^9, 3.585670769160488*^9}}],
+
+Cell[BoxData[
+ RowBox[{"?", "delaValleePoussinMean"}]], "Input",
+ CellChangeTimes->{{3.585671109418928*^9, 3.5856711126921873`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"ckdlVP", ",", "dlVPBS"}], "}"}], " ", "=", " ", 
+   RowBox[{"delaValleePoussinMean", "[", 
+    RowBox[{
+     RowBox[{"1", "/", "14"}], ",", "mM", ",", " ", 
+     RowBox[{"File", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<example6/dlVPKernel.dat\>\"", ",", 
+        "\"\<example6/dlVPKernelBS.dat\>\""}], "}"}]}], ",", 
+     RowBox[{"BracketSums", "\[Rule]", " ", "True"}], ",", 
+     RowBox[{"Debug", "\[Rule]", " ", "\"\<Text\>\""}], ",", 
+     RowBox[{"Orthonormalize", "\[Rule]", " ", "True"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585671092775374*^9, 3.5856711537168627`*^9}, {
+  3.58567125406777*^9, 3.5856712592990227`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"cdata2", " ", "=", " ", 
+   RowBox[{"changeBasis", "[", 
+    RowBox[{"mM", ",", "data", ",", " ", "dlVPBS", ",", 
+     RowBox[{"Debug", "\[Rule]", " ", "\"\<Text&Time\>\""}], ",", 
+     RowBox[{"Input", "\[Rule]", " ", "\"\<Time\>\""}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.585671295188394*^9, 3.585671319314582*^9}}],
+
+Cell["\<\
+Then, the previous commands can also ber performed on multiple levels by using\
+\>", "Text",
+ CellChangeTimes->{{3.58567135149727*^9, 3.58567137731187*^9}, 
+   3.58567505275767*^9}],
+
+Cell[BoxData[
+ RowBox[{"?", "decomposeData2D"}]], "Input",
+ CellChangeTimes->{{3.585671380208164*^9, 3.585671383375458*^9}}],
+
+Cell[BoxData[
+ RowBox[{"decomposeData2D", "[", 
+  RowBox[{
+   RowBox[{"1", "/", "8"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"{", "\"\<X\>\"", "}"}], "}"}], ",", "mM", ",", "cdata2", ",", 
+   RowBox[{"ImagePrefix", "\[Rule]", "\"\<\>\""}], ",", 
+   RowBox[{"ImageSuffix", "\[Rule]", "\"\<\>\""}], ",", 
+   RowBox[{"DataPrefix", "\[Rule]", " ", "\"\<\>\""}], ",", 
+   RowBox[{"Debug", "\[Rule]", "\"\<Text&Time&Image\>\""}]}], "]"}]], "Input",\
+
+ CellChangeTimes->{{3.5856713908376617`*^9, 3.5856714316575613`*^9}, {
+  3.585672056311039*^9, 3.5856721033240747`*^9}, {3.585672696036874*^9, 
+  3.585672730279505*^9}, {3.585675031785137*^9, 3.5856750323135147`*^9}}],
+
+Cell["\<\
+For the small lines we decompose multiple level, where the first one shows, \
+that the isolation in the Dirichlet case is a small technical artefact.\
+\>", "Text",
+ CellChangeTimes->{{3.585676921302083*^9, 3.585676985485488*^9}}],
+
+Cell[BoxData[
+ RowBox[{"decomposeData2D", "[", 
+  RowBox[{
+   RowBox[{"1", "/", "14"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", "\"\<D\>\"", "}"}], ",", 
+     RowBox[{"{", "\"\<Y\>\"", "}"}], ",", 
+     RowBox[{"{", "\"\<Y\>\"", "}"}], ",", 
+     RowBox[{"{", "\"\<Y\>\"", "}"}], ",", 
+     RowBox[{"{", "\"\<X\>\"", "}"}]}], "}"}], ",", "mM", ",", "cdata2", ",", 
+   
+   RowBox[{"ImagePrefix", "\[Rule]", "\"\<\>\""}], ",", 
+   RowBox[{"ImageSuffix", "\[Rule]", "\"\<\>\""}], ",", 
+   RowBox[{"DataPrefix", "\[Rule]", " ", "\"\<example6/dlVP\>\""}], ",", 
+   RowBox[{"Debug", "\[Rule]", "\"\<Text&Time&Image\>\""}], ",", " ", 
+   RowBox[{"ColorLegend", "\[Rule]", " ", "False"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.585673713220644*^9, 3.5856737478597927`*^9}, {
+   3.585674225279207*^9, 3.585674227810602*^9}, {3.58567456838485*^9, 
+   3.585674572557316*^9}, 3.585675260738719*^9, {3.585675666436637*^9, 
+   3.5856756677066097`*^9}, {3.5856764998399487`*^9, 3.58567652895364*^9}, {
+   3.5856769121920147`*^9, 3.585676913174253*^9}, {3.585676989432588*^9, 
+   3.5856769979095984`*^9}, {3.585677975291059*^9, 3.585677975515794*^9}, {
+   3.5856792675579233`*^9, 3.585679301319357*^9}}],
+
+Cell["\<\
+Here, the length of the lines is well reproduces, while the separation is \
+not, but there are also just 512 translates of the last wavelet which is 1/16 \
+of the diagonal case in the first decomposition step.\
+\>", "Text",
+ CellChangeTimes->{{3.585679571717018*^9, 3.585679648184658*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Literature", "Subsection",
+ CellChangeTimes->{{3.5856595425894117`*^9, 3.585659550310967*^9}}],
+
+Cell[TextData[{
+ "[1] Bergmann, R., ",
+ StyleBox["Translationsinvariante R\[ADoubleDot]ume multivariater anisotroper \
+Funktionen auf dem Torus",
+  FontSlant->"Italic"],
+ ", Dissertation, University of L\[UDoubleDot]beck, 2013."
+}], "Text",
+ CellChangeTimes->{{3.585659551977853*^9, 3.5856596267172947`*^9}}],
+
+Cell[TextData[{
+ "[2] R.Bergmann, ",
+ StyleBox["The fast Fourier transform and fast wavelet transform for patterns \
+on the torus",
+  FontSlant->"Italic"],
+ ", Appl. Comp. Harmon. Anal. 35 (2013) 39\[Dash]51, doi: ",
+ ButtonBox["10.1016/j.acha .2012 .07 .007",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://dx.doi.org/10.1016/j.acha.2012.07.007"], None},
+  ButtonNote->"http://dx.doi.org/10.1016/j.acha.2012.07.007"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585572609227313*^9, 3.585572616009447*^9}, {
+  3.585572717305231*^9, 3.5855727173078423`*^9}, {3.585573098697709*^9, 
+  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1282, 1022},
+WindowMargins->{{131, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 392, 5, 29, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[974, 29, 493, 7, 92, "Title"],
+Cell[1470, 38, 436, 7, 29, "Subsubtitle"],
+Cell[1909, 47, 294, 7, 74, "Program"],
+Cell[CellGroupData[{
+Cell[2228, 58, 98, 1, 35, "Subsubsection"],
+Cell[2329, 61, 872, 18, 228, "Program"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[3238, 84, 156, 2, 36, "Subsection"],
+Cell[3397, 88, 270, 7, 31, "Text"],
+Cell[3670, 97, 635, 18, 63, "Input"],
+Cell[4308, 117, 537, 9, 68, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4882, 131, 109, 1, 44, "Subsection"],
+Cell[4994, 134, 236, 5, 30, "Text"],
+Cell[5233, 141, 2080, 46, 46, "Input"],
+Cell[7316, 189, 1022, 18, 28, "Input"],
+Cell[8341, 209, 2383, 53, 28, "Input"],
+Cell[10727, 264, 305, 9, 28, "Input"],
+Cell[11035, 275, 188, 4, 30, "Text"],
+Cell[11226, 281, 125, 2, 28, "Input"],
+Cell[11354, 285, 376, 8, 28, "Input"],
+Cell[11733, 295, 201, 4, 30, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11971, 304, 110, 1, 44, "Subsection"],
+Cell[12084, 307, 175, 3, 28, "Input"],
+Cell[12262, 312, 786, 18, 46, "Input"],
+Cell[13051, 332, 353, 10, 28, "Input"],
+Cell[13407, 344, 122, 2, 28, "Input"],
+Cell[13532, 348, 366, 8, 28, "Input"],
+Cell[13901, 358, 128, 2, 28, "Input"],
+Cell[14032, 362, 479, 9, 28, "Input"],
+Cell[14514, 373, 274, 5, 30, "Text"],
+Cell[14791, 380, 136, 2, 28, "Input"],
+Cell[14930, 384, 281, 5, 30, "Text"],
+Cell[15214, 391, 911, 19, 46, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16162, 415, 109, 1, 44, "Subsection"],
+Cell[16274, 418, 152, 2, 30, "Text"],
+Cell[16429, 422, 183, 3, 28, "Input"],
+Cell[16615, 427, 616, 13, 28, "Input"],
+Cell[17234, 442, 155, 2, 30, "Text"],
+Cell[17392, 446, 130, 2, 28, "Input"],
+Cell[17525, 450, 576, 13, 28, "Input"],
+Cell[18104, 465, 270, 5, 30, "Text"],
+Cell[18377, 472, 309, 7, 28, "Input"],
+Cell[18689, 481, 303, 7, 30, "Text"],
+Cell[18995, 490, 536, 11, 28, "Input"],
+Cell[19534, 503, 648, 15, 46, "Input"],
+Cell[20185, 520, 137, 1, 30, "Text"],
+Cell[20325, 523, 603, 13, 28, "Input"],
+Cell[20931, 538, 628, 14, 28, "Input"],
+Cell[21562, 554, 335, 7, 28, "Input"],
+Cell[21900, 563, 561, 12, 28, "Input"],
+Cell[22464, 577, 700, 16, 46, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23201, 598, 127, 1, 44, "Subsection"],
+Cell[23331, 601, 132, 2, 28, "Input"],
+Cell[23466, 605, 733, 18, 46, "Input"],
+Cell[24202, 625, 368, 8, 28, "Input"],
+Cell[24573, 635, 191, 4, 30, "Text"],
+Cell[24767, 641, 124, 2, 28, "Input"],
+Cell[24894, 645, 659, 13, 28, "Input"],
+Cell[25556, 660, 239, 4, 30, "Text"],
+Cell[25798, 666, 1203, 23, 46, "Input"],
+Cell[27004, 691, 299, 5, 49, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27340, 701, 100, 1, 44, "Subsection"],
+Cell[27443, 704, 308, 7, 30, "Text"],
+Cell[27754, 713, 660, 15, 30, "Text"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
