@@ -238,10 +238,10 @@ Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
 	whether to perform a check (via isMatrixValid[mM]) on the matrix mM and mJ(s)
 	Validity of data. If some matrices mN in the decomposition are not valid,
 	the algorithm continues on the other leaves.
-Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote]
+Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote]  | \[OpenCurlyDoubleQuote]Leaves\[OpenCurlyDoubleQuote]
 	or any combination of these Words in one String (i.e. concatenated via \[OpenCurlyDoubleQuote]&\[CloseCurlyDoubleQuote])
 	to produce intermediate results, indicate progress and display computation
-	times.
+	times. The Term \:201eLeaves\[OpenCurlyDoubleQuote]  restricts all debug output to just the last level.
 
 and any Option of discretePlotFourierSeries (including Plot and BarLegend), that
 are passed on and any Option of Export (especially Resolution but not ImageSize)
@@ -601,10 +601,13 @@ localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,im
 	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,hatW,wavN,ck\[CurlyPhi]M,origin,eOpts},
 	eOpts = {opts}~Join~Options[decomposeData2D];
+	(* Remove Debug from others, if not at a leaf *)
+    If[(StringCount[db,"Leaves"]>0)&&(Length[Rest[mJSetVec]]>0),eOpts = Append[FilterRules[eOpts,Except[MPAWL`Debug]],MPAWL`Debug -> "None"];];
 	thismJSet = First[mJSetVec]; mMg = First[gVec]; mNg = Take[gVec,{2}][[1]];
 	ck\[CurlyPhi]M = pck\[CurlyPhi]M;
 	If[ck\[CurlyPhi]M==None,
-		ck\[CurlyPhi]M = delaValleePoussinMean[mMg,mM, MPAWL`Debug -> db, MPAWL`validateMatrix -> False,
+		If[StringCount[db,"Leaves"]>0, Print["Computing the decomposition. Only Debug output of the leaves of the wavelet tree are printed."]];
+		ck\[CurlyPhi]M = delaValleePoussinMean[mMg,mM, MPAWL`Debug -> If[(StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0),db,"None"], MPAWL`validateMatrix -> False,
 			File -> If[StringLength[dataPre]>0,dataPre<>path<>"ckS.dat",None], FilterRules[{opts}, Options[delaValleePoussinMean]]];
 	];
 	Do[
@@ -614,11 +617,11 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 		,
 			If[StringCount[db,"Text"]>0,Print["Decompose ",MatrixForm[mM]," ",If[StringLength[path]>0,"("<>path<>") ",""]," with ",letter]];
 			{hatS,hatW} = delaValleePoussinSubspaces[mNg,mM,dilationMatrix2D[letter],
-				MPAWL`Debug -> db, MPAWL`Validate -> False, File -> If[StringLength[dataPre]>0,{dataPre<>path<>letter<>"-S.dat",dataPre<>path<>letter<>"-W.dat"},None],
+				MPAWL`Debug -> If[(StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0),db,"None"], MPAWL`Validate -> False, File -> If[StringLength[dataPre]>0,{dataPre<>path<>letter<>"-S.dat",dataPre<>path<>letter<>"-W.dat"},None],
 				FilterRules[eOpts, Options[delaValleePoussinSubspaces]]];
 			origin = (Dimensions[ck\[CurlyPhi]M]+1)/2;
 			{dataS,dataW} = WaveletTransformTorus[mM,dilationMatrix2D[letter],data,hatS,hatW,
-					MPAWL`Debug -> db, MPAWL`Validate -> False, FilterRules[eOpts,Options[WaveletTransformTorus]]];
+					MPAWL`Debug -> If[(StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0),db,"None"], MPAWL`Validate -> False, FilterRules[eOpts,Options[WaveletTransformTorus]]];
 			origin = (Dimensions[ck\[CurlyPhi]M]+1)/2;
 			ck\[Psi]N = getFourierFromSpace[hatW,ck\[CurlyPhi]M,origin,mM, MPAWL`Validate -> False];
 			ck\[CurlyPhi]N = getFourierFromSpace[hatS,ck\[CurlyPhi]M,origin,mM, MPAWL`Validate -> False];
@@ -626,10 +629,11 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				wavN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 					Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataW,ck\[Psi]N,origin,mN],origin,
 					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
-				If[StringCount[db,"Image"]>0,Print[wavN]];
+				If[(StringCount[db,"Image"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),Print[wavN]];
 				Do[
 				If[(StringLength[imagePre]>0)&&(StringLength[imageSuf]>0),
-					If[StringCount[db,"Text"]>0,Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
+					If[(StringCount[db,"Text"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),
+						Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
 					Export[imagePre<>"Wavelet-"<>path<>letter<>imageSuf,
 						Show[wavN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
 						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];
@@ -640,10 +644,11 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 						Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataS,ck\[CurlyPhi]N,origin,mN],origin,
 						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
-				If[StringCount[db,"Image"]>0,Print[ScalN]];
+				If[(StringCount[db,"Image"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),Print[ScalN]];
 				Do[
 				If[(StringLength[imagePre]>0)&&(StringLength[imageSuf]>0),
-					If[StringCount[db,"Text"]>0,Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
+					If[(StringCount[db,"Text"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),
+						Print["Exporting to File \[OpenCurlyDoubleQuote]",imagePre<>"Wavelet-"<>path<>letter<>imageSuf,"\[CloseCurlyDoubleQuote]"]];			
 					Export[imagePre<>"Scale-"<>path<>letter<>imageSuf,
 						Show[ScalN,Sequence@@FilterRules[{opts}, Options[Show]~Join~Options[Graphics]]],
 						Sequence@@FilterRules[eOpts,FilterRules[Options[Export]~Join~Options[Rasterize], Except[ImageSize]]]];

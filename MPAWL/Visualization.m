@@ -212,6 +212,7 @@ Options[createImageFromArray] = {ReturnVal -> "AbsoluteImage", MPAWL`Debug -> "N
 localPaddAndFourierTransform[resolution_, coefficients_,origin_,opts:OptionsPattern[]] :=
 	localPAndFT[resolution, coefficients, origin, OptionValue[MPAWL`Debug], OptionValue[MPAWL`Validate]];
 
+
 localPAndFT[resolution_, coefficients_, origin_, db_, True] := Module[{},
 	If[(Length[resolution]!=2) || (Length[origin]!=2) 
 		|| (Length[Dimensions[coefficients]] != 2),
@@ -352,7 +353,7 @@ t1 = AbsoluteTiming[
 If[StringCount[OptionValue[MPAWL`Debug],"Time"]>0,Print["Creating the image took ",t1," seconds"]];
 If[OptionValue[ReturnVal] == "Matrix",Return[image]];
 dataImg = ArrayPlot[
-If[OptionValue[ReturnVal]=="ColorImage", Map[RGBColor,ImageData[ImageRotate[image]],{2}],ImageData[ImageRotate[image]]],
+If[OptinValue[ReturnVal]=="ColorImage", Map[RGBColor,ImageData[ImageRotate[image]],{2}],ImageData[ImageRotate[image]]],
 DataRange-> {{-\[Pi],\[Pi]},{-\[Pi],\[Pi]}},PlotLegends-> If[OptionValue[ColorLegend],
 	Placed[createBarLegend[min,max,	FilterRules[{opts},Options[createBarLegend]~Join~Options[BarLegend]]],{1.01,.48}],None]];
 	remainingRules = FilterRules[Options[discretePlotFourierSeries],Except[{opts}]];

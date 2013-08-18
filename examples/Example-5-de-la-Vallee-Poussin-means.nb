@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     33635,        950]
-NotebookOptionsPosition[     30668,        860]
-NotebookOutlinePosition[     31180,        880]
-CellTagsIndexPosition[     31137,        877]
+NotebookDataLength[     33682,        951]
+NotebookOptionsPosition[     30715,        861]
+NotebookOutlinePosition[     31227,        881]
+CellTagsIndexPosition[     31184,        878]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -848,13 +848,14 @@ Cell["Literature", "Subsection",
  CellChangeTimes->{{3.5856595425894117`*^9, 3.585659550310967*^9}}],
 
 Cell[TextData[{
- "[1] Bergmann, R., ",
+ "[1] R. Bergmann, ",
  StyleBox["Translationsinvariante R\[ADoubleDot]ume multivariater anisotroper \
 Funktionen auf dem Torus",
   FontSlant->"Italic"],
  ", Dissertation, University of L\[UDoubleDot]beck, 2013."
 }], "Text",
- CellChangeTimes->{{3.585659551977853*^9, 3.5856596267172947`*^9}}]
+ CellChangeTimes->{{3.585659551977853*^9, 3.5856596267172947`*^9}, {
+  3.58580115876854*^9, 3.585801161995802*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
@@ -949,7 +950,7 @@ Cell[29363, 824, 829, 17, 28, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
 Cell[30229, 846, 100, 1, 44, "Subsection"],
-Cell[30332, 849, 308, 7, 30, "Text"]
+Cell[30332, 849, 355, 8, 30, "Text"]
 }, Open  ]]
 }, Open  ]]
 }
