@@ -626,9 +626,12 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 			ck\[Psi]N = getFourierFromSpace[hatW,ck\[CurlyPhi]M,origin,mM, MPAWL`Validate -> False];
 			ck\[CurlyPhi]N = getFourierFromSpace[hatS,ck\[CurlyPhi]M,origin,mM, MPAWL`Validate -> False];
 			If[OptionValue[computeWavelet],
-				wavN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
+			If[ ( (StringCount[db,"Image"]>0) && ((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)) )
+				||(StringLength[imagePre]>0), (*do we need to compute wavN? *)
+						wavN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 					Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataW,ck\[Psi]N,origin,mN],origin,
 					FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
+				];
 				If[(StringCount[db,"Image"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),Print[wavN]];
 				Do[
 				If[(StringLength[imagePre]>0)&&(StringLength[imageSuf]>0),
@@ -641,9 +644,12 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				,{imageSuf,imageSuffixes}];
 			];
 			If[OptionValue[computeScale],
-				ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
+			If[ ( (StringCount[db,"Image"]>0) && ((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)) )
+				||(StringLength[imagePre]>0), (*do we need to compute scalN? *)
+					ScalN = discretePlotFourierSeries[ConstantArray[OptionValue[PlotResolution],2],
 						Sqrt[Abs[Det[mN]]]*getFourierFromSpace[dataS,ck\[CurlyPhi]N,origin,mN],origin,
 						FilterRules[eOpts, Join @@ ( Options[#] & /@ {discretePlotFourierSeries,Plot,BarLegend,createBarLegend} )]];
+				];
 				If[(StringCount[db,"Image"]>0)&&((StringCount[db,"Leaves"]==0)||(Length[Rest[mJSetVec]]==0)),Print[ScalN]];
 				Do[
 				If[(StringLength[imagePre]>0)&&(StringLength[imageSuf]>0),
