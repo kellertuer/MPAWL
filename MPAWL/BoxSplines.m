@@ -239,7 +239,7 @@ Return[U];
 
 BoxSplineRecursion::usage = "BoxSplineRecursion[n,m,Y,t]
 
-Recursive computation based on L. Knobbelt (1997), where
+Recursive computation based on L. Kobbelt (1997), where
 
 	n holds the number of multiplicities of the vectors in X,
 	m is the current position in recursion tree
