@@ -10,6 +10,9 @@ Further, for the dyadic two-dimensional case, several visualization methods are 
 
 Several examples illustrate most of the implemented functions, each of which is equipped with an detailed `::usage` command.
 
+## Also available on
+This package is also available in the Wolfram Library Archive, see http://library.wolfram.com/infocenter/MathSource/8761/ 
+
 ## Software used in this package
 The Smith normal form package `SmithFormV6.m` was written by Adriano Pascoletti and is used with his permission. The package can be obtained at [http://library.wolfram.com/infocenter/MathSource/7081/](http://library.wolfram.com/infocenter/MathSource/7081/).
 
