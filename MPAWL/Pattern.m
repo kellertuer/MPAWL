@@ -240,10 +240,10 @@ gcdOnRows[m_,ci_,ri_] :=
 					If[Mod[cm[[ci,ci]],cm[[ri,ci]]]==0, 
 						fac=fac-Sign[cm[[ri,ci]]]*Sign[cm[[ci,ci]]];
 					]; (*we don't want to reach zero in this branch*)
-					cm[[ci]] = cm[[ci]]-fac*cm[[ri]]
+					cm[[ci]] = cm[[ci]]-fac*cm[[ri]];
 				,
 					fac = Quotient[cm[[ri,ci]],cm[[ci,ci]]];
-					cm[[ri]] = cm[[ri]] - fac*cm[[ci]]
+					cm[[ri]] = cm[[ri]] - fac*cm[[ci]];
 				];
 			];
 		];
