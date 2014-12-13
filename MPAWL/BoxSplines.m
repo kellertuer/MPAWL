@@ -15,7 +15,7 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Last Changed: 	13.12.2014*)
 
 
 (* ::Subsubtitle:: *)
@@ -85,13 +85,13 @@ evaluateBoxSpline[x]
 
 Evaluate s Box-Spline at the point or set of points x, each d-dimensional.
 
-The first \[CapitalXi] defines the Box-Spline using a multiset of vectors.
+The first \[CapitalXi] defines the Box-Spline using a multi set of vectors.
 The second by set of vectors \[CapitalXi] and its multiplicities \[Nu].
 If there was already a call of this function, the last one uses the last
 initialized Box-Spline for evaluation.";
 
 
-evaluateBoxSpline::PointUnsuitable = "The Point `1` you specified lies not inside the definition Range of the Box-Spline (which is the \!\(\*SuperscriptBox[\(\[DoubleStruckCapitalR]\), \(`2`\)]\)).";
+evaluateBoxSpline::PointUnsuitable = "The Point `1` you specified does not lie not inside the definition Range of the Box-Spline (which is the \!\(\*SuperscriptBox[\(\[DoubleStruckCapitalR]\), \(`d`\)]\)).";
 evaluateBoxSpline::NotInitialized = "Only specifying a Point is not enough if there is no initialized Box Spline.";
 
 

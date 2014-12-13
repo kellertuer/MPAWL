@@ -18,8 +18,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -73,7 +73,7 @@ False: The other way around
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.";
 
 
@@ -87,13 +87,13 @@ Options[reshapeData] := {MPAWL`Validate -> True};
 FourierTransformTorus::usage = "FourierTransformTorus[mM, b]
 
 Perform the Fourier transform on the pattern with respect to mM. b is either a
-vector of length m=|Det[mM]| or adressing the points with respect to the basis
+vector of length m=\!\(\*StyleBox[\"Abs[Det[mM]]\", \"Code\"]\) or addressing the points with respect to the basis
 of the pattern, i.e. the cycles having the length of the elementary divisors.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.
 
 Compute \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Numeric\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Exact\[CloseCurlyDoubleQuote]
@@ -130,7 +130,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	activate text output, either just text, timings or both
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.";
 
 
@@ -171,7 +171,7 @@ localReshapeData[mM_, data_,direction_,False] := Module[{d,m,dM,epsilon,r},
 	If[!direction, Return[data]]; (*if we should reshape to vector and it is a vector*)
 	Return[Table[
 			data[[ 1+Sum[
-			(*Sum over all adresses, where each cycleadress is spread over the
+			(*Sum over all addresses, where each cycle address is spread over the
 				following epsilons in product*)
 			Product[epsilon[[k]],{k,j+1,Length[epsilon]}]*r[j],
 			{j,1,Length[epsilon]}]

@@ -13,7 +13,7 @@
 
 
 (* ::Subsubtitle:: *)
-(*Basic functions that provide usefull toosl for every other subpackage*)
+(*Basic functions that provide useful tools for the complete Library*)
 
 
 (* ::Text:: *)
@@ -22,13 +22,13 @@
 
 
 (* ::Text:: *)
-(*This sub package provides basic checks and commands to verfiy arguments of functions*)
+(*This sub package provides basic checks and commands to verify arguments of functions*)
 
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -74,20 +74,20 @@ and integral.";
 
 isMatrixValid::noMatrix = "The argument `1` is not a quadratic matrix";
 isMatrixValid::noIntegerMatrix = "The argument `1` is not a an Integer matrix";
-isMatrixValid::nonRegular = "The argument `1` is a nonregular matrix";
+isMatrixValid::nonRegular = "The argument `1` is not a regular matrix";
 
 
 isDataValid::usage = "isDataValid[mM, data]
 
-Check, whether the given data array is a set of points adressed in the cycles
-of the (valid) matrix mM, i.e. it must be either of length m=Det[mM] or an 
+Check, whether the given data array is a set of points addressed in the cycles
+of the (valid) matrix mM, i.e. it must be either of length m=\!\(\*StyleBox[\"Abs[Det[mM]]\", \"Code\"]\) or an 
 array of Dimensions of the elementary divisors of mM that are greater than 1.
 
 
 isDataValid[data,d, m, \[Epsilon]]
 
 To avoid computation of the SNF, this method checks the same as above, where
-d=Dimensions[mM][[1]], m=|Det[mM]| and \[Epsilon] denotes the elementary divisors of mM.";
+d=Dimensions[mM][[1]], m=\!\(\*StyleBox[\"Abs[Det[mM]]\", \"Code\"]\) and \[Epsilon] denotes the elementary divisors of mM.";
 
 
 isDataValid::ErrorInData = "The data is of dimension `1`, which is either not a set of `2` points in total or not of shape `3`.";
@@ -95,9 +95,9 @@ isDataValid::ErrorInData = "The data is of dimension `1`, which is either not a 
 
 isIndexInRange::usage = "isIndexInRange[data,index]
 
-Check whether the vector index can adress a value in data, i.e. whether each
+Check whether the vector index can address a value in data, i.e. whether each
 entry of index corresponds to a valid entry in the corresponding dimension of
-data. If the dimensions of data is greater than index, this adressing might
+data. If the dimensions of data is greater than index, this addressing might
 return a vector itself, even in that case this method checks dimensions.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
@@ -106,8 +106,8 @@ StyleBox[\"\[OpenCurlyDoubleQuote]Positivity\[CloseCurlyDoubleQuote]\",\nFontSla
 	checks whether all indices are in Range and positive, negative or at least
 	nonzero.";
 
-isIndexInRange::tooManyIndices = "The index `1` has too many entries to adress a value or vector in the given data, which only consists of a `2`-dimensional Array.";
-isIndexInRange::NoIndexVector = "The specified Index `1` is not a vector, which is neccessary to adress data in any array.";
+isIndexInRange::tooManyIndices = "The index `1` has too many entries to index a value or vector in the given data, which only consists of a `2`-dimensional Array.";
+isIndexInRange::NoIndexVector = "The specified Index `1` is not a vector, which is necessary to address data in any array.";
 isIndexInRange::NoValidCheck = "No valid Check Option was given.";
 
 Options[isIndexInRange] = {Check -> "Positivity"};
@@ -125,10 +125,9 @@ loadCoefficients::usage = "loadCoefficients[waveletType, file]
 
 Load coefficients of data from file. The first argument should
 characterize the corresponding (scaling or wavelet) function completely, i.e.
-contain the matrix mM and for the non Dirichlet case the dilation matrix \!\(\*
-StyleBox[\"mJ\",\nFontWeight->\"Bold\"]\)
+contain the matrix mM and for the non Dirichlet case the dilation matrix mJ
 and a characterization of g, to check, whether it's the same shift invariant
-space. If file does not contain that type of coefficients, \!\(\*StyleBox[\"Null\",FontWeight\[Rule]\"Bold\"]\) is returned.";
+space. If file does not contain the specified type of coefficients, \!\(\*StyleBox[\"Null\", \"Code\"]\) is returned.";
 
 
 (* ::Section:: *)

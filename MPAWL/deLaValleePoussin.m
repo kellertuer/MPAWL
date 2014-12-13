@@ -14,8 +14,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		15.11.2012*)
-(*Last Changed: 	16.08.2013*)
+(*Created: 		2012-11-15*)
+(*Last Changed: 	2014-12-14xs*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -71,10 +71,10 @@ pyramidFunction::usage = "pyramidFunction[\[Alpha],x]
 
 The d-dimensional analog of the pyramid function, the de la Vall\[EAcute]e
 Poussin mean are build on. These are here shrunken for generality
-onto  the symmetric unitcube, i.e. having a support from -1/2-\[Alpha] to
+onto  the symmetric unit cube, i.e. having a support from -\!\(\*FractionBox[\(1\), \(2\)]\)-\[Alpha] to
 1/2+\[Alpha] in each dimension.
 
-\[Alpha] may be a nonnegative number less than 1/2 or an array of
+\[Alpha] may be a nonnegative number less than \!\(\*FractionBox[\(1\), \(2\)]\) or an array of
 d elements containing such numbers, where d is the length of x.";
 
 
@@ -85,10 +85,10 @@ d elements containing such numbers, where d is the length of x.";
 delaValleePoussinMean::usage = "delaValleePoussinMean[g,mM]
 
 Generate the de la Vall\[EAcute]e Poussin Kernel \!\(\*SubsuperscriptBox[\(\[CurlyPhi]\), \(M\), \(\[EmptySet]\)]\) in Fourier coefficients
-based on the function g and the matrix mM. While mM is an integral regular
-matrix of dimension d*d, the function g has to fullfill the three properties:
+based on the function g and the matrix mM. While mM is an integer regular
+matrix of dimension d*d, the function g has to fulfill the three properties:
 
-1) nonnegativity
+1) non-negativity
 2) strictly positive on the shifted (symmetric) unit cube
 3) For every x the sum over all integer shifts g(x+z) equals 1.
 
@@ -100,14 +100,14 @@ hence the array must be the same dimension as each dimension of mM.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
-BacketSums \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
+BracketSums \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
 	Compute the Bracket sums and return an array {ckV, BSV} consisting of the
 	Fourier coefficients ckV and the Bracket Sums BSV of the kernel.
 Orthonormalize \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
 	Perform an orthonormalization of the translates of the kernel with respect
 	to mM.
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.
 File \[Rule] \!\(\*StyleBox[\"None\",\nFontSlant\[Rule]\"Italic\"]\) | String | {String,String}
 	save the Fourier coefficients of the kernel to a file. If the Bracket sums
 	are computed too, there have to be two string, the first representing the
@@ -134,7 +134,7 @@ delaValleePoussinSubspaces::usage="delaValleePoussinSubspaces[g,mM,mJ]
 
 For any dyadic dilation matrix mJ and a function g fulfilling the properties:
 
-1) nonnegativity
+1) non-negativity
 2) strictly positive on the shifted (symmetric) unit cube
 3) For every x the sum over all integer shifts g(x+z) equals 1.
 
@@ -154,7 +154,7 @@ Orthonormalize \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	Perform an orthonormalization of the translates of both functions with
 	respect to mN.
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM, mJ
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
 	and mN.
 File \[Rule] \!\(\*StyleBox[\"None\",\nFontSlant\[Rule]\"Italic\"]\) | {String,String}
 	save the coefficients of both functions to a file each.
@@ -179,14 +179,14 @@ DirichletKernel::usage = "DirichletKernel[mM]
 
 provides a dirichlet kernel, which is a special case of the de la Vall\[EAcute]e Poussin mean,
 where g=0, hence pyramidalFunction[d,0] is used. Here, the same options as for
-the de la Vallee Poussin mean apply.";
+the de la Vall\[EAcute]e Poussin mean apply.";
 
 
 DirichletKernelSubspaces::usage = "DirichletKernelSubspaces[mM,mJ]
 
 provides the dirichlet kernel based subspaces, i.e. this function is the special case
 of the delaValleePoussinSubspaces, where g=0, hence pyramidalFunction[d,0] is used.
-Here, the same options as for the de la Vallee Poussin Subspaces apply.";
+Here, the same options as for the de la Vall\[EAcute]e Poussin Subspaces apply.";
 
 
 (* ::Subsection:: *)
@@ -197,8 +197,8 @@ decomposeData2D::usage="decomposeData2D[g(Vec), JSet(Vec), mM, data]
 decomposeData2D[l,g,JSet, mM, data, ck\[CurlyPhi]M]
 
 Decompose the data given as coefficients with respect to ck\[CurlyPhi]\[CurlyPhi] this
-method decomposes the data on different dialtionPaths given by JSet(Vec),
-where the corresponding de la Vallee Poussin means (and wavelets) are given by
+method decomposes the data on different dilationPaths given by JSet(Vec),
+where the corresponding de la Vall\[EAcute]e Poussin means (and wavelets) are given by
 g(Vec) (see delaValleePoussinMean for restrictions on g). The dilation matrices
 are given in terms of the characters used by dilationMatrix2D.
 
@@ -235,7 +235,7 @@ computeWavelet ->  \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]
 computeScale \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
 	whether to compute the scale part of the specific level and produce it's image
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM and mJ(s)
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM and mJ(s)
 	Validity of data. If some matrices mN in the decomposition are not valid,
 	the algorithm continues on the other leaves.
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote]  | \[OpenCurlyDoubleQuote]Leaves\[OpenCurlyDoubleQuote]
@@ -249,7 +249,7 @@ Show (especially ImageSize). By the last two, Fonts are scaled, but a pixel size
 of the image is not that easy to be computed.";
 
 
-decomposeData2D::wrongGandmJs = "The specification of function(s) g(Vec) and the (set of) matrix-Char-Vectors mJSet(Vec) don't mach any valid combinaton";
+decomposeData2D::wrongGandmJs = "The specification of function(s) g(Vec) and the (set of) matrix-Char-Vectors mJSet(Vec) don't mach any valid combination";
 decomposeData2D::wrongDimensionsM = "The matrix `1` is not a 2-dimensional matrix";
 decomposeData2D::wrongDimensionsData = "A data array of dimension `1` is required, but the provided data is of dimension";
 
