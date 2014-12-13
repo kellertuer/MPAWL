@@ -41,8 +41,8 @@ Cell[TextData[{
 
 Cell["\<\
 Author: \t\tRonny Bergmann
-Created: \t\t15.08.2013
-Last Changed: \t15.08.2013\
+Created: \t\t2013-08-15
+Last Changed: \t2014-12-13\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9}],

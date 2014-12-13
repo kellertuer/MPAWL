@@ -50,8 +50,8 @@ scaling functions of de la Vall\[EAcute]e Poussin type.\
 
 Cell["\<\
 Author: \t\tRonny Bergmann
-Created: \t\t17.08.2013
-Last Changed: \t17.08.2013\
+Created: \t\t2013-08-17
+Last Changed: \t2013-08-17\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9, 3.585575663357239*^9, {3.5856540790885687`*^9, 
@@ -327,9 +327,9 @@ Cell[BoxData[
 
 Cell["\<\
 Then, we can look at different directions of the first half of the first \
-quadrant by using different dilationmatrices especially including shearing. \
+quadrant by using different dilation matrices especially including shearing. \
 By precomputing (saving) the coefficients of the involved de la \
-Vall\[EAcute]e Poussin means, teh computational time can be reduced by \
+Vall\[EAcute]e Poussin means, the computational time can be reduced by \
 roughly 2/3.\
 \>", "Text",
  CellChangeTimes->{{3.585803581357726*^9, 3.585803619392962*^9}, {
