@@ -27,8 +27,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection:: *)
@@ -76,11 +76,11 @@ in the unit cube such that k = h + mM*z.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
-	target domain of the modulus, eiter the unit cube or the unit cube shifted
-	by -1/2.
+	target domain of the modulus, either the unit cube or the unit cube shifted
+	by -\!\(\*FractionBox[\(1\), \(2\)]\).
 
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[modM] := {Target -> "Unit", MPAWL`validateMatrix -> True};
@@ -92,18 +92,18 @@ Options[modM] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 generatingSetBasisDecomp::usage = "generatingSetBasisDecomp[k,mM]
 
-For the standard Basis of the generating Set provided by
+For the standard Basis of the Generating Set provided by
 generatingSetBasis[mM] the (integer) Coefficients, that reconstruct x from the
 basis (up to equivalence with respect to mod[k,mM].
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
-	target domain of the modulus, eiter the unit cube or the unit cube shifted
+	target domain of the modulus, either the unit cube or the unit cube shifted
 	by -1/2.
 
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[generatingSetBasisDecomp] := {Target -> "Unit", MPAWL`validateMatrix -> True};
@@ -113,17 +113,17 @@ generatingSetBasis::usage = "generatingSetBasis[mM]
 
 Returns patternDimension[mM] vectors, whose integral multiples (up to each
 elementary divisor -1) reproduce the complete generating Set pattern. The
-basis vectors are ordered with respect to nondecreasing cycle lenths
+basis vectors are ordered with respect to nondecreasing cycle lengths
 (elementary divisors).
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
-	target domain of the modulus, eiter the unit cube or the unit cube shifted
+	target domain of the modulus, either the unit cube or the unit cube shifted
 	by -1/2.
 
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[generatingSetBasis] := {Target -> "Unit", MPAWL`validateMatrix -> True};
@@ -132,17 +132,17 @@ Options[generatingSetBasis] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 generatingSet::usage="generatingSet[mM]
 
-Returns the set of integer vectors originalting from the corresponding
+Returns the set of integer vectors originating from the corresponding
 pattern[mM] by multiplying each element with mM.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
-	target domain of the modulus, eiter the unit cube or the unit cube shifted
+	target domain of the modulus, either the unit cube or the unit cube shifted
 	by -1/2.
 
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[generatingSet] := {Target -> "Unit", MPAWL`validateMatrix -> True};
@@ -180,7 +180,7 @@ localModM[k_, mM_, "Symmetric", False] :=
 
 
 (* All other versions with any third parameter lead to nothing, hence any other
-OptionValue is not possibe*)
+OptionValue is not possible*)
 localModM[k_, mM_, s_, b_] := $Failed;
 
 

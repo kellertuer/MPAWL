@@ -14,8 +14,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -63,18 +63,18 @@ BeginPackage["MPAWL`TISpace`",
 
 computeBracketSums::usage = "computeBracketSums[data,originIndex,mM]
 
-Compute the sum over the congurence classes h+mM^T*z, where h is from the
-generating set and z runs through all integers adressing the values in data.
+Compute the sum over the congruence classes h+mM^T*z, where h is from the
+generating set and z runs through all integers addressing the values in data.
 
-The result ist given with respect of the coefficients of th generating set
-basis, i.e. each h is decomposed with generatingSetBasisDecomp and these
-coefficients are used to adress the sum of h in the result. Here, originIndex
+The result is given with respect of the coefficients of th generating set
+basis, i.e. each h is decomposed with \!\(\*StyleBox[\"generatingSetBasisDecomp\", \"Code\"]\) and these
+coefficients are used to address the sum of h in the result. Here, originIndex
 denotes the index in data that corresponds to the origin.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.
 
 compute \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Bracket\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]absolute Squares\[CloseCurlyDoubleQuote]
@@ -98,18 +98,18 @@ getSpaceFromFourier::usage = "getSpaceFromFourier[ckFun, ckSpace, originIndex, m
 Let f be a function given by the Fourier coefficients ckFun and a function \[CurlyPhi]
 also given by Fourier coefficients, ckSpace, both sharing the same originIndex.
 
-Then this function returns teh coefficients with respect o the matrix mM, such
+Then this function returns the coefficients with respect o the matrix mM, such
 that the Fourier transform of the result are the weights of the translates of \[CurlyPhi],
 such that their sum yields f.
 
-The array returned adresses each entry of the generating set with respect to
+The array returned addresses each entry of the generating set with respect to
 the generating set basis. If f is not in the translates of \[CurlyPhi], some entries
-are either \[Infinity] or Imediate.
+are either \[Infinity] or Immediate.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range of both Fourier coefficient
 	arrays.";
 
@@ -127,7 +127,7 @@ coefficients of f.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range of the Fourier coefficients.";
 
 
@@ -142,7 +142,7 @@ orthonormalizeTranslatesInSpace::usage="orthonormalizeTranslates[coefficients, m
 
 Let V denote any mM-invariant space an orthonormal basis formed by the
 translates of \[Xi]. The coefficients denote the Fourier transform
-of the weights in the sum of transaltes of \[Xi] that represent a second
+of the weights in the sum of translates of \[Xi] that represent a second
 function \[CurlyPhi]\[Element]V. Suppose the translates of \[CurlyPhi] with respect to
 mN = Inverse[mJ].mM are linear independent.
 
@@ -153,7 +153,7 @@ space as \[CurlyPhi] but is orthonormalized.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM, mJ
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
 	and mN.
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote]
 	or any combination of these Words in one String (i.e. concatenated via \[OpenCurlyDoubleQuote]&\[CloseCurlyDoubleQuote])
@@ -161,7 +161,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	times.";
 
 
-orthonormalizeTranslatesInSpace::NotLinearIndependent = "The translates of the function represented by hata are not linear independet with respect to `1` as one of the divisors is zero";
+orthonormalizeTranslatesInSpace::NotLinearIndependent = "The translates of the function represented by hata are not linear independent with respect to `1` as one of the divisors is zero";
 orthonormalizeTranslatesInSpace::WrongDimensions = "The input given for `1` has The Dimensions `3`, but the matrix requires an input of dimension `2`.";
 
 
@@ -277,7 +277,7 @@ Return[sum];
 ]
 
 
-(* All other v_ and index-Stufffff *)
+(* All other v_ and index-Stuff *)
 localBracketSums[ckFun_,originIndex_,mM_,cp_,v_,index_] := $Failed;
 
 

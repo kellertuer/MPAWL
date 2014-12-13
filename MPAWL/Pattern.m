@@ -13,13 +13,13 @@
 
 
 (* ::Subsubtitle:: *)
-(*Functions that provide access to patterns, their creation and adressing*)
+(*Functions that provide access to patterns, their creation and addressing*)
 
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -49,7 +49,7 @@
 
 BeginPackage["MPAWL`Pattern`",{
 (*External dependencies*)
-"SmithFormV6`" (* provided in this package, written byAdriano Pascoletti, seehttp://library.wolfram.com/infocenter/MathSource/7081/*),
+"SmithFormV6`" (* provided in this package, written by Adriano Pascoletti, seehttp://library.wolfram.com/infocenter/MathSource/7081/*),
 "MPAWL`Basics`"
 }
 ];
@@ -63,8 +63,12 @@ patternDimension::usage = "patternDimension[mM]
 
 Returns the number of elementary divisors of mM, that are greater than 1.
 This corresponds to the number of basis vectors of the pattern and hence the
-dimension of the corresponding lattice.";
+dimension of the corresponding lattice.
 
+\!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
+
+validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 Options[patternDimension] := {MPAWL`validateMatrix -> True};
 
@@ -77,11 +81,11 @@ patternBasis::usage = "patternBasis[mM]
 
 Returns patternDimension[mM] vectors, whose integral multiples (up to each
 elementary divisor -1) reproduce the complete pattern. They are ordered with
-respect to nondecreasing cycle lenths (elementary divisors)
+respect to nondecreasing cycle lengths (elementary divisors)
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[patternBasis] := {MPAWL`validateMatrix -> True};
@@ -92,16 +96,14 @@ pattern::usage = "pattern[mM]
 generates the set of points inside the unit cube, whose multiplication with mM
 results in an integral vector. The matrix mM must be in pattern normal form for
 this fast algorithm to work, see \!\(\*
-StyleBox[\"getPatternNromalform\", \"Code\"]\)\!\(\*
-StyleBox[\"[\", \"Code\"]\)\!\(\*
-StyleBox[\"]\", \"Code\"]\).
+StyleBox[\"getPatternNromalform\", \"Code\"]\).
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
-	target domain of the modulus, eiter the unit cube or the unit cube shifted
+	target domain of the modulus, either the unit cube or the unit cube shifted
 	by -1/2.
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[pattern] := {Target -> "Unit", MPAWL`validateMatrix -> True};
@@ -115,7 +117,7 @@ on the diagonal.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[getPatternNormalform] := {MPAWL`validateMatrix -> True};

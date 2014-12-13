@@ -13,13 +13,13 @@
 
 
 (* ::Subsubtitle:: *)
-(*Functions that provide methods for sampling fo functions and hence approximating by tranlsates (via change of basis from interpolatory to (orthonormal) bases)*)
+(*Functions that provide methods for sampling for functions and hence approximating by translates (via change of basis from interpolatory to (orthonormal) bases)*)
 
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		14.11.2012*)
-(*Last Changed: 	15.08.2013*)
+(*Created: 		2012-11-14*)
+(*Last Changed: 	2014-12-13*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -87,7 +87,7 @@ Method \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Point\[CloseCurlyDoubleQu
 	of function values.
 	
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via isMatrixValid[mM]) on the matrix mM.";
+	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[sampleFunction] = {MPAWL`Debug -> "None", File -> None,
@@ -96,9 +96,9 @@ Options[sampleFunction] = {MPAWL`Debug -> "None", File -> None,
 
 changeBasis::usage = "changeBasis[mM,Coeffs, bracketSums]
 
-Perform a change of Basis on the coeffs, that are the DFT of some samples and
-bracketSums represenst the Bracket sums of a certain function, i.e. all are
-nonzero such that the lagrange function exists.
+Perform a change of Basis on the coefficients Coeffs, that are the DFT of some samples and
+bracketSums represents the Bracket sums of a certain function, i.e. all are
+nonzero such that the Lagrange function exists.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
@@ -111,7 +111,7 @@ Output \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Frequency\[CloseCurlyDoub
 	performed after the change of basis
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-		whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+		whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 		and the check, whether the Origin is in Range.
 
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Text&Time\[CloseCurlyDoubleQuote]

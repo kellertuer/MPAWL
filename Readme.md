@@ -31,4 +31,3 @@ The package to evaluate a Box spline is a transcription of MatLab implementation
   
     You should have received a copy of the GNU General Public License
     along with the MPAWL. If not, see <http://www.gnu.org/licenses/>.
-

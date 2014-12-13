@@ -13,7 +13,7 @@
 
 
 (* ::Subsubtitle:: *)
-(*Functions that provide several visualization possibibilies for Fourier Series and pattern / generating Set points*)
+(*Functions that provide several visualization possibilities for Fourier Series and pattern / generating Set points*)
 
 
 (* ::Text:: *)
@@ -23,8 +23,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		25.03.2011*)
-(*Last Changed: 	03.03.2013*)
+(*Created: 		2011-03-25*)
+(*Last Changed: 	2014-12-13*)
 
 
 BeginPackage["MPAWL`Visualization`",
@@ -74,7 +74,7 @@ createBarLegend and hence BarLegend the ColorLegend option consists of.";
 discretePlotFourierSeriesDiff::usage="discretePlotFourierSeriesDiff(resolution,coefficients,origin,f,(options)]
 
 Perform the same production of an image as in discretePlotFourierSeries[], but
-additionaly subtract the values of the function f at each pixel obtained.
+additionally subtract the values of the function f at each pixel obtained.
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 ReturnVal \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]AbsoluteImage\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]ColorImage\[CloseCurlyDoubleQuote]
@@ -117,7 +117,7 @@ Plots the input on a torus, which can be used for various input types:
 	3) a function, that is assumed to be defined at least on [0,2\[Pi])^2
 
 In order to change the color of the surface, change ColorFunction.
-In order to change the color of the plottet points (cases 1 and 2),
+In order to change the color of the plotted points (cases 1 and 2),
 change the PLotStyle
 
 Further PointSize can be specified to raise the points above the torus.
@@ -151,7 +151,7 @@ MPAWL`Debug -> "None"};
 
 createBarLegend::usage="createBarLegend[min,max]
 
-Create a BarLegend ranging from min to max for all IMageTypes of discretePlotFourierSeries.
+Create a BarLegend ranging from min to max for all ImageTypes of \!\(\*StyleBox[\"discretePlotFourierSeries\", \"Code\"]\).
 
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
@@ -195,7 +195,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	times.
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-		whether to perform a check (via isMatrixValid[mM]) on the matrix mM
+		whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 		and the check, whether the Origin is in Range.";
 
 
