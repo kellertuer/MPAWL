@@ -33,7 +33,7 @@ Cell["The Fourier transform", "Title",
   3.585544552121216*^9}}],
 
 Cell["\<\
-This example demonstrates, that the Fourier transform can be used fortwo \
+This example demonstrates, that the Fourier transform can be used for two \
 different kinds of data sets.\
 \>", "Subsubtitle",
  CellChangeTimes->{{3.561788081362376*^9, 3.56178816956818*^9}, {
@@ -42,8 +42,8 @@ different kinds of data sets.\
 
 Cell["\<\
 Author: \t\tRonny Bergmann
-Created: \t\t15.08.2013
-Last Changed: \t15.08.2013\
+Created: \t\t2013-08-15
+Last Changed: \t2014-12-13\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9}],

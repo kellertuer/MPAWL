@@ -28,7 +28,7 @@ Cell["Example 5", "Subsubtitle",
 Cell[CellGroupData[{
 
 Cell["\<\
-De la Vallee Poussin means and nested spaces\
+De la Vall\[EAcute]e Poussin means and nested spaces\
 \>", "Title",
  CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
   3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
@@ -48,8 +48,8 @@ scaling functions of de la Vall\[EAcute]e Poussin type.\
 
 Cell["\<\
 Author: \t\tRonny Bergmann
-Created: \t\t16.08.2013
-Last Changed: \t16.08.2013\
+Created: \t\t2013-08-16
+Last Changed: \t2014-12-13\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9, 3.585575663357239*^9, {3.5856540790885687`*^9, 
@@ -117,8 +117,8 @@ Cell[BoxData[{
  CellChangeTimes->{{3.561784454440884*^9, 3.561784464446355*^9}}],
 
 Cell["\<\
-Both constructions, the generalized de la Vall\[EAcute]e Poussin menas and \
-their subspaces are inverstigated in Chapter 4 in [1] (in german), up to \
+Both constructions, the generalized de la Vall\[EAcute]e Poussin means and \
+their subspaces are investigated in Chapter 4 in [1] (in german) or [2], up to \
 their ability to form an MRA.\
 \>", "Text",
  CellChangeTimes->{{3.5856594705091887`*^9, 3.585659539393813*^9}}]
@@ -130,8 +130,8 @@ Cell["De la Vall\[EAcute]e Poussin mean", "Subsection",
  CellChangeTimes->{{3.5856582300057993`*^9, 3.585658250230215*^9}}],
 
 Cell["\<\
-The de la Vall\[EAcute]e Poussin means from the onedimensional case are given \
-in theis Fourier coefficients as samplings of a linear function, more \
+The de la Vall\[EAcute]e Poussin means from the one-dimensional case are given \
+in their Fourier coefficients as samplings of a linear function, more \
 precisely a pyramid function, for example using\
 \>", "Text",
  CellChangeTimes->{{3.585654809598308*^9, 3.585654881268702*^9}, {
@@ -183,7 +183,7 @@ Cell[BoxData[
 Cell[TextData[{
  "These are then sampled at the points ",
  StyleBox["Transpose[Inverse[mM]].k", "Code"],
- ", where k is an integer vector. For generality, the de la Vall\[EAcute]e \
+ ", where k is an integer vector. In general, the de la Vall\[EAcute]e \
 Poussin means can be obtained by any function g, as can be seen in the ",
  StyleBox["::usage", "Code"],
  ". Though for the pyramidal cases, there is a shorthand: When g is a value \
@@ -306,7 +306,7 @@ Cell[BoxData[
  CellChangeTimes->{{3.585656199073107*^9, 3.585656203145158*^9}}],
 
 Cell["\<\
-The same works for arbitrary matrices, where we ommit the axis \
+The same works for arbitrary matrices, where we omit the axis \
 \>", "Text",
  CellChangeTimes->{{3.5856566271304893`*^9, 3.58565665109953*^9}, 
    3.5856568314105*^9}],
@@ -540,7 +540,7 @@ Cell[BoxData[
     "factorization", " ", "of", " ", "the", " ", "regular", " ", "matrix", 
     " ", "M"}], " ", "=", " ", 
    RowBox[{
-   "JN", " ", "into", " ", "interger", " ", "matrices", " ", "J", " ", "and", 
+   "JN", " ", "into", " ", "integer", " ", "matrices", " ", "J", " ", "and", 
     " ", "N"}]}], ",", " ", 
   RowBox[{
   "we", " ", "would", " ", "like", " ", "to", " ", "obtain", " ", "a", " ", 
@@ -570,7 +570,7 @@ Cell[BoxData[
    " ", 
    RowBox[{"(", 
     RowBox[{
-    "in", " ", "their", " ", "discrete", " ", "Fourer", " ", "transform"}], 
+    "in", " ", "their", " ", "discrete", " ", "Fourier", " ", "transform"}], 
     ")"}], " ", "on", " ", "the", " ", "generating", " ", 
    RowBox[{"set", ".", " ", "First"}]}], ",", " ", 
   RowBox[{

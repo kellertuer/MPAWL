@@ -43,8 +43,8 @@ certain space of translates.\
 
 Cell["\<\
  Author: \t\tRonny Bergmann
-Created: \t\t15.08.2013
-Last Changed: \t15.08.2013\
+Created: \t\t2013-08-15
+Last Changed: \t2014-12-13\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9, 3.585575663357239*^9}],
@@ -297,7 +297,7 @@ Cell[BoxData[
  StyleBox["\<\"DirichletKernel[mM]\\n\\nprovides a dirichlet kernel, which is \
 a special case of the de la Vall\[EAcute]e Poussin mean,\\nwhere g=0, hence \
 pyramidalFunction[d,0] is used. Here, the same options as for\\nthe de la \
-Vallee Poussin mean apply.\"\>", "MSG"]], "Print", "PrintUsage",
+Vall\[EAcute]e Poussin mean apply.\"\>", "MSG"]], "Print", "PrintUsage",
  GeneratedCell->False,
  CellAutoOverwrite->False,
  CellChangeTimes->{3.585579435920492*^9, 3.585580530117189*^9},

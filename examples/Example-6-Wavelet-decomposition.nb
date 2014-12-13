@@ -47,8 +47,8 @@ scaling functions of de la Vall\[EAcute]e Poussin type.\
 
 Cell["\<\
 Author: \t\tRonny Bergmann
-Created: \t\t16.08.2013
-Last Changed: \t16.08.2013\
+Created: \t\t2013-08-16
+Last Changed: \t2014-12-13\
 \>", "Program",
  CellChangeTimes->{{3.585540461223832*^9, 3.585540470991144*^9}, 
    3.5855435520430107`*^9, 3.585575663357239*^9, {3.5856540790885687`*^9, 
@@ -118,7 +118,7 @@ Cell[BoxData[{
 Cell["\<\
 We first use the already known Dirichlet kernels to decompose a sampled image \
 of a certain Box spline. Then we also decompose the Box spline with the de la \
-Vall\[EAcute]e Poussin means in order to derive a more localised picture of \
+Vall\[EAcute]e Poussin means in order to derive a more localized picture of \
 the edged we want to detect. The examples are taken from chapter 4 in [1] and \
 more details to the wavelet transform and its complexity can be found in [2].\
 \
@@ -133,7 +133,7 @@ Cell["Sample the Box spline", "Subsection",
  CellChangeTimes->{{3.585664206707323*^9, 3.585664232961286*^9}}],
 
 Cell["\<\
-We take the Box spline from Example 4 but introduce a new vizualization of \
+We take the Box spline from Example 4 but introduce a new visualization of \
 the Fourier series\
 \>", "Text",
  CellChangeTimes->{{3.5856642356985693`*^9, 3.585664238334215*^9}, {
@@ -294,7 +294,7 @@ Cell[BoxData[
  CellChangeTimes->{{3.585664439193159*^9, 3.585664450803462*^9}}],
 
 Cell["\<\
-We will also use the save option (File -> ) for the coefficients of the \
+We will also use the save option (File \[Rule] ) for the coefficients of the \
 Dirichlet kernel and its bracket sums\
 \>", "Text",
  CellChangeTimes->{{3.585665324341482*^9, 3.585665354118228*^9}}]
@@ -383,7 +383,7 @@ Cell[BoxData[
  CellChangeTimes->{{3.585665937678774*^9, 3.5856659706861687`*^9}}],
 
 Cell["\<\
-In order to get the scaling - we have to compensate the (smaller) FOurier \
+In order to get the scaling - we have to compensate the (smaller) Fourier \
 transform with respect to mM by multiplying with its Determinant\
 \>", "Text",
  CellChangeTimes->{{3.5856680764211693`*^9, 3.585668084417419*^9}, {
@@ -634,7 +634,7 @@ Cell[BoxData[
  CellChangeTimes->{{3.585671295188394*^9, 3.585671319314582*^9}}],
 
 Cell["\<\
-Then, the previous commands can also ber performed on multiple levels by using\
+Then, the previous commands can also be performed on multiple levels by using\
 \>", "Text",
  CellChangeTimes->{{3.58567135149727*^9, 3.58567137731187*^9}, 
    3.58567505275767*^9}],
