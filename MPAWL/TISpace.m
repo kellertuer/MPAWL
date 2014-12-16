@@ -74,7 +74,7 @@ denotes the index in data that corresponds to the origin.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.
 
 compute \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Bracket\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]absolute Squares\[CloseCurlyDoubleQuote]
@@ -109,7 +109,7 @@ are either \[Infinity] or Immediate.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range of both Fourier coefficient
 	arrays.";
 
@@ -127,7 +127,7 @@ coefficients of f.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range of the Fourier coefficients.";
 
 
@@ -153,7 +153,7 @@ space as \[CurlyPhi] but is orthonormalized.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
 	and mN.
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote]
 	or any combination of these Words in one String (i.e. concatenated via \[OpenCurlyDoubleQuote]&\[CloseCurlyDoubleQuote])

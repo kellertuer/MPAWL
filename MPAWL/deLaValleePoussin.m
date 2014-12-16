@@ -107,7 +107,7 @@ Orthonormalize \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	Perform an orthonormalization of the translates of the kernel with respect
 	to mM.
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.
 File \[Rule] \!\(\*StyleBox[\"None\",\nFontSlant\[Rule]\"Italic\"]\) | String | {String,String}
 	save the Fourier coefficients of the kernel to a file. If the Bracket sums
 	are computed too, there have to be two string, the first representing the
@@ -154,7 +154,7 @@ Orthonormalize \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 	Perform an orthonormalization of the translates of both functions with
 	respect to mN.
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM, mJ
 	and mN.
 File \[Rule] \!\(\*StyleBox[\"None\",\nFontSlant\[Rule]\"Italic\"]\) | {String,String}
 	save the coefficients of both functions to a file each.
@@ -235,7 +235,7 @@ computeWavelet ->  \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]
 computeScale \[Rule] \!\(\*StyleBox[\"False\",\nFontSlant\[Rule]\"Italic\"]\) | True
 	whether to compute the scale part of the specific level and produce it's image
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM and mJ(s)
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM and mJ(s)
 	Validity of data. If some matrices mN in the decomposition are not valid,
 	the algorithm continues on the other leaves.
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Image\[CloseCurlyDoubleQuote]  | \[OpenCurlyDoubleQuote]Leaves\[OpenCurlyDoubleQuote]

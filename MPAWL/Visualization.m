@@ -195,7 +195,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	times.
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-		whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+		whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 		and the check, whether the Origin is in Range.";
 
 
