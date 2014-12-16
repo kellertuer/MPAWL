@@ -87,7 +87,7 @@ Method \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Point\[CloseCurlyDoubleQu
 	of function values.
 	
 validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
 
 
 Options[sampleFunction] = {MPAWL`Debug -> "None", File -> None,
@@ -111,7 +111,7 @@ Output \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Frequency\[CloseCurlyDoub
 	performed after the change of basis
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-		whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+		whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 		and the check, whether the Origin is in Range.
 
 Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Text\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Time\[CloseCurlyDoubleQuote] | \[OpenCurlyDoubleQuote]Text&Time\[CloseCurlyDoubleQuote]

@@ -73,7 +73,7 @@ False: The other way around
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.";
 
 
@@ -93,7 +93,7 @@ of the pattern, i.e. the cycles having the length of the elementary divisors.
 \!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.
 
 Compute \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Numeric\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Exact\[CloseCurlyDoubleQuote]
@@ -130,7 +130,7 @@ Debug \[Rule] \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]None\[CloseCurlyDoubleQuot
 	activate text output, either just text, timings or both
 
 Validate \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
-	whether to perform a check (via StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM
 	and the check, whether the Origin is in Range.";
 
 

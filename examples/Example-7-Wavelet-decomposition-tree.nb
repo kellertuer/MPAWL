@@ -3,17 +3,17 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Mathematica 8.0' *)
+(* CreatedBy='Mathematica 10.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
-NotebookDataPosition[       157,          7]
-NotebookDataLength[     18052,        459]
-NotebookOptionsPosition[     16333,        402]
-NotebookOutlinePosition[     16845,        422]
-CellTagsIndexPosition[     16802,        419]
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     18823,        473]
+NotebookOptionsPosition[     17071,        415]
+NotebookOutlinePosition[     17580,        435]
+CellTagsIndexPosition[     17537,        432]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -28,9 +28,7 @@ Cell["Example 7", "Subsubtitle",
 
 Cell[CellGroupData[{
 
-Cell["\<\
-A tree of Wavelet Decompositions\
-\>", "Title",
+Cell["A tree of Wavelet Decompositions", "Title",
  CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
   3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
   3.585537653026313*^9}, {3.585542528085225*^9, 3.58554253224314*^9}, {
@@ -172,9 +170,7 @@ Cell[BoxData[
   3.585756032504456*^9, 3.585756034866787*^9}, {3.5857561054046707`*^9, 
   3.5857561081045933`*^9}}],
 
-Cell["\<\
-Which has a discontinuity in its second derivative at \
-\>", "Text",
+Cell["Which has a discontinuity in its second derivative at ", "Text",
  CellChangeTimes->{{3.58575604070792*^9, 3.585756055578225*^9}, 
    3.5857561000736103`*^9, {3.585756219446672*^9, 3.5857562198619013`*^9}}],
 
@@ -396,18 +392,35 @@ on the torus",
 }], "Text",
  CellChangeTimes->{{3.585572609227313*^9, 3.585572616009447*^9}, {
   3.585572717305231*^9, 3.5855727173078423`*^9}, {3.585573098697709*^9, 
-  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}}]
+  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}, {
+  3.627702732863346*^9, 3.627702738477146*^9}}],
+
+Cell[TextData[{
+ "[3] R.Bergmann, J. Prestin, Multivariate periodic wavelets of de la Vall\
+\[EAcute]e Poussin type. J. Fourier Anal. Appl. (to appear), doi: ",
+ ButtonBox["10.1007/s00041-014-9372-z",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://dx.doi.org/10.1007/s00041-014-9372-z"], None},
+  ButtonNote->"http://dx.doi.org/10.1007/s00041-014-9372-z"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585572609227313*^9, 3.585572616009447*^9}, {
+  3.585572717305231*^9, 3.5855727173078423`*^9}, {3.585573098697709*^9, 
+  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}, {
+  3.627702732863346*^9, 3.6277028166086807`*^9}, {3.627702858574641*^9, 
+  3.6277028756376133`*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1282, 1022},
-WindowMargins->{{Automatic, 517}, {Automatic, 20}},
+WindowMargins->{{Automatic, -17}, {Automatic, 6}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 ShowSelection->True,
-FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
-2013)",
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (June 27, \
+2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -421,44 +434,45 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 441, 6, 29, "Subsubtitle"],
+Cell[558, 20, 441, 6, 29, "Subsubtitle"],
 Cell[CellGroupData[{
-Cell[1023, 30, 562, 9, 92, "Title"],
-Cell[1588, 41, 436, 7, 29, "Subsubtitle"],
-Cell[2027, 50, 344, 8, 74, "Program"],
+Cell[1024, 30, 554, 7, 92, "Title"],
+Cell[1581, 39, 436, 7, 29, "Subsubtitle"],
+Cell[2020, 48, 344, 8, 74, "Program"],
 Cell[CellGroupData[{
-Cell[2396, 62, 98, 1, 35, "Subsubsection"],
-Cell[2497, 65, 872, 18, 228, "Program"]
+Cell[2389, 60, 98, 1, 35, "Subsubsection"],
+Cell[2490, 63, 872, 18, 70, "Program"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[3406, 88, 156, 2, 36, "Subsection"],
-Cell[3565, 92, 270, 7, 31, "Text"],
-Cell[3838, 101, 635, 18, 63, "Input"],
-Cell[4476, 121, 610, 10, 68, "Text"]
+Cell[3399, 86, 156, 2, 36, "Subsection"],
+Cell[3558, 90, 270, 7, 31, "Text"],
+Cell[3831, 99, 635, 18, 63, "Input"],
+Cell[4469, 119, 610, 10, 68, "Text"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[5123, 136, 95, 1, 44, "Subsection"],
-Cell[5221, 139, 128, 2, 30, "Text"],
-Cell[5352, 143, 547, 16, 28, "Input"],
-Cell[5902, 161, 500, 11, 28, "Input"],
-Cell[6405, 174, 219, 4, 30, "Text"],
-Cell[6627, 180, 772, 20, 28, "Input"],
-Cell[7402, 202, 389, 7, 30, "Text"],
-Cell[7794, 211, 218, 5, 28, "Input"],
-Cell[8015, 218, 415, 12, 28, "Input"],
-Cell[8433, 232, 216, 4, 30, "Text"],
-Cell[8652, 238, 172, 3, 28, "Input"],
-Cell[8827, 243, 213, 5, 28, "Input"],
-Cell[9043, 250, 1747, 31, 28, "Input"],
-Cell[10793, 283, 867, 16, 28, "Input"],
-Cell[11663, 301, 1466, 24, 28, "Input"],
-Cell[13132, 327, 496, 9, 49, "Text"],
-Cell[13631, 338, 1460, 26, 46, "Input"]
+Cell[5116, 134, 95, 1, 44, "Subsection"],
+Cell[5214, 137, 128, 2, 30, "Text"],
+Cell[5345, 141, 547, 16, 28, "Input"],
+Cell[5895, 159, 500, 11, 28, "Input"],
+Cell[6398, 172, 211, 2, 30, "Text"],
+Cell[6612, 176, 772, 20, 28, "Input"],
+Cell[7387, 198, 389, 7, 30, "Text"],
+Cell[7779, 207, 218, 5, 28, "Input"],
+Cell[8000, 214, 415, 12, 28, "Input"],
+Cell[8418, 228, 216, 4, 30, "Text"],
+Cell[8637, 234, 172, 3, 28, "Input"],
+Cell[8812, 239, 213, 5, 28, "Input"],
+Cell[9028, 246, 1747, 31, 28, "Input"],
+Cell[10778, 279, 867, 16, 28, "Input"],
+Cell[11648, 297, 1466, 24, 28, "Input"],
+Cell[13117, 323, 497, 9, 49, "Text"],
+Cell[13617, 334, 1460, 26, 46, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[15128, 369, 100, 1, 44, "Subsection"],
-Cell[15231, 372, 411, 9, 30, "Text"],
-Cell[15645, 383, 660, 15, 30, "Text"]
+Cell[15114, 365, 100, 1, 44, "Subsection"],
+Cell[15217, 368, 411, 9, 30, "Text"],
+Cell[15631, 379, 709, 16, 30, "Text"],
+Cell[16343, 397, 700, 14, 30, "Text"]
 }, Open  ]]
 }, Open  ]]
 }

@@ -3,17 +3,17 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Mathematica 8.0' *)
+(* CreatedBy='Mathematica 10.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
-NotebookDataPosition[       157,          7]
-NotebookDataLength[     33682,        951]
-NotebookOptionsPosition[     30715,        861]
-NotebookOutlinePosition[     31227,        881]
-CellTagsIndexPosition[     31184,        878]
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     34427,        965]
+NotebookOptionsPosition[     31405,        873]
+NotebookOutlinePosition[     31935,        894]
+CellTagsIndexPosition[     31892,        891]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -27,9 +27,7 @@ Cell["Example 5", "Subsubtitle",
 
 Cell[CellGroupData[{
 
-Cell["\<\
-De la Vall\[EAcute]e Poussin means and nested spaces\
-\>", "Title",
+Cell["De la Vall\[EAcute]e Poussin means and nested spaces", "Title",
  CellChangeTimes->{{3.561784933316359*^9, 3.561784950590352*^9}, {
   3.5617882095607243`*^9, 3.561788217874277*^9}, {3.585537636231443*^9, 
   3.585537653026313*^9}, {3.585542528085225*^9, 3.58554253224314*^9}, {
@@ -118,8 +116,8 @@ Cell[BoxData[{
 
 Cell["\<\
 Both constructions, the generalized de la Vall\[EAcute]e Poussin means and \
-their subspaces are investigated in Chapter 4 in [1] (in german) or [2], up to \
-their ability to form an MRA.\
+their subspaces are investigated in Chapter 4 in [1] (in german) or [2], up \
+to their ability to form an MRA.\
 \>", "Text",
  CellChangeTimes->{{3.5856594705091887`*^9, 3.585659539393813*^9}}]
 }, Open  ]],
@@ -130,8 +128,8 @@ Cell["De la Vall\[EAcute]e Poussin mean", "Subsection",
  CellChangeTimes->{{3.5856582300057993`*^9, 3.585658250230215*^9}}],
 
 Cell["\<\
-The de la Vall\[EAcute]e Poussin means from the one-dimensional case are given \
-in their Fourier coefficients as samplings of a linear function, more \
+The de la Vall\[EAcute]e Poussin means from the one-dimensional case are \
+given in their Fourier coefficients as samplings of a linear function, more \
 precisely a pyramid function, for example using\
 \>", "Text",
  CellChangeTimes->{{3.585654809598308*^9, 3.585654881268702*^9}, {
@@ -619,13 +617,11 @@ we obtain one wavelet, whose translates (with respect to ",
  ") form the orthogonal complement of the translates of ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["\[CurlyPhi]", "N"], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+   SubscriptBox["\[CurlyPhi]", "N"], TraditionalForm]]],
  "in the bigger space ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["\[CurlyPhi]", "M"], TraditionalForm]],
-  FormatType->"TraditionalForm"],
+   SubscriptBox["\[CurlyPhi]", "M"], TraditionalForm]]],
  "."
 }], "Text",
  CellChangeTimes->{{3.585660129207563*^9, 3.5856601327459784`*^9}, {
@@ -855,18 +851,35 @@ Funktionen auf dem Torus",
  ", Dissertation, University of L\[UDoubleDot]beck, 2013."
 }], "Text",
  CellChangeTimes->{{3.585659551977853*^9, 3.5856596267172947`*^9}, {
-  3.58580115876854*^9, 3.585801161995802*^9}}]
+  3.58580115876854*^9, 3.585801161995802*^9}}],
+
+Cell[TextData[{
+ "[2] R.Bergmann, J. Prestin, Multivariate periodic wavelets of de la Vall\
+\[EAcute]e Poussin type. J. Fourier Anal. Appl. (to appear), doi: ",
+ ButtonBox["10.1007/s00041-014-9372-z",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://dx.doi.org/10.1007/s00041-014-9372-z"], None},
+  ButtonNote->"http://dx.doi.org/10.1007/s00041-014-9372-z"],
+ "."
+}], "Text",
+ CellChangeTimes->{{3.585572609227313*^9, 3.585572616009447*^9}, {
+  3.585572717305231*^9, 3.5855727173078423`*^9}, {3.585573098697709*^9, 
+  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}, {
+  3.627702732863346*^9, 3.6277028166086807`*^9}, {3.627702858574641*^9, 
+  3.6277028756376133`*^9}, {3.6277030702197027`*^9, 3.6277030704435797`*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1282, 1022},
-WindowMargins->{{437, Automatic}, {Automatic, 31}},
+WindowMargins->{{2, Automatic}, {Automatic, 0}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 ShowSelection->True,
-FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
-2013)",
+CellContext->Notebook,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (June 27, \
+2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
@@ -880,77 +893,78 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 342, 5, 29, "Subsubtitle"],
+Cell[558, 20, 342, 5, 29, "Subsubtitle"],
 Cell[CellGroupData[{
-Cell[924, 29, 475, 8, 92, "Title"],
-Cell[1402, 39, 436, 7, 29, "Subsubtitle"],
-Cell[1841, 48, 294, 7, 74, "Program"],
+Cell[925, 29, 475, 6, 92, "Title"],
+Cell[1403, 37, 436, 7, 29, "Subsubtitle"],
+Cell[1842, 46, 294, 7, 74, "Program"],
 Cell[CellGroupData[{
-Cell[2160, 59, 98, 1, 35, "Subsubsection"],
-Cell[2261, 62, 872, 18, 228, "Program"]
+Cell[2161, 57, 98, 1, 35, "Subsubsection"],
+Cell[2262, 60, 872, 18, 70, "Program"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[3170, 85, 156, 2, 36, "Subsection"],
-Cell[3329, 89, 270, 7, 31, "Text"],
-Cell[3602, 98, 635, 18, 63, "Input"],
-Cell[4240, 118, 273, 5, 30, "Text"]
+Cell[3171, 83, 156, 2, 36, "Subsection"],
+Cell[3330, 87, 270, 7, 31, "Text"],
+Cell[3603, 96, 635, 18, 63, "Input"],
+Cell[4241, 116, 279, 5, 30, "Text"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[4550, 128, 123, 1, 44, "Subsection"],
-Cell[4676, 131, 338, 6, 30, "Text"],
-Cell[5017, 139, 176, 3, 28, "Input"],
-Cell[5196, 144, 370, 10, 28, "Input"],
-Cell[5569, 156, 224, 5, 30, "Text"],
-Cell[5796, 163, 547, 17, 28, "Input"],
-Cell[6346, 182, 782, 13, 106, "Text"],
-Cell[7131, 197, 130, 2, 28, "Input"],
-Cell[7264, 201, 476, 8, 49, "Text"],
-Cell[7743, 211, 357, 7, 28, "Input"],
-Cell[8103, 220, 1124, 31, 63, "Input"],
-Cell[9230, 253, 138, 2, 30, "Text"],
-Cell[9371, 257, 377, 9, 28, "Input"],
-Cell[9751, 268, 135, 2, 30, "Text"],
-Cell[9889, 272, 499, 14, 28, "Input"],
-Cell[10391, 288, 190, 4, 30, "Text"],
-Cell[10584, 294, 415, 11, 28, "Input"],
-Cell[11002, 307, 178, 4, 30, "Text"],
-Cell[11183, 313, 925, 28, 63, "Input"],
-Cell[12111, 343, 481, 11, 28, "Input"],
-Cell[12595, 356, 1493, 43, 28, "Input"],
-Cell[14091, 401, 320, 8, 28, "Input"],
-Cell[14414, 411, 739, 16, 28, "Input"],
-Cell[15156, 429, 203, 4, 30, "Text"],
-Cell[15362, 435, 704, 18, 46, "Input"],
-Cell[16069, 455, 1523, 44, 28, "Input"],
-Cell[17595, 501, 346, 8, 28, "Input"],
-Cell[17944, 511, 669, 15, 28, "Input"]
+Cell[4557, 126, 123, 1, 44, "Subsection"],
+Cell[4683, 129, 339, 6, 30, "Text"],
+Cell[5025, 137, 176, 3, 28, "Input"],
+Cell[5204, 142, 370, 10, 28, "Input"],
+Cell[5577, 154, 224, 5, 30, "Text"],
+Cell[5804, 161, 547, 17, 28, "Input"],
+Cell[6354, 180, 778, 13, 106, "Text"],
+Cell[7135, 195, 130, 2, 28, "Input"],
+Cell[7268, 199, 476, 8, 49, "Text"],
+Cell[7747, 209, 357, 7, 28, "Input"],
+Cell[8107, 218, 1124, 31, 63, "Input"],
+Cell[9234, 251, 138, 2, 30, "Text"],
+Cell[9375, 255, 377, 9, 28, "Input"],
+Cell[9755, 266, 135, 2, 30, "Text"],
+Cell[9893, 270, 499, 14, 28, "Input"],
+Cell[10395, 286, 190, 4, 30, "Text"],
+Cell[10588, 292, 415, 11, 28, "Input"],
+Cell[11006, 305, 177, 4, 30, "Text"],
+Cell[11186, 311, 925, 28, 63, "Input"],
+Cell[12114, 341, 481, 11, 28, "Input"],
+Cell[12598, 354, 1493, 43, 28, "Input"],
+Cell[14094, 399, 320, 8, 28, "Input"],
+Cell[14417, 409, 739, 16, 28, "Input"],
+Cell[15159, 427, 203, 4, 30, "Text"],
+Cell[15365, 433, 704, 18, 46, "Input"],
+Cell[16072, 453, 1523, 44, 28, "Input"],
+Cell[17598, 499, 346, 8, 28, "Input"],
+Cell[17947, 509, 669, 15, 28, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[18650, 531, 97, 1, 44, "Subsection"],
-Cell[18750, 534, 2051, 47, 72, "Text"],
-Cell[20804, 583, 127, 2, 28, "Input"],
-Cell[20934, 587, 462, 12, 28, "Input"],
-Cell[21399, 601, 88, 1, 30, "Text"],
-Cell[21490, 604, 242, 6, 28, "Input"],
-Cell[21735, 612, 842, 20, 51, "Text"],
-Cell[22580, 634, 111, 2, 28, "Input"],
-Cell[22694, 638, 393, 8, 32, "Text"],
-Cell[23090, 648, 376, 10, 28, "Input"],
-Cell[23469, 660, 228, 5, 30, "Text"],
-Cell[23700, 667, 128, 2, 28, "Input"],
-Cell[23831, 671, 328, 7, 28, "Input"],
-Cell[24162, 680, 1545, 44, 28, "Input"],
-Cell[25710, 726, 366, 8, 28, "Input"],
-Cell[26079, 736, 785, 16, 28, "Input"],
-Cell[26867, 754, 126, 1, 30, "Text"],
-Cell[26996, 757, 372, 8, 28, "Input"],
-Cell[27371, 767, 1581, 44, 28, "Input"],
-Cell[28955, 813, 405, 9, 28, "Input"],
-Cell[29363, 824, 829, 17, 28, "Input"]
+Cell[18653, 529, 97, 1, 44, "Subsection"],
+Cell[18753, 532, 2051, 47, 72, "Text"],
+Cell[20807, 581, 127, 2, 28, "Input"],
+Cell[20937, 585, 462, 12, 28, "Input"],
+Cell[21402, 599, 88, 1, 30, "Text"],
+Cell[21493, 602, 242, 6, 28, "Input"],
+Cell[21738, 610, 776, 18, 51, "Text"],
+Cell[22517, 630, 111, 2, 28, "Input"],
+Cell[22631, 634, 393, 8, 32, "Text"],
+Cell[23027, 644, 376, 10, 28, "Input"],
+Cell[23406, 656, 228, 5, 30, "Text"],
+Cell[23637, 663, 128, 2, 28, "Input"],
+Cell[23768, 667, 328, 7, 28, "Input"],
+Cell[24099, 676, 1545, 44, 28, "Input"],
+Cell[25647, 722, 366, 8, 28, "Input"],
+Cell[26016, 732, 785, 16, 28, "Input"],
+Cell[26804, 750, 126, 1, 30, "Text"],
+Cell[26933, 753, 372, 8, 28, "Input"],
+Cell[27308, 763, 1581, 44, 28, "Input"],
+Cell[28892, 809, 405, 9, 28, "Input"],
+Cell[29300, 820, 829, 17, 28, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[30229, 846, 100, 1, 44, "Subsection"],
-Cell[30332, 849, 355, 8, 30, "Text"]
+Cell[30166, 842, 100, 1, 44, "Subsection"],
+Cell[30269, 845, 355, 8, 30, "Text"],
+Cell[30627, 855, 750, 14, 30, "Text"]
 }, Open  ]]
 }, Open  ]]
 }

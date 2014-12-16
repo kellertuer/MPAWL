@@ -22,8 +22,8 @@
 
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
-(*Created: 		13.11.2012*)
-(*Last Changed: 	15.11.2012*)
+(*Created: 		2012-11-13*)
+(*Last Changed: 	2012-11-15*)
 
 
 BeginPackage["MPAWL`",

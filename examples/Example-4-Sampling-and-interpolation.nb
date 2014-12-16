@@ -3,17 +3,17 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Mathematica 8.0' *)
+(* CreatedBy='Mathematica 10.0' *)
 
 (*CacheID: 234*)
 (* Internal cache information:
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
-NotebookDataPosition[       157,          7]
-NotebookDataLength[     27730,        781]
-NotebookOptionsPosition[     25113,        697]
-NotebookOutlinePosition[     25777,        723]
-CellTagsIndexPosition[     25692,        718]
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     27865,        777]
+NotebookOptionsPosition[     25453,        701]
+NotebookOutlinePosition[     25985,        722]
+CellTagsIndexPosition[     25942,        719]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -113,9 +113,7 @@ Cell[BoxData[{
 
 Cell[CellGroupData[{
 
-Cell["\<\
-Sampling a (centered) Box spline\
-\>", "Subsection",
+Cell["Sampling a (centered) Box spline", "Subsection",
  CellChangeTimes->{{3.5855764514383183`*^9, 3.585576465704108*^9}, {
   3.585576536249794*^9, 3.5855765383979177`*^9}}],
 
@@ -286,23 +284,10 @@ same time by using the Option ",
 }], "Text",
  CellChangeTimes->{{3.585579345650447*^9, 3.585579418734551*^9}}],
 
-Cell[CellGroupData[{
-
 Cell[BoxData[
  RowBox[{"?", "DirichletKernel"}]], "Input",
  CellChangeTimes->{{3.5855787139624853`*^9, 3.5855787178997993`*^9}, {
    3.585579309238418*^9, 3.585579309935679*^9}, 3.5855805301162767`*^9}],
-
-Cell[BoxData[
- StyleBox["\<\"DirichletKernel[mM]\\n\\nprovides a dirichlet kernel, which is \
-a special case of the de la Vall\[EAcute]e Poussin mean,\\nwhere g=0, hence \
-pyramidalFunction[d,0] is used. Here, the same options as for\\nthe de la \
-Vall\[EAcute]e Poussin mean apply.\"\>", "MSG"]], "Print", "PrintUsage",
- GeneratedCell->False,
- CellAutoOverwrite->False,
- CellChangeTimes->{3.585579435920492*^9, 3.585580530117189*^9},
- CellTags->"Info3585586635-4340400"]
-}, Open  ]],
 
 Cell[BoxData[
  RowBox[{
@@ -691,96 +676,107 @@ Funktionen auf dem Torus",
  ", Ph.D.thesis, University of L\[UDoubleDot]beck, 2013 (german)."
 }], "Text",
  CellChangeTimes->{{3.585581405515045*^9, 3.585581449400193*^9}, {
-  3.585581489585037*^9, 3.5855814899337883`*^9}}]
+  3.585581489585037*^9, 3.5855814899337883`*^9}}],
+
+Cell[TextData[{
+ "[2] R. Bergmann, J. Prestin, ",
+ StyleBox["Multivariate anisotropic interpolation on the torus",
+  FontSlant->"Italic"],
+ ", in: G. Fasshauer and L. Schumaker (eds.) Approximation Theory XIV: San \
+Antonio 2013. 27\[Dash]44, doi: ",
+ ButtonBox["10.1007/978-3-319-06404-8_ 3",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://dx.doi.org/10.1007/978-3-319-06404-8_3"], None},
+  ButtonNote->"http://dx.doi.org/10.1007/978-3-319-06404-8_3"],
+ ". "
+}], "Text",
+ CellChangeTimes->{{3.585572609227313*^9, 3.585572616009447*^9}, {
+  3.585572717305231*^9, 3.5855727173078423`*^9}, {3.585573098697709*^9, 
+  3.5855731192963257`*^9}, {3.585663351401161*^9, 3.585663351557864*^9}, {
+  3.627702732863346*^9, 3.6277028166086807`*^9}, {3.627702858574641*^9, 
+  3.6277028756376133`*^9}, {3.627703248104909*^9, 3.627703322178522*^9}}]
 }, Open  ]]
 }, Open  ]]
 },
 WindowSize->{1282, 1022},
-WindowMargins->{{10, Automatic}, {Automatic, 9}},
+WindowMargins->{{4, Automatic}, {-47, Automatic}},
 PrintingCopies->1,
 PrintingPageRange->{1, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
 ShowSelection->True,
-FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
-2013)",
+CellContext->Notebook,
+FrontEndVersion->"10.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (June 27, \
+2014)",
 StyleDefinitions->"Default.nb"
 ]
 (* End of Notebook Content *)
 
 (* Internal cache information *)
 (*CellTagsOutline
-CellTagsIndex->{
- "Info3585586635-4340400"->{
-  Cell[11466, 295, 463, 8, 109, "Print",
-   CellTags->"Info3585586635-4340400"]}
- }
+CellTagsIndex->{}
 *)
 (*CellTagsIndex
-CellTagsIndex->{
- {"Info3585586635-4340400", 25587, 712}
- }
+CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 293, 4, 29, "Subsubtitle"],
+Cell[558, 20, 293, 4, 29, "Subsubtitle"],
 Cell[CellGroupData[{
-Cell[875, 28, 401, 5, 92, "Title"],
-Cell[1279, 35, 357, 6, 29, "Subsubtitle"],
-Cell[1639, 43, 221, 6, 74, "Program"],
+Cell[876, 28, 401, 5, 92, "Title"],
+Cell[1280, 35, 357, 6, 29, "Subsubtitle"],
+Cell[1640, 43, 221, 6, 74, "Program"],
 Cell[CellGroupData[{
-Cell[1885, 53, 98, 1, 35, "Subsubsection"],
-Cell[1986, 56, 872, 18, 228, "Program"]
+Cell[1886, 53, 98, 1, 35, "Subsubsection"],
+Cell[1987, 56, 872, 18, 70, "Program"]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[2895, 79, 156, 2, 36, "Subsection"],
-Cell[3054, 83, 270, 7, 31, "Text"],
-Cell[3327, 92, 635, 18, 63, "Input"]
+Cell[2896, 79, 156, 2, 36, "Subsection"],
+Cell[3055, 83, 270, 7, 31, "Text"],
+Cell[3328, 92, 635, 18, 63, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[3999, 115, 181, 4, 44, "Subsection"],
-Cell[4183, 121, 2080, 46, 46, "Input"],
-Cell[6266, 169, 997, 17, 28, "Input"],
-Cell[7266, 188, 2362, 53, 28, "Input"],
-Cell[9631, 243, 178, 4, 30, "Text"],
-Cell[9812, 249, 260, 6, 28, "Input"],
-Cell[10075, 257, 407, 7, 49, "Text"],
-Cell[10485, 266, 123, 2, 28, "Input"],
-Cell[10611, 270, 379, 8, 28, "Input"],
-Cell[10993, 280, 243, 6, 31, "Text"],
-Cell[CellGroupData[{
-Cell[11261, 290, 202, 3, 28, "Input"],
-Cell[11466, 295, 463, 8, 109, "Print",
- CellTags->"Info3585586635-4340400"]
-}, Open  ]],
-Cell[11944, 306, 370, 10, 28, "Input"],
-Cell[12317, 318, 239, 4, 30, "Text"],
-Cell[12559, 324, 373, 10, 28, "Input"],
-Cell[12935, 336, 176, 4, 28, "Input"],
-Cell[13114, 342, 367, 7, 30, "Text"],
-Cell[13484, 351, 120, 2, 28, "Input"],
-Cell[13607, 355, 412, 9, 28, "Input"],
-Cell[14022, 366, 431, 9, 28, "Input"],
-Cell[14456, 377, 1422, 42, 28, "Input"],
-Cell[15881, 421, 478, 11, 28, "Input"],
-Cell[16362, 434, 225, 5, 30, "Text"],
-Cell[16590, 441, 1270, 35, 28, "Input"]
+Cell[4000, 115, 173, 2, 44, "Subsection"],
+Cell[4176, 119, 2080, 46, 46, "Input"],
+Cell[6259, 167, 997, 17, 28, "Input"],
+Cell[7259, 186, 2362, 53, 28, "Input"],
+Cell[9624, 241, 178, 4, 30, "Text"],
+Cell[9805, 247, 260, 6, 28, "Input"],
+Cell[10068, 255, 407, 7, 49, "Text"],
+Cell[10478, 264, 123, 2, 28, "Input"],
+Cell[10604, 268, 379, 8, 28, "Input"],
+Cell[10986, 278, 243, 6, 31, "Text"],
+Cell[11232, 286, 202, 3, 28, "Input"],
+Cell[11437, 291, 370, 10, 28, "Input"],
+Cell[11810, 303, 239, 4, 30, "Text"],
+Cell[12052, 309, 373, 10, 28, "Input"],
+Cell[12428, 321, 176, 4, 28, "Input"],
+Cell[12607, 327, 367, 7, 30, "Text"],
+Cell[12977, 336, 120, 2, 28, "Input"],
+Cell[13100, 340, 412, 9, 28, "Input"],
+Cell[13515, 351, 431, 9, 28, "Input"],
+Cell[13949, 362, 1422, 42, 28, "Input"],
+Cell[15374, 406, 478, 11, 28, "Input"],
+Cell[15855, 419, 225, 5, 30, "Text"],
+Cell[16083, 426, 1270, 35, 28, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[17897, 481, 216, 3, 44, "Subsection"],
-Cell[18116, 486, 328, 10, 28, "Input"],
-Cell[18447, 498, 1318, 39, 28, "Input"],
-Cell[19768, 539, 503, 10, 28, "Input"],
-Cell[20274, 551, 186, 4, 30, "Text"],
-Cell[20463, 557, 416, 9, 28, "Input"],
-Cell[20882, 568, 380, 8, 28, "Input"],
-Cell[21265, 578, 1376, 42, 28, "Input"],
-Cell[22644, 622, 430, 11, 28, "Input"],
-Cell[23077, 635, 315, 6, 30, "Text"],
-Cell[23395, 643, 1190, 34, 28, "Input"]
+Cell[17390, 466, 216, 3, 44, "Subsection"],
+Cell[17609, 471, 328, 10, 28, "Input"],
+Cell[17940, 483, 1318, 39, 28, "Input"],
+Cell[19261, 524, 503, 10, 28, "Input"],
+Cell[19767, 536, 186, 4, 30, "Text"],
+Cell[19956, 542, 416, 9, 28, "Input"],
+Cell[20375, 553, 380, 8, 28, "Input"],
+Cell[20758, 563, 1376, 42, 28, "Input"],
+Cell[22137, 607, 430, 11, 28, "Input"],
+Cell[22570, 620, 315, 6, 30, "Text"],
+Cell[22888, 628, 1190, 34, 28, "Input"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[24622, 682, 97, 1, 44, "Subsection"],
-Cell[24722, 685, 363, 8, 30, "Text"]
+Cell[24115, 667, 97, 1, 44, "Subsection"],
+Cell[24215, 670, 363, 8, 30, "Text"],
+Cell[24581, 680, 844, 17, 49, "Text"]
 }, Open  ]]
 }, Open  ]]
 }
