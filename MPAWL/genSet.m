@@ -86,6 +86,24 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 Options[modM] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
+modMVec::usage = "modMVec[k, mM]
+
+calculates the modulus of vectors k with respect to the matrix mM, i.e. the vector h
+in the unit cube such that k = h + mM*z.
+
+\!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
+
+Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
+	target domain of the modulus, either the unit cube or the unit cube shifted
+	by -\!\(\*FractionBox[\(1\), \(2\)]\).
+
+validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
+
+
+Options[modMVec] := {Target -> "Unit", MPAWL`validateMatrix -> True};
+
+
 (* ::Subsection:: *)
 (*generating Set functions*)
 
@@ -129,7 +147,6 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 Options[generatingSetBasis] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
-
 generatingSet::usage="generatingSet[mM]
 
 Returns the set of integer vectors originating from the corresponding
@@ -146,7 +163,6 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 
 
 Options[generatingSet] := {Target -> "Unit", MPAWL`validateMatrix -> True};
-
 
 
 (* ::Section:: *)
@@ -182,6 +198,35 @@ localModM[k_, mM_, "Symmetric", False] :=
 (* All other versions with any third parameter lead to nothing, hence any other
 OptionValue is not possible*)
 localModM[k_, mM_, s_, b_] := $Failed;
+
+
+modMVec[k_, mM_, opts:OptionsPattern[]] := 
+  localModMV[k, mM, OptionValue[Target], OptionValue[validateMatrix]];
+
+
+(* usual Mod with MatrixCheck *)
+localModMV[k_, mM_, "Unit", True] := 
+	If[isMatrixValid[mM], (*mM.(Mod[Inverse[mM].k, 1])*) Transpose[mM.Mod[Inverse[mM].(Transpose[k]),1]], $Failed];
+
+
+(* usual Mod without MatrixCheck *)
+(* Old Version*) (*localModM[k_, mM_, "Unit", False] := mM.(Mod[Inverse[mM].k, 1]);*)
+localModMV[k_,mM_,"Unit", False] := Transpose[mM.Mod[Inverse[mM].(Transpose[k]),1]];
+
+
+(* symmetric Mod with MatrixCheck *)
+localModMV[k_, mM_, "Symmetric", True] := 
+	If[isMatrixValid[mM], (*mM.(Mod[Inverse[mM].k + 1/2, 1] - 1/2)*) Transpose[mM.(Mod[Inverse[mM].Transpose[k]+1/2,1]-1/2)], $Failed];
+
+
+(* symmetric ModM without MatrixCheck *)
+localModMV[k_, mM_, "Symmetric", False] :=  
+	(*mM.(Mod[Inverse[mM].k + 1/2, 1] - 1/2)*) Transpose[mM.(Mod[Inverse[mM].Transpose[k]+1/2,1]-1/2)];
+
+
+(* All other versions with any third parameter lead to nothing, hence any other
+OptionValue is not possible*)
+localModMV[k_, mM_, s_, b_] := $Failed;
 
 
 generatingSetBasisDecomp[k_, mM_, opts:OptionsPattern[]] := 
