@@ -127,6 +127,25 @@ validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) |
 Options[generatingSetBasisDecomp] := {Target -> "Unit", MPAWL`validateMatrix -> True};
 
 
+generatingSetBasisDecompVec::usage = "generatingSetBasisDecompVec[k,mM]
+
+For the standard Basis of the Generating Set provided by
+generatingSetBasis[mM] the (integer) Coefficients, that reconstruct x from the
+basis (up to equivalence with respect to modMVec[k,mM] and works for sets of vectors k.
+
+\!\(\*StyleBox[\"Options\",FontWeight\[Rule]\"Bold\"]\)
+
+Target \[Rule]  \!\(\*StyleBox[\"\[OpenCurlyDoubleQuote]Unit\[CloseCurlyDoubleQuote]\",\nFontSlant\[Rule]\"Italic\"]\) | \[OpenCurlyDoubleQuote]Symmetric\[CloseCurlyDoubleQuote]
+	target domain of the modulus, either the unit cube or the unit cube shifted
+	by -1/2.
+
+validateMatrix \[Rule] \!\(\*StyleBox[\"True\",\nFontSlant\[Rule]\"Italic\"]\) | False
+	whether to perform a check (via \!\(\*StyleBox[\"isMatrixValid\", \"Code\"]\)) on the matrix mM.";
+
+
+Options[generatingSetBasisDecompVec] := {Target -> "Unit", MPAWL`validateMatrix -> True};
+
+
 generatingSetBasis::usage = "generatingSetBasis[mM]
 
 Returns patternDimension[mM] vectors, whose integral multiples (up to each
@@ -247,6 +266,26 @@ localgenSetBDecomp[k_,mM_,t_,False] := Module[{mE,mS,mP,d,dM,aBV},
 
 
 localgenSetBDecomp[k_,mM_,t_,v_] := $Failed;
+
+
+generatingSetBasisDecompVec[k_, mM_, opts:OptionsPattern[]] := 
+	localgenSetBDecompVec[k,mM,OptionValue[Target],OptionValue[validateMatrix]];
+
+
+localgenSetBDecompVec[k_,mM_,t_,True] := 
+	If[!isMatrixValid[mM],Return[$Failed],localgenSetBDecompVec[k,mM,t,False]];
+
+
+localgenSetBDecompVec[k_,mM_,t_,False] := Module[{mE,mS,mP,d,dM,aBV},
+	{mE,{mP,mS}} = IntegerSmithForm[Transpose[mM], ExtendedForm-> True];
+	d = Dimensions[mM][[1]];
+	dM = patternDimension[mM];
+	aBV = Transpose[Inverse[mS]];
+	Return[(modMVec[Transpose[Inverse[aBV].Transpose[k]],mE, Target -> t])[[All,d-dM+1;;d]]];
+];
+
+
+localgenSetBDecompVec[k_,mM_,t_,v_] := $Failed;
 
 
 generatingSetBasis[mM_, opts:OptionsPattern[]] :=  
