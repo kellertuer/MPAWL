@@ -19,7 +19,7 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		2012-11-13*)
-(*Last Changed: 	2014-12-13*)
+(*Last Changed: 	2015-01-04 (Optimization Review)*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -261,30 +261,9 @@ Module[{epsilon, m, d, epsilonranges, internalb, resultb,flattenedinput,dM},
 	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] != m));
 	(*Flatten if neccessary and check dimensions else *)
 	internalb = reshapeData[mM, b, True, MPAWL`Validate -> False];
-	resultb = localFTTNRec[epsilon, internalb];
+	resultb = Fourier[internalb];
 	If[flattenedinput,resultb = Flatten[resultb]];
 	Return[resultb]
-];
-
-
-localFTTNRec[epsilon_,matrixb_] := 
-Module[{e,copyb,temp,r,k},
-	If[Dimensions[epsilon] == {1},(*end of recursion *)
-		Return[Fourier[matrixb]];
-	];
-	(* All Epsilon-ranges on which we will perform an FFT, so excluding the last in epsilon *)
-	copyb = matrixb;
-	Do [
-		copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]] = Fourier[copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]]];
-	,
-	Evaluate[Sequence@@ Table[{r[i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
-	];
-	Do [
-		copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]] 
-		= localFTTNRec[epsilon[[1;;Length[epsilon]-1]], copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]]];
-	,{e,1,epsilon[[Length[epsilon]]]}
-	];
-	Return[copyb];
 ];
 
 
