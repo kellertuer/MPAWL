@@ -19,7 +19,7 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		2012-11-13*)
-(*Last Changed: 	2014-12-13*)
+(*Last Changed: 	2015-01-04 (Optimization Review)*)
 
 
 (* ::Subsubsection::Closed:: *)
