@@ -548,17 +548,17 @@ DirichletKernelSubspaces[mM_,mJ_,opts:OptionsPattern[{delaValleePoussinSubspaces
 (* g is one element (function or t), mJSet is a Vector of Matrix-Char-Vectors *)
 decomposeData2D[g_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
 	decomposeData2D[ConstantArray[g, Length[mJSetVec]+1], mJSetVec, mM, data, opts] /; ((Depth[g] == 1) && VectorQ[mJSetVec, 
-	 VectorQ[#, (StringQ[##] && MemberQ[localdlVPMatChars, ##]) &] &]);
+	 VectorQ[#, (StringQ[##] && MemberQ[localdlVPMatChars, ##]) &] &])
 
 
 (* g is a vector, mJSet is a Vector of Matrix-Chars *)
 decomposeData2D[gVec_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
-	decomposeData2D[gVec,ConstantArray[mJSet, Length[gVec]-1], mM, data, opts] /; ((Depth[gVec] == 2) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]));
+	decomposeData2D[gVec,ConstantArray[mJSet, Length[gVec]-1], mM, data, opts] /; ((Depth[gVec] == 2) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]))
 
 
 (* level specifies the decomposition depth, g is one element and mJSet is a Vector of Matrix-Chars *)
 decomposeData2D[l_,g_, mJSet_, mM_, data_, opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
-	decomposeData2D[ConstantArray[g,l+1], ConstantArray[mJSet,l],mM, data, opts] /; ((Depth[g] == 1) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]));
+	decomposeData2D[ConstantArray[g,l+1], ConstantArray[mJSet,l],mM, data, opts] /; ((Depth[g] == 1) && (VectorQ[mJSet, (StringQ[#] && MemberQ[localdlVPMatChars, #]) &]))
 
 
 (* all other level specifications are not valid *)
@@ -571,7 +571,7 @@ decomposeData2D[gVec_, mJSetVec_, mM_, data_, opts:OptionsPattern[{decomposeData
 	localDecomp[gVec,mJSetVec, mM, data, None,
 		OptionValue[MPAWL`Debug], {OptionValue[DataPrefix],OptionValue[ImagePrefix], OptionValue[ImageSuffix],""},
 		OptionValue[MPAWL`Validate], opts] /; ((Depth[gVec] == 2) && VectorQ[mJSetVec, 
-	 VectorQ[#, (StringQ[##] && MemberQ[localdlVPMatChars, ##]) &] &] && ((Length[gVec]-1)==Length[mJSetVec]));
+	 VectorQ[#, (StringQ[##] && MemberQ[localdlVPMatChars, ##]) &] &] && ((Length[gVec]-1)==Length[mJSetVec]))
 
 
 (* Validate *)
@@ -585,8 +585,8 @@ Module[{d, epsilon},
 	If[Dimensions[data]!=epsilon, Message[decomposeData2D::wrongDimensionsData, MatrixForm[epsilon], MatrixForm[Dimensions[data]]];
 		Return[$Failed];
 	]
-	Return[localDecomp[gVec,mJSetVec,mM,data,ck\[CurlyPhi]M,db,s,False,opts]];
-];
+	localDecomp[gVec,mJSetVec,mM,data,ck\[CurlyPhi]M,db,s,False,opts]
+]
 
 
 (*If we have one file suffix string, make a list of one element of that*)
@@ -594,12 +594,13 @@ Module[{d, epsilon},
 
 localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuffix_String,path_String},False,
 	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
-localDecomp[gVec,mJSetVec, mM, data, pck\[CurlyPhi]M,db,{dataPre,imagePre,{imageSuffix},path},False, opts];
+localDecomp[gVec,mJSetVec, mM, data, pck\[CurlyPhi]M,db,{dataPre,imagePre,{imageSuffix},path},False, opts]
 
 
 localDecomp[gVec_,mJSetVec_, mM_, data_, pck\[CurlyPhi]M_,db_,{dataPre_String,imagePre_String,imageSuffixes_,path_String},False,
 	opts:OptionsPattern[{decomposeData2D,Export,Show,Plot,BarLegend,createBarLegend,discretePlotFourierSeries}]] :=
-Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,hatW,wavN,ck\[CurlyPhi]M,origin,eOpts},
+Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,hatW,wavN,ck\[CurlyPhi]M,origin,eOpts,R,tR},
+	R = {};
 	eOpts = {opts}~Join~Options[decomposeData2D];
 	(* Remove Debug from others, if not at a leaf *)
     If[(StringCount[db,"Leaves"]>0)&&(Length[Rest[mJSetVec]]>0),eOpts = Append[FilterRules[eOpts,Except[MPAWL`Debug]],MPAWL`Debug -> "None"];];
@@ -662,12 +663,16 @@ Module[{thismJSet, mMg, mNg,mN,ck\[CurlyPhi]N,ck\[Psi]N,dataS,hatS,ScalN,dataW,h
 				,{imageSuf,imageSuffixes}];
 			];
 			If[Length[Rest[mJSetVec]]>0, (* Still at least one level to go *)
-				localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuffixes,path<>letter},False,opts]
+				tR = localDecomp[Rest[gVec],Rest[mJSetVec],mN,dataS,ck\[CurlyPhi]N,db,{dataPre,imagePre,imageSuffixes,path<>letter},False,opts];
+				R = AppendTo[R, {dataS,dataW,tR}];
+			,
+				R = AppendTo[R,{dataS,dataW}];
 			];
 		];
 		,{letter, thismJSet}
-	]
-]/; (VectorQ[imageSuffixes,StringQ]);
+	];
+	R
+]/; (VectorQ[imageSuffixes,StringQ])
 
 
 (* all other cases, i.e. path not a String or such things*)

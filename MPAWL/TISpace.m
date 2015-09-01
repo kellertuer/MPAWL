@@ -214,66 +214,45 @@ localBracketSums[ckFun_,originIndex_,mM_,cp_,True,index_] :=
 
 
 localBracketSums[ckFun_,originIndex_,mM_,cp_,False,None] :=
-Module[{m,d,epsilon,sums,sumsE,torigin,tmax,hM,dims,\[Epsilon],k},
-	m = Det[mM];
-	d = Dimensions[mM][[1]];
-	epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
-	hM = generatingSetBasis[Transpose[mM], Target -> "Symmetric", validateMatrix -> False];
-	tmax = Table[Max[Ceiling[(Transpose[mM].#)[[k]] &/@
-    Flatten[Table[ Table[\[Omega][j],{j,1,d}], Evaluate[Sequence@@Table[{\[Omega][j],{-1/2,1/2}},{j,1,d}]]],d-1]
-	]]+1,{k,1,d}];
-	torigin = tmax+1;
-	sums = ConstantArray[0,2tmax+1];
-	dims = Dimensions[ckFun];
-	Do[ 
-		If[cp == "Bracket",
-			sums[[Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]] 
-			+= ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]];
-		];
-		If[cp == "absolute Squares",
-			sums[[Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[dims]}]-originIndex,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]]
-			+= Abs[ckFun[[Sequence@@(Table[\[Epsilon][k],{k,1,Length[dims]}])]]]^2;
-		];
-	,
-	Evaluate[Sequence@@Table[{\[Epsilon][k],1,dims[[k]]},{k,1,Length[dims]}]]
-	]; (*end do*)
-	(*collect result in right cyrcles*)
-	sumsE = ConstantArray[0,epsilon];
-	Do[
-		sumsE[[Sequence @@ (Table[\[Epsilon][k],{k,1,Length[epsilon]}]+1)]]
-		= sums[[ Sequence @@ (modM[Table[\[Epsilon][k],{k,1,Length[epsilon]}].hM,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]+torigin)]];
-	,Evaluate[Sequence@@Table[{\[Epsilon][k],0,epsilon[[k]]-1},{k,1,Length[epsilon]}]]
-	];
-	Return[sumsE];
+Module[{m,d,dM,epsilon,sums,sumsE,torigin,tmax,hM,dims,\[Epsilon],k,indicesM,indicesckF,mapIndices,rules},
+    m = Det[mM];
+    d = Dimensions[mM][[1]];
+    epsilon = Diagonal[IntegerSmithForm[mM, ExtendedForm-> False]][[d-patternDimension[mM, validateMatrix -> False]+1;;d]];
+    (* Result Indices *)
+    If[cp == "Bracket",
+        (* Map generates replacement rules, where the left hand size is an index from indicesM
+            the right hand size are all indices that are mapped onto this index extracted from
+                ckFun and summed up*)
+    sumsE = ReplacePart[ConstantArray[0,epsilon],
+			Normal[Total[Extract[ckFun,#]] &/@GroupBy[Tuples[Range[1,#] &/@ Dimensions[ckFun]],generatingSetBasisDecomp[#-originIndex,Transpose[mM]]+1 &]]]
+    ];
+    If[cp == "absolute Squares", (* same as above but all values are additionally Abs[*]^2*)
+	    sumsE = ReplacePart[ConstantArray[0,epsilon],
+			Normal[Total[Abs[Extract[ckFun,#]]^2] &/@GroupBy[Tuples[Range[1,#] &/@ Dimensions[ckFun]],generatingSetBasisDecomp[#-{2,2},Transpose[mM]]+1 &]]]
+    ];
+    Return[sumsE];
 ];
 
 
 localBracketSums[ckFun_,originIndex_,mM_,cp_,False,index_?(VectorQ[#, IntegerQ] &)] :=
-Module[{m,d,sumrange,tempindex,baseindex,sum,directions,count,indicesleft,newindices,indicesdone},
+Module[{m,d,baseIndexDecomp,mapIndices,indicesckF,sumRes},
 	m = Det[mM];
 	d = Dimensions[mM][[1]];
-	sum=0;
-	baseindex = modM[index,Transpose[mM],Target -> "Symmetric", validateMatrix -> False]; (*Base value un G(M) *)
-	If[cp == "Bracket",sum = ckFun[[Sequence@@(baseindex+originIndex)]];];
-	If[cp == "absolute Squares",sum = Abs[ckFun[[Sequence@@(baseindex+originIndex)]]]^2;];
-	directions = CreateDirections[d]; count = 1;
-	(* Compute sum, where we assume that the data set is convex, this can be assumed, because its mostly rectangular*)
-	indicesleft = directions;
-	newindices = {}; indicesdone={ConstantArray[0,d]};
-	While[Dimensions[indicesleft][[1]] > 0,
-		Do[
-			tempindex = baseindex + Transpose[mM].k;
-			If[isIndexInRange[ckFun,tempindex+originIndex], (*still in Range*)
-				If[cp == "Bracket",sum += ckFun[[Sequence@@(tempindex+originIndex)]];];
-				If[cp == "absolute Squares",sum += Abs[ckFun[[Sequence@@(tempindex+originIndex)]]]^2;];
-				newindices = Union[newindices,(k+#)&/@ directions];
-			];
-		,{k,indicesleft}
-		];
-	indicesdone = Union[indicesdone,indicesleft];
-	indicesleft = Complement[newindices,indicesdone];
-];
-Return[sum];
+	sumRes=0;
+	baseIndexDecomp = generatingSetBasisDecomp[index-originIndex,Transpose[mM]];
+	indicesckF = Tuples[Range[1,#] &/@ Dimensions[ckFun]];
+	(* Mappings *)
+	mapIndices = generatingSetBasisDecompVec[indicesckF-originIndex,Transpose[mM]]+1;
+	If[cp == "Bracket",
+		(* left hand size is an index from indicesM
+			the right hand size are all indices that are mapped onto this index extracted from
+				ckFun and summed up*)
+		sumRes = Total[Extract[ckFun,Extract[indicesckF,Position[mapIndices,baseIndexDecomp]]]];
+	];
+	If[cp == "absolute Squares", (* same as above but all values are additionally Abs[*]^2*)
+		sumRes = Total[Abs[Extract[ckFun,Extract[indicesckF,Position[mapIndices,baseIndexDecomp]]]]^2];
+	];
+	Return[sumRes];
 ]
 
 

@@ -19,7 +19,7 @@
 (* ::Program:: *)
 (*Author: 		Ronny Bergmann*)
 (*Created: 		2012-11-13*)
-(*Last Changed: 	2014-12-13*)
+(*Last Changed: 	2015-01-04 (Optimization Review)*)
 
 
 (* ::Subsubsection::Closed:: *)
@@ -261,30 +261,9 @@ Module[{epsilon, m, d, epsilonranges, internalb, resultb,flattenedinput,dM},
 	flattenedinput = ((Dimensions[Dimensions[b]] == {1}) && (Dimensions[b][[1]] == m) && (epsilon[[dM]] != m));
 	(*Flatten if neccessary and check dimensions else *)
 	internalb = reshapeData[mM, b, True, MPAWL`Validate -> False];
-	resultb = localFTTNRec[epsilon, internalb];
+	resultb = Fourier[internalb];
 	If[flattenedinput,resultb = Flatten[resultb]];
 	Return[resultb]
-];
-
-
-localFTTNRec[epsilon_,matrixb_] := 
-Module[{e,copyb,temp,r,k},
-	If[Dimensions[epsilon] == {1},(*end of recursion *)
-		Return[Fourier[matrixb]];
-	];
-	(* All Epsilon-ranges on which we will perform an FFT, so excluding the last in epsilon *)
-	copyb = matrixb;
-	Do [
-		copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]] = Fourier[copyb[[Sequence@@ Append[Table[r[k]+1,{k,1,Length[epsilon]-1}],All]]]];
-	,
-	Evaluate[Sequence@@ Table[{r[i],0,epsilon[[i]]-1},{i,1,Length[epsilon]-1}]]
-	];
-	Do [
-		copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]] 
-		= localFTTNRec[epsilon[[1;;Length[epsilon]-1]], copyb[[Sequence@@Append[Table[All,{k,1,Length[epsilon]-1}],e] ]]];
-	,{e,1,epsilon[[Length[epsilon]]]}
-	];
-	Return[copyb];
 ];
 
 
@@ -359,7 +338,7 @@ localWTT[mM_,mJ_,data_,sCoeffs_,wCoeffs_,True,db_] := Module[{epsilon,d,dM},
 
 (*FWT only working on Coefficients of the V_M space*)
 localWTT[mM_,mJ_,data_,sCoeffs_,wCoeffs_,False,db_] := 
-Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j},
+Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j,indicesN,indicesM,indicesM2},
 	(*Constants*)
 	d = Dimensions[mM][[1]];
 	dM = patternDimension[mM, validateMatrix -> False];
@@ -374,21 +353,25 @@ Module[{d,dM,dN,mN,hN,adN,adM,epsilon,mu,mP,NTg, dataS, dataW,\[Lambda]g,t1,k,j}
 	NTg=Transpose[mN].(Complement[generatingSet[Transpose[mJ], validateMatrix -> False],{{0,0}}][[1]]);
 	\[Lambda]g = generatingSetBasisDecomp[NTg,Transpose[mM], validateMatrix -> False];
 	mP =Transpose[Table[generatingSetBasisDecomp[hN[[j]], Transpose[mM], validateMatrix -> False],{j,1,dN}]];
+	(*
+		Indices
+	*)
+	indicesN = Tuples[Range[0,#-1] &/@ mu];
+	indicesM = modMVec[Transpose[mP.Transpose[indicesN]],DiagonalMatrix[epsilon],validateMatrix -> False]+1;
+	indicesM2 = modMVec[Transpose[mP.Transpose[indicesN]+\[Lambda]g],DiagonalMatrix[epsilon],validateMatrix -> False]+1;
 	(* 
-			The Result 
+		The Result 
 	*)
 	dataW = ConstantArray[0,mu];
 	dataS = ConstantArray[0,mu];
 	If[StringCount[db,"Text"]>0,Print["Performing the Wavelet transform..."]];
 	t1 = AbsoluteTiming[
-		Do[
-			dataS[[Sequence@@( Table[k[j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
-				Conjugate[sCoeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]
-					+ Conjugate[sCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[k[j],{j,1,dN}]]]);
-			dataW[[Sequence@@ (Table[k[j],{j,1,dN}]+1)]] = 1/Sqrt[Abs[Det[mJ]]]*(
-				Conjugate[wCoeffs[[Sequence@@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@(modM[#,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]
-					+ Conjugate[wCoeffs[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]]*data[[Sequence @@ (modM[#+\[Lambda]g,DiagonalMatrix[epsilon], validateMatrix -> False]+1)]]&[mP.Evaluate[Table[k[j],{j,1,dN}]]]);
-		,Evaluate[Sequence@@Table[{k[j],0,mu[[j]]-1},{j,1,dN}]]];
+			dataS = ReplacePart[dataS,(#1->#2)&@@@Transpose[{indicesN+1,1/Sqrt[Abs[Det[mJ]]]*(
+				Conjugate[Extract[sCoeffs,indicesM]]*Extract[data,indicesM]
+					+ Conjugate[Extract[sCoeffs,indicesM2]]*Extract[data,indicesM2])}]];
+			dataW = ReplacePart[dataW,(#1-> #2)&@@@Transpose[{indicesN+1,1/Sqrt[Abs[Det[mJ]]]*(
+				Conjugate[Extract[wCoeffs,indicesM]]*Extract[data,indicesM]
+					+ Conjugate[Extract[wCoeffs,indicesM2]]*Extract[data,indicesM2])}]];
 	][[1]];
 	If[StringCount[db,"Time"]>0,Print["Performing the Wavelet transform took ", t1, " seconds."]];
 	Return[{dataS,dataW}];
